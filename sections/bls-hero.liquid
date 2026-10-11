@@ -26,7 +26,7 @@
         <span class="cs-planet-wrap">
           <canvas class="cs-rdust cs-rdust--back"></canvas>
           <span class="cs-ring cs-ring--back"></span>
-          <span class="cs-planet"><span class="cs-spin"><canvas class="cs-tex"></canvas></span></span>
+          <span class="cs-planet"><span class="cs-spin"><canvas class="cs-tex"></canvas></span><span class="cs-rshadow"></span></span>
           <span class="cs-ring cs-ring--front"></span>
           <canvas class="cs-rdust cs-rdust--front"></canvas>
         </span>
@@ -130,12 +130,14 @@
 .cs-planet{position:absolute;inset:0;border-radius:50%;overflow:hidden;isolation:isolate;background:radial-gradient(circle at 32% 28%,#F6DFA6 0%,#E2B86E 30%,#B98547 62%,#6A4224 88%,#2E1E18 100%)}
 .cs-spin{position:absolute;inset:-25%;transform:rotate(-17deg);z-index:0}
 .cs-tex{position:absolute;left:0;top:0;width:200%;height:100%;display:block;opacity:0;transition:opacity 1.6s ease}
-.cs-tex.is-on{opacity:.8}
+.cs-tex.is-on{opacity:1}
+/* the rings throw a soft shadow across the ball just below them */
+.cs-rshadow{position:absolute;left:-34%;top:44%;width:168%;height:22%;border-radius:50%;border-bottom:6px solid rgba(24,14,30,.3);transform:rotate(-17deg);z-index:1;filter:blur(1.5px)}
 .cs-planet-wrap::before{content:"";position:absolute;inset:-30%;border-radius:50%;background:radial-gradient(closest-side,rgba(240,190,110,.16) 56%,rgba(240,170,100,.05) 72%,rgba(240,170,90,0) 100%)}
 /* the ball: soft sunlit highlight, darker rim, and a faint blue veil so the planet sits far away */
 .cs-planet::before{content:"";position:absolute;inset:0;border-radius:50%;z-index:1;background:radial-gradient(circle at 30% 26%,rgba(255,250,232,.42) 0%,rgba(255,246,220,.12) 22%,rgba(255,240,210,0) 42%),radial-gradient(circle at 50% 50%,rgba(16,12,40,0) 52%,rgba(16,12,40,.28) 78%,rgba(10,8,30,.62) 100%),linear-gradient(rgba(70,80,160,.06),rgba(70,80,160,.06))}
 .cs-planet::after{content:"";position:absolute;inset:0;border-radius:50%;z-index:2;background:radial-gradient(circle at 80% 82%,rgba(8,8,30,.86) 0%,rgba(8,8,30,.42) 40%,rgba(8,8,30,0) 66%)}
-.cs-ring{position:absolute;left:-34%;top:40%;width:168%;height:22%;border-radius:50%;border:1px solid rgba(255,226,170,.42);box-shadow:0 0 14px rgba(255,214,150,.12);transform:rotate(-17deg)}
+.cs-ring{position:absolute;left:-34%;top:40%;width:168%;height:22%;border-radius:50%;border:1px solid rgba(255,226,170,.2);transform:rotate(-17deg)}
 .cs-ring--back{clip-path:inset(0 0 50% 0)}
 .cs-ring--front{clip-path:inset(50% 0 0 0)}
 .cs-bubble{position:absolute;left:7%;bottom:36%;width:clamp(54px,13vmin,136px);aspect-ratio:1;border-radius:50%;background:radial-gradient(circle at 50% 50%,rgba(200,215,255,.05) 0%,rgba(200,215,255,.03) 55%,rgba(210,222,255,.10) 80%,rgba(235,240,255,.26) 96%,rgba(255,255,255,.4) 100%);box-shadow:0 0 0 .5px rgba(255,255,255,.4)}
@@ -237,36 +239,35 @@ body:has(.bls-stagehero) .bls-main>*{position:relative;z-index:1}
       return {x:x,w:w,h:h,q:dpr};
     }
     function g1(v,m,s){var d=(v-m)/s;return Math.exp(-d*d)}
-    /* the ring: a smooth glowing band (bright main ring, a dark gap, a faint outer ring) drawn as many fine circles
-       squashed into the ring's ellipse, then a light sprinkle of dust and a few glints */
+    /* the ring: one soft, even glow (bright main ring, fainter inner and outer rings) painted as a single smooth
+       gradient squashed into the ring's ellipse, then a light sprinkle of dust and a few soft glints */
     function ringDust(c,front){
       var g=prep(c);if(!g)return;
       var x=g.x,w=g.w,h=g.h,cx=w/2,cy=h/2,rx=w*.42,ry=h*.2619,r=seeded(front?424242:171717),i,t,k,px,py,s,a,N=48,f,al;
       var a0=front?0:Math.PI,a1=front?Math.PI:Math.PI*2;
       x.globalCompositeOperation='lighter';
       x.save();x.translate(cx,cy);x.scale(rx,ry);
+      x.beginPath();if(front)x.rect(-1.4,0,2.8,1.4);else x.rect(-1.4,-1.4,2.8,1.4);x.clip();
+      var band=x.createRadialGradient(0,0,.78,0,0,1.22);
       for(i=0;i<=N;i++){
-        f=.84+.34*i/N;
-        al=.26*g1(f,.99,.045)+.12*g1(f,.91,.03)+.09*g1(f,1.11,.022);
-        al*=1-.85*g1(f,1.055,.012);
-        if(al<.003)continue;
-        x.beginPath();x.arc(0,0,f,a0,a1);
-        x.lineWidth=.34/N*1.6;x.strokeStyle='rgba(255,'+(214+Math.round(20*(f-.84)/.34))+',170,'+al.toFixed(3)+')';x.stroke();
+        f=.78+.44*i/N;
+        al=.30*g1(f,.99,.055)+.10*g1(f,.89,.04)+.07*g1(f,1.11,.035);
+        band.addColorStop(i/N,'rgba(255,'+(218+Math.round(16*i/N))+',172,'+al.toFixed(3)+')');
       }
+      x.fillStyle=band;x.fillRect(-1.4,-1.4,2.8,2.8);
       x.restore();
-      var n=Math.round(Math.min(lite()?400:1300,w*1.2));
+      var n=Math.round(Math.min(lite()?300:900,w*.9));
       for(i=0;i<n;i++){
         t=a0+r()*Math.PI;
         k=Math.min(1.16,Math.max(.86,1+gauss(r)*.055+(r()<.2?.11*r():0)));
         px=cx+Math.cos(t)*rx*k;py=cy+Math.sin(t)*ry*k;
-        s=r();a=.16+r()*.42;
-        x.beginPath();x.arc(px,py,.3+s*s*.8,0,6.283);
+        s=r();a=.1+r()*.3;
+        x.beginPath();x.arc(px,py,.3+s*s*.7,0,6.283);
         x.fillStyle=(r()<.7?'rgba(255,230,190,':'rgba(255,248,234,')+a.toFixed(2)+')';x.fill();
-        if(s>.992){
-          var L=2.4+r()*2.6,gr=x.createRadialGradient(px,py,0,px,py,L);
-          gr.addColorStop(0,'rgba(255,244,220,.5)');gr.addColorStop(1,'rgba(255,244,220,0)');
+        if(s>.993){
+          var L=3+r()*3,gr=x.createRadialGradient(px,py,0,px,py,L);
+          gr.addColorStop(0,'rgba(255,240,214,.32)');gr.addColorStop(1,'rgba(255,240,214,0)');
           x.fillStyle=gr;x.fillRect(px-L,py-L,L*2,L*2);
-          x.fillStyle='rgba(255,248,232,.35)';x.fillRect(px-L,py-.25,L*2,.5);x.fillRect(px-.25,py-L,.5,L*2);
         }
       }
     }
@@ -287,9 +288,13 @@ body:has(.bls-stagehero) .bls-main>*{position:relative;z-index:1}
     }
     /* the planet's surface: cloud bands with wavy edges, fine streaks and two storms, drawn once as a strip that
        repeats, so sliding it slowly sideways looks like the planet turning */
+    /* smooth random noise that wraps around sideways, so the strip repeats without a seam */
+    function hs(i,j){var n=(i*374761393+j*668265263)|0;n=Math.imul(n^(n>>>13),1274126177);return ((n^(n>>>16))>>>0)/4294967295}
+    function vn(x,y,P){var xi=Math.floor(x),yi=Math.floor(y),xf=x-xi,yf=y-yi,x0=((xi%P)+P)%P,x1=(x0+1)%P,a=hs(x0,yi),b=hs(x1,yi),c=hs(x0,yi+1),d=hs(x1,yi+1),sx=xf*xf*(3-2*xf),sy=yf*yf*(3-2*yf);return a+(b-a)*sx+(c-a)*sy+(a-b-c+d)*sx*sy}
+    function fbm(x,y,P){return (vn(x,y,P)*.5+vn(x*2,y*2,P*2)*.25+vn(x*4,y*4,P*4)*.125)/.875}
     function texture(c){
       var sp=c.parentNode;if(!sp||!sp.clientWidth)return;
-      var q=Math.min(Q(),1.5),Ht=Math.min(720,Math.round(sp.clientHeight*q)),Wt=Ht;
+      var q=Q(),Ht=Math.min(lite()?420:900,Math.round(sp.clientHeight*q)),Wt=Ht;
       c.width=Wt*2;c.height=Ht;
       var x=c.getContext('2d');if(!x)return;
       var img=x.createImageData(Wt,Ht),d=img.data,TAU=6.2832,U2=new Float32Array(Wt),U5=new Float32Array(Wt),U3=new Float32Array(Wt),U11=new Float32Array(Wt),xi,yi,u,v,vv,b,fi,tone,lat,o,cr,cg,cb,m,du,dd,e;
@@ -298,15 +303,17 @@ body:has(.bls-stagehero) .bls-main>*{position:relative;z-index:1}
         v=yi/Ht;lat=Math.abs(v-.5)*2;
         for(xi=0;xi<Wt;xi++){
           u=xi/Wt;
-          vv=v+.006*Math.sin(U2[xi]+v*17)+.0035*Math.sin(U5[xi]+v*41)+.0015*Math.sin(U11[xi]+v*93);
+          var tb=fbm(u*6,v*18,6)-.5;
+          vv=v+.02*tb+.004*Math.sin(U2[xi]+v*17)+.002*Math.sin(U11[xi]+v*93);
           b=.5+.5*Math.sin(vv*44+1.6*Math.sin(vv*13));
           fi=.5+.5*Math.sin(vv*170+2.4*Math.sin(U3[xi]+vv*20));
-          tone=.55+.24*(b-.5)+.08*(fi-.5)+.14*Math.sin(vv*7.3+.6);
+          var sk=fbm(u*12,vv*150,12)-.5;
+          tone=.55+.32*(b-.5)+.07*(fi-.5)+.24*sk+.15*Math.sin(vv*7.3+.6);
           tone*=1-.28*lat*lat;
           if(tone<.5){m=tone*2;cr=196+(232-196)*m;cg=140+(190-140)*m;cb=80+(118-80)*m}
           else{m=(tone-.5)*2;cr=232+(252-232)*m;cg=190+(230-190)*m;cb=118+(170-118)*m}
           /* storms: a big amber oval and a small pale one */
-          du=Math.abs(u-.28);du=Math.min(du,1-du);dd=Math.sqrt(Math.pow(du/.075,2)+Math.pow((v-.61)/.03,2));
+          du=Math.abs(u-.28);du=Math.min(du,1-du);dd=Math.sqrt(Math.pow(du/.075,2)+Math.pow((v-.61)/.03,2))+tb*.5;
           if(dd<1.8){e=dd<1?1-dd*dd*.6:Math.max(0,(1.8-dd)/.8)*.4;cr+=(236-cr)*e*.45;cg+=(168-cg)*e*.45;cb+=(100-cb)*e*.45;if(dd>.8&&dd<1.15){cr+=14;cg+=12;cb+=10}}
           du=Math.abs(u-.71);du=Math.min(du,1-du);dd=Math.sqrt(Math.pow(du/.035,2)+Math.pow((v-.39)/.016,2));
           if(dd<1.4){e=dd<1?1-dd*dd*.5:(1.4-dd)/.4*.3;cr+=(255-cr)*e*.6;cg+=(246-cg)*e*.6;cb+=(226-cb)*e*.6}
