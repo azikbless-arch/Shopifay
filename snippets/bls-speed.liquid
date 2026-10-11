@@ -8,7 +8,8 @@
   var h=document.documentElement,K='bls-lite',saved=null;
   try{saved=sessionStorage.getItem(K)}catch(_){}
   var n=navigator,c=n.connection||{};
-  var weak=(n.deviceMemory&&n.deviceMemory<=2)||(n.hardwareConcurrency&&n.hardwareConcurrency<=2)||c.saveData||/(^|-)2g$/.test(c.effectiveType||'');
+  var mem=n.deviceMemory||8,cpu=n.hardwareConcurrency||8;
+  var weak=mem<=3||cpu<=2||(cpu<=4&&mem<=4)||c.saveData||/(^|-)?[23]g$/.test(c.effectiveType||'');
   var still=window.matchMedia&&matchMedia('(prefers-reduced-motion: reduce)').matches;
   function lite(on){h.classList.toggle(K,!!on);try{sessionStorage.setItem(K,on?'1':'0')}catch(_){}}
   if(saved==='1'||weak||still){lite(true);return}

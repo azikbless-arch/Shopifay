@@ -26,7 +26,7 @@
         <span class="cs-planet-wrap">
           <canvas class="cs-rdust cs-rdust--back"></canvas>
           <span class="cs-ring cs-ring--back"></span>
-          <span class="cs-planet"></span>
+          <span class="cs-planet"><span class="cs-spin"><canvas class="cs-tex"></canvas></span></span>
           <span class="cs-ring cs-ring--front"></span>
           <canvas class="cs-rdust cs-rdust--front"></canvas>
         </span>
@@ -126,15 +126,23 @@
 .cs-neb--c{left:10%;top:46%;width:70%;height:30%;background:radial-gradient(closest-side,rgba(80,170,210,.12),rgba(80,170,210,0))}
 .cs-stars{position:absolute;left:0;top:0;width:100%;height:100%;display:block}
 .cs-moon{position:absolute;left:16%;top:17%;width:clamp(10px,2.2vmin,22px);aspect-ratio:1;border-radius:50%;background:radial-gradient(circle at 36% 32%,#FFFFFF,#C9CDE2 60%,#8E93B4);box-shadow:0 0 18px rgba(220,226,255,.45)}
-.cs-planet-wrap{position:absolute;right:-6%;top:9%;width:min(58vmin,560px);aspect-ratio:1}
-.cs-planet{position:absolute;inset:0;border-radius:50%;background:radial-gradient(circle at 32% 28%,#FFF4CF 0%,#F4D58F 16%,#E0B062 40%,#B07A3E 66%,#5A3620 88%,#2A1A14 100%);box-shadow:inset -26px -36px 70px rgba(16,10,40,.62)}
-.cs-planet-wrap::before{content:"";position:absolute;inset:-35%;border-radius:50%;background:radial-gradient(closest-side,rgba(240,190,100,.26) 52%,rgba(240,170,90,.08) 70%,rgba(240,170,90,0) 100%)}
-.cs-planet::before{content:"";position:absolute;inset:0;border-radius:50%;background:repeating-linear-gradient(166deg,rgba(255,250,230,.07) 0 5%,rgba(120,70,30,.10) 5% 9%,rgba(255,240,210,.03) 9% 13%);opacity:.8}
-.cs-planet::after{content:"";position:absolute;inset:0;border-radius:50%;background:radial-gradient(circle at 78% 80%,rgba(10,10,36,.78) 0%,rgba(10,10,36,.35) 38%,rgba(10,10,36,0) 62%)}
-.cs-ring{position:absolute;left:-34%;top:40%;width:168%;height:22%;border-radius:50%;border:2px solid rgba(255,226,170,.6);box-shadow:0 0 0 7px rgba(255,214,150,.10),0 0 0 15px rgba(255,214,150,.05),0 0 24px rgba(255,214,150,.2);transform:rotate(-17deg)}
+.cs-planet-wrap{position:absolute;right:2%;top:11%;width:min(44vmin,440px);aspect-ratio:1}
+.cs-planet{position:absolute;inset:0;border-radius:50%;overflow:hidden;isolation:isolate;background:radial-gradient(circle at 32% 28%,#F6DFA6 0%,#E2B86E 30%,#B98547 62%,#6A4224 88%,#2E1E18 100%)}
+.cs-spin{position:absolute;inset:-25%;transform:rotate(-17deg);z-index:0}
+.cs-tex{position:absolute;left:0;top:0;width:200%;height:100%;display:block;opacity:0;transition:opacity 1.6s ease}
+.cs-tex.is-on{opacity:.8}
+.cs-planet-wrap::before{content:"";position:absolute;inset:-30%;border-radius:50%;background:radial-gradient(closest-side,rgba(240,190,110,.16) 56%,rgba(240,170,100,.05) 72%,rgba(240,170,90,0) 100%)}
+/* the ball: soft sunlit highlight, darker rim, and a faint blue veil so the planet sits far away */
+.cs-planet::before{content:"";position:absolute;inset:0;border-radius:50%;z-index:1;background:radial-gradient(circle at 30% 26%,rgba(255,250,232,.42) 0%,rgba(255,246,220,.12) 22%,rgba(255,240,210,0) 42%),radial-gradient(circle at 50% 50%,rgba(16,12,40,0) 52%,rgba(16,12,40,.28) 78%,rgba(10,8,30,.62) 100%),linear-gradient(rgba(70,80,160,.06),rgba(70,80,160,.06))}
+.cs-planet::after{content:"";position:absolute;inset:0;border-radius:50%;z-index:2;background:radial-gradient(circle at 80% 82%,rgba(8,8,30,.86) 0%,rgba(8,8,30,.42) 40%,rgba(8,8,30,0) 66%)}
+.cs-ring{position:absolute;left:-34%;top:40%;width:168%;height:22%;border-radius:50%;border:1px solid rgba(255,226,170,.42);box-shadow:0 0 14px rgba(255,214,150,.12);transform:rotate(-17deg)}
 .cs-ring--back{clip-path:inset(0 0 50% 0)}
 .cs-ring--front{clip-path:inset(50% 0 0 0)}
-.cs-bubble{position:absolute;left:7%;bottom:34%;width:clamp(56px,15vmin,150px);aspect-ratio:1;border-radius:50%;border:1px solid rgba(255,255,255,.45);background:radial-gradient(22% 16% at 30% 22%,rgba(255,255,255,.75) 0%,rgba(255,255,255,0) 100%),radial-gradient(circle at 70% 72%,rgba(236,203,123,.7) 0,rgba(236,203,123,.7) 3.4%,rgba(236,203,123,0) 5%),radial-gradient(circle at 62% 66%,rgba(243,212,230,.24) 0%,rgba(243,212,230,0) 36%),radial-gradient(circle at 50% 50%,rgba(255,255,255,.03) 52%,rgba(255,255,255,.2) 100%);box-shadow:inset -8px -10px 22px rgba(243,212,230,.16),inset 8px 8px 18px rgba(207,227,255,.16)}
+.cs-bubble{position:absolute;left:7%;bottom:36%;width:clamp(54px,13vmin,136px);aspect-ratio:1;border-radius:50%;background:radial-gradient(circle at 50% 50%,rgba(200,215,255,.05) 0%,rgba(200,215,255,.03) 55%,rgba(210,222,255,.10) 80%,rgba(235,240,255,.26) 96%,rgba(255,255,255,.4) 100%);box-shadow:0 0 0 .5px rgba(255,255,255,.4)}
+/* soap film: thin rainbow colours that shift around the rim, brightest at the edge */
+.cs-bubble::before{content:"";position:absolute;inset:0;border-radius:50%;background:conic-gradient(from 200deg,rgba(255,140,200,.8),rgba(255,220,120,.75),rgba(120,240,190,.7),rgba(110,180,255,.8),rgba(190,130,255,.75),rgba(255,140,200,.8));-webkit-mask:radial-gradient(circle,transparent 46%,rgba(0,0,0,.5) 72%,#000 92%,transparent 100%);mask:radial-gradient(circle,transparent 46%,rgba(0,0,0,.5) 72%,#000 92%,transparent 100%);opacity:.7;mix-blend-mode:screen}
+/* reflections: a curved window highlight top-left, a small one bottom-right */
+.cs-bubble::after{content:"";position:absolute;inset:0;border-radius:50%;background:radial-gradient(18% 11% at 32% 24%,rgba(255,255,255,.9),rgba(255,255,255,0) 100%),radial-gradient(34% 22% at 38% 30%,rgba(255,255,255,.18),rgba(255,255,255,0) 100%),radial-gradient(9% 6% at 72% 78%,rgba(255,255,255,.55),rgba(255,255,255,0) 100%),radial-gradient(circle at 66% 70%,rgba(255,214,160,.10),rgba(255,214,160,0) 40%)}
 .cs-dunes{position:absolute;left:0;bottom:0;width:100%;height:34%;display:block}
 /* cosmic dust: a glittering band along the ring (half behind the planet, half in front), loose motes drifting over the scene, a warm haze above the dunes. Drawn once, only moved and faded */
 .cs-rdust{position:absolute;left:-50%;top:30%;width:200%;height:42%;display:block;transform:rotate(-17deg);pointer-events:none}
@@ -143,9 +151,9 @@
 .cs-shoot{position:absolute;left:12%;top:14%;width:0;height:0;opacity:0}
 .cs-shoot::before{content:"";position:absolute;top:-1px;right:0;width:160px;height:2px;border-radius:2px;background:linear-gradient(90deg,rgba(255,255,255,0),rgba(214,226,255,.5) 62%,#fff)}
 @media (orientation:portrait),(max-width:749px){
-  .cs-planet-wrap{right:-22%;top:10%;width:min(86vw,62vmax)}
+  .cs-planet-wrap{right:-8%;top:13%;width:min(62vw,44vmax)}
   .cs-moon{left:14%;top:15%}
-  .cs-bubble{left:9%;bottom:37%}
+  .cs-bubble{left:8%;bottom:47%}
   .cs-dunes{height:30%}
 }
 @media (prefers-reduced-motion:no-preference){
@@ -158,17 +166,23 @@
   .bls-stage.is-in .cs-planet-wrap::before{animation:cs-glow 16s ease-in-out infinite alternate}
   .bls-stage.is-in .cs-shoot{animation:cs-shoot 13s ease-out 4s infinite}
   .bls-stage.is-in .cs-rdust--front{animation:cs-tw 9s ease-in-out 2s infinite alternate}
+  .bls-stage.is-in .cs-tex{animation:cs-spin 320s linear infinite}
   .bls-stage.is-in .cs-motes{animation:cs-motes 46s ease-in-out infinite alternate}
   .bls-stage.is-in .cs-haze{animation:cs-drift 70s ease-in-out -10s infinite alternate}
 }
+@keyframes cs-spin{from{transform:translate3d(0,0,0)}to{transform:translate3d(-50%,0,0)}}
+/* once the first screen is scrolled away the background stops moving: nothing is redrawn while the shopper browses */
+.bls-stage.is-still *,.bls-stage.is-still *::before,.bls-stage.is-still *::after{animation-play-state:paused!important}
 @keyframes cs-motes{from{transform:translate3d(0,0,0)}to{transform:translate3d(-2.4%,-2.8%,0)}}
 /* eco mode (slow phone, battery saver, data saver): the scene stands still */
 html.bls-lite .bls-stage *,html.bls-lite .bls-stage *::before,html.bls-lite .bls-stage *::after{animation:none!important}
-html.bls-lite .bls-stage .cs-world{opacity:1}
+html.bls-lite .bls-stage .cs-world{opacity:1;will-change:auto}
+html.bls-lite .cs-motes,html.bls-lite .cs-neb--c{display:none}
+html.bls-lite .cs-bubble::before{mix-blend-mode:normal}
 @keyframes cs-pull{from{transform:scale(1.12)}to{transform:scale(1)}}
 @keyframes cs-drift{from{transform:translate3d(-4%,0,0)}to{transform:translate3d(5%,-3%,0)}}
 @keyframes cs-tw{from{opacity:.35}to{opacity:1}}
-@keyframes cs-bob{from{transform:translate3d(0,0,0) rotate(0deg)}to{transform:translate3d(10px,-18px,0) rotate(6deg)}}
+@keyframes cs-bob{from{transform:translate3d(0,0,0) rotate(0deg)}to{transform:translate3d(8px,-16px,0) rotate(18deg)}}
 @keyframes cs-glow{from{opacity:.75}to{opacity:1}}
 @keyframes cs-shoot{0%{opacity:0;transform:rotate(22deg) translateX(0)}2%{opacity:.95}8%{opacity:0;transform:rotate(22deg) translateX(420px)}100%{opacity:0;transform:rotate(22deg) translateX(420px)}}
 .bls-stage__shade{position:absolute;inset:0;background:linear-gradient(180deg,rgba(5,6,11,.42) 0%,rgba(5,6,11,0) 20%,rgba(5,6,11,0) 50%,rgba(5,6,11,.55) 80%,rgba(5,6,11,.82) 100%)}
@@ -197,8 +211,12 @@ body:has(.bls-stagehero) .bls-main>*{position:relative;z-index:1}
   var far=st.querySelector('.cs-stars--far');
   if(far){
     var near=st.querySelector('.cs-stars--near'),lastW=0;
+    var root=document.documentElement;
+    function lite(){return root.classList.contains('bls-lite')}
+    /* pixel density: sharp on good screens, plain on slow phones */
+    function Q(){return lite()?1:Math.min(2,window.devicePixelRatio||1)}
     function paint(c,n,seed,big){
-      var dpr=Math.min(2,window.devicePixelRatio||1),w=st.clientWidth,h=st.clientHeight;
+      var dpr=Q(),w=st.clientWidth,h=st.clientHeight;
       c.width=Math.round(w*dpr);c.height=Math.round(h*dpr);
       var x=c.getContext('2d');x.setTransform(dpr,0,0,dpr,0,0);
       var r=seed;function rnd(){r=(r*16807)%2147483647;return r/2147483647}
@@ -211,55 +229,102 @@ body:has(.bls-stagehero) .bls-main>*{position:relative;z-index:1}
     }
     function seeded(s){return function(){s=(s*16807)%2147483647;return s/2147483647}}
     function gauss(r){return (r()+r()+r()+r()-2)/2}
-    function prep(c){
-      var dpr=Math.min(2,window.devicePixelRatio||1),w=c.clientWidth,h=c.clientHeight;
+    function prep(c,q){
+      var dpr=q||Q(),w=c.clientWidth,h=c.clientHeight;
       if(!w||!h)return null;
       c.width=Math.round(w*dpr);c.height=Math.round(h*dpr);
       var x=c.getContext('2d');if(!x)return null;x.setTransform(dpr,0,0,dpr,0,0);
-      return {x:x,w:w,h:h};
+      return {x:x,w:w,h:h,q:dpr};
     }
-    /* dust along the ring: the canvas sits on the ring, so the ring is an ellipse in its middle */
+    function g1(v,m,s){var d=(v-m)/s;return Math.exp(-d*d)}
+    /* the ring: a smooth glowing band (bright main ring, a dark gap, a faint outer ring) drawn as many fine circles
+       squashed into the ring's ellipse, then a light sprinkle of dust and a few glints */
     function ringDust(c,front){
       var g=prep(c);if(!g)return;
-      var x=g.x,w=g.w,h=g.h,cx=w/2,cy=h/2,rx=w*.42,ry=h*.2619,r=seeded(front?424242:171717),i,t,k,px,py,s,a;
+      var x=g.x,w=g.w,h=g.h,cx=w/2,cy=h/2,rx=w*.42,ry=h*.2619,r=seeded(front?424242:171717),i,t,k,px,py,s,a,N=48,f,al;
+      var a0=front?0:Math.PI,a1=front?Math.PI:Math.PI*2;
       x.globalCompositeOperation='lighter';
-      [[1.0,ry*.34,.05],[1.12,ry*.22,.035],[.9,ry*.18,.03]].forEach(function(b){
-        x.beginPath();x.ellipse(cx,cy,rx*b[0],ry*b[0],0,front?0:Math.PI,front?Math.PI:Math.PI*2);
-        x.lineWidth=b[1];x.strokeStyle='rgba(255,214,160,'+b[2]+')';x.stroke();
-      });
-      var n=Math.round(Math.min(1400,w*1.3));
+      x.save();x.translate(cx,cy);x.scale(rx,ry);
+      for(i=0;i<=N;i++){
+        f=.84+.34*i/N;
+        al=.26*g1(f,.99,.045)+.12*g1(f,.91,.03)+.09*g1(f,1.11,.022);
+        al*=1-.85*g1(f,1.055,.012);
+        if(al<.003)continue;
+        x.beginPath();x.arc(0,0,f,a0,a1);
+        x.lineWidth=.34/N*1.6;x.strokeStyle='rgba(255,'+(214+Math.round(20*(f-.84)/.34))+',170,'+al.toFixed(3)+')';x.stroke();
+      }
+      x.restore();
+      var n=Math.round(Math.min(lite()?400:1300,w*1.2));
       for(i=0;i<n;i++){
-        t=r()*Math.PI;if(!front)t+=Math.PI;
-        k=Math.min(1.17,1+gauss(r)*.07+(r()<.25?.12*r():0));
-        px=cx+Math.cos(t)*rx*k;py=cy+Math.sin(t)*ry*k+gauss(r)*ry*.05;
-        s=r();a=.18+r()*.5;
-        x.beginPath();x.arc(px,py,.35+s*s*1.1,0,6.283);
-        x.fillStyle=(r()<.7?'rgba(255,226,180,':'rgba(255,246,228,')+a.toFixed(2)+')';x.fill();
-        if(s>.93){x.beginPath();x.arc(px,py,2.6+s*2,0,6.283);x.fillStyle='rgba(255,220,170,.07)';x.fill()}
+        t=a0+r()*Math.PI;
+        k=Math.min(1.16,Math.max(.86,1+gauss(r)*.055+(r()<.2?.11*r():0)));
+        px=cx+Math.cos(t)*rx*k;py=cy+Math.sin(t)*ry*k;
+        s=r();a=.16+r()*.42;
+        x.beginPath();x.arc(px,py,.3+s*s*.8,0,6.283);
+        x.fillStyle=(r()<.7?'rgba(255,230,190,':'rgba(255,248,234,')+a.toFixed(2)+')';x.fill();
+        if(s>.992){
+          var L=2.4+r()*2.6,gr=x.createRadialGradient(px,py,0,px,py,L);
+          gr.addColorStop(0,'rgba(255,244,220,.5)');gr.addColorStop(1,'rgba(255,244,220,0)');
+          x.fillStyle=gr;x.fillRect(px-L,py-L,L*2,L*2);
+          x.fillStyle='rgba(255,248,232,.35)';x.fillRect(px-L,py-.25,L*2,.5);x.fillRect(px-.25,py-L,.5,L*2);
+        }
       }
     }
-    /* loose dust motes: tiny warm specks, a few soft out-of-focus ones, thicker near the horizon */
+    /* loose dust motes: few, soft, out of focus, thicker near the horizon */
     function motes(c){
+      if(lite())return;
       var g=prep(c);if(!g)return;
-      var x=g.x,w=g.w,h=g.h,r=seeded(99991),n=Math.round(Math.min(260,w*h/5200)),i,px,py,s,a,gr,rad;
+      var x=g.x,w=g.w,h=g.h,r=seeded(99991),n=Math.round(Math.min(150,w*h/7000)),i,px,py,s,a,gr,rad,col;
       var cols=['255,224,186','255,240,220','246,214,255','214,228,255'];
       for(i=0;i<n;i++){
         px=r()*w;py=(r()<.55?.5+r()*.42:r()*.9)*h;
-        s=r();a=.12+r()*.38;
-        if(s>.94){rad=4+s*9;a*=.35}else{rad=.4+s*1.3}
-        gr=x.createRadialGradient(px,py,0,px,py,rad);
-        var col=cols[(r()*4)|0];
-        gr.addColorStop(0,'rgba('+col+','+a.toFixed(2)+')');gr.addColorStop(1,'rgba('+col+',0)');
+        s=r();a=.1+r()*.3;
+        if(s>.93){rad=5+s*9;a*=.3}else{rad=.6+s*1.4}
+        gr=x.createRadialGradient(px,py,0,px,py,rad);col=cols[(r()*4)|0];
+        gr.addColorStop(0,'rgba('+col+','+a.toFixed(2)+')');gr.addColorStop(.45,'rgba('+col+','+(a*.45).toFixed(3)+')');gr.addColorStop(1,'rgba('+col+',0)');
         x.fillStyle=gr;x.fillRect(px-rad,py-rad,rad*2,rad*2);
       }
     }
+    /* the planet's surface: cloud bands with wavy edges, fine streaks and two storms, drawn once as a strip that
+       repeats, so sliding it slowly sideways looks like the planet turning */
+    function texture(c){
+      var sp=c.parentNode;if(!sp||!sp.clientWidth)return;
+      var q=Math.min(Q(),1.5),Ht=Math.min(720,Math.round(sp.clientHeight*q)),Wt=Ht;
+      c.width=Wt*2;c.height=Ht;
+      var x=c.getContext('2d');if(!x)return;
+      var img=x.createImageData(Wt,Ht),d=img.data,TAU=6.2832,U2=new Float32Array(Wt),U5=new Float32Array(Wt),U3=new Float32Array(Wt),U11=new Float32Array(Wt),xi,yi,u,v,vv,b,fi,tone,lat,o,cr,cg,cb,m,du,dd,e;
+      for(xi=0;xi<Wt;xi++){u=xi/Wt;U2[xi]=TAU*2*u;U5[xi]=TAU*5*u+1.3;U3[xi]=TAU*3*u;U11[xi]=TAU*11*u}
+      for(yi=0;yi<Ht;yi++){
+        v=yi/Ht;lat=Math.abs(v-.5)*2;
+        for(xi=0;xi<Wt;xi++){
+          u=xi/Wt;
+          vv=v+.006*Math.sin(U2[xi]+v*17)+.0035*Math.sin(U5[xi]+v*41)+.0015*Math.sin(U11[xi]+v*93);
+          b=.5+.5*Math.sin(vv*44+1.6*Math.sin(vv*13));
+          fi=.5+.5*Math.sin(vv*170+2.4*Math.sin(U3[xi]+vv*20));
+          tone=.55+.24*(b-.5)+.08*(fi-.5)+.14*Math.sin(vv*7.3+.6);
+          tone*=1-.28*lat*lat;
+          if(tone<.5){m=tone*2;cr=196+(232-196)*m;cg=140+(190-140)*m;cb=80+(118-80)*m}
+          else{m=(tone-.5)*2;cr=232+(252-232)*m;cg=190+(230-190)*m;cb=118+(170-118)*m}
+          /* storms: a big amber oval and a small pale one */
+          du=Math.abs(u-.28);du=Math.min(du,1-du);dd=Math.sqrt(Math.pow(du/.075,2)+Math.pow((v-.61)/.03,2));
+          if(dd<1.8){e=dd<1?1-dd*dd*.6:Math.max(0,(1.8-dd)/.8)*.4;cr+=(236-cr)*e*.45;cg+=(168-cg)*e*.45;cb+=(100-cb)*e*.45;if(dd>.8&&dd<1.15){cr+=14;cg+=12;cb+=10}}
+          du=Math.abs(u-.71);du=Math.min(du,1-du);dd=Math.sqrt(Math.pow(du/.035,2)+Math.pow((v-.39)/.016,2));
+          if(dd<1.4){e=dd<1?1-dd*dd*.5:(1.4-dd)/.4*.3;cr+=(255-cr)*e*.6;cg+=(246-cg)*e*.6;cb+=(226-cb)*e*.6}
+          o=(yi*Wt+xi)*4;d[o]=cr;d[o+1]=cg;d[o+2]=cb;d[o+3]=255;
+        }
+      }
+      x.putImageData(img,0,0);x.putImageData(img,Wt,0);
+      c.classList.add('is-on');
+    }
     function draw(){
       var w=st.clientWidth;if(Math.abs(w-lastW)<2)return;lastW=w;
-      var area=w*st.clientHeight,lite=document.documentElement.classList.contains('bls-lite');
-      paint(far,Math.min(lite?500:900,Math.round(area/2200)),1234567,false);
-      paint(near,Math.min(160,Math.round(area/14000)),7654321,true);
-      var rb=st.querySelector('.cs-rdust--back'),rf=st.querySelector('.cs-rdust--front'),mo=st.querySelector('.cs-motes');
+      var area=w*st.clientHeight;
+      paint(far,Math.min(lite()?450:900,Math.round(area/2200)),1234567,false);
+      paint(near,Math.min(lite()?90:160,Math.round(area/14000)),7654321,true);
+      var rb=st.querySelector('.cs-rdust--back'),rf=st.querySelector('.cs-rdust--front'),mo=st.querySelector('.cs-motes'),tx=st.querySelector('.cs-tex');
       try{if(rb)ringDust(rb,false);if(rf)ringDust(rf,true);if(mo)motes(mo)}catch(_){}
+      /* the surface is the heaviest drawing: it waits until the page is idle; until then the planet shows its base colours */
+      if(tx){var job=function(){try{texture(tx)}catch(_){}};if(window.requestIdleCallback)requestIdleCallback(job,{timeout:1500});else setTimeout(job,300)}
     }
     draw();st.classList.add('is-in');
     var rt=0;addEventListener('resize',function(){clearTimeout(rt);rt=setTimeout(draw,200)});
@@ -299,7 +364,8 @@ body:has(.bls-stagehero) .bls-main>*{position:relative;z-index:1}
     var im=st.querySelector('img');if(im&&im.complete&&im.naturalWidth)st.classList.add('is-in');
   }
   var dim=st.querySelector('.bls-stage__dim'),tick=false;
-  function upd(){tick=false;var v=Math.min(1,Math.max(0,window.scrollY/(window.innerHeight*1.1)));dim.style.setProperty('--bls-dim',(v*.42).toFixed(3))}
+  var stillOn=false;
+  function upd(){tick=false;var y=window.scrollY,v=Math.min(1,Math.max(0,y/(window.innerHeight*1.1)));dim.style.setProperty('--bls-dim',(v*.42).toFixed(3));var s2=y>window.innerHeight*1.2;if(s2!==stillOn){stillOn=s2;st.classList.toggle('is-still',s2)}}
   addEventListener('scroll',function(){if(!tick){tick=true;requestAnimationFrame(upd)}},{passive:true});upd();
 })();
 </script>
