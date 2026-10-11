@@ -1,0 +1,41 @@
+{%- comment -%}Speed. 1) Instant pages: when a link is about to be opened (finger down, or the pointer resting on it) the browser starts loading that page ahead, so it opens almost at once; cart, checkout, account and search are never loaded ahead. 2) Eco mode: on a slow phone, in battery or data saver, or when the page cannot keep a smooth frame rate, html gets the class bls-lite: the space background stands still and the bars stop blurring what is behind them. The choice is kept for the visit, so later pages start in the right mode.{%- endcomment -%}
+<script type="speculationrules">
+{"prefetch":[{"source":"document","where":{"and":[{"href_matches":"/*"},{"not":{"href_matches":["/cart*","/checkout*","/account*","/*/account*","/search*","/*/search*"]}},{"not":{"selector_matches":"[target=_blank],[rel~=nofollow],[download],[data-no-preload]"}}]},"eagerness":"moderate"}],
+ "prerender":[{"source":"document","where":{"and":[{"href_matches":"/*"},{"not":{"href_matches":["/cart*","/checkout*","/account*","/*/account*","/search*","/*/search*"]}},{"not":{"selector_matches":"[target=_blank],[rel~=nofollow],[download],[data-no-preload]"}}]},"eagerness":"conservative"}]}
+</script>
+<script>
+(function(){
+  var h=document.documentElement,K='bls-lite',saved=null;
+  try{saved=sessionStorage.getItem(K)}catch(_){}
+  var n=navigator,c=n.connection||{};
+  var weak=(n.deviceMemory&&n.deviceMemory<=2)||(n.hardwareConcurrency&&n.hardwareConcurrency<=2)||c.saveData||/(^|-)2g$/.test(c.effectiveType||'');
+  var still=window.matchMedia&&matchMedia('(prefers-reduced-motion: reduce)').matches;
+  function lite(on){h.classList.toggle(K,!!on);try{sessionStorage.setItem(K,on?'1':'0')}catch(_){}}
+  if(saved==='1'||weak||still){lite(true);return}
+  if(saved==='0')return;
+  /* measure once per visit, a moment after the page has settled: if frames come too slowly, switch to eco */
+  function measure(){
+    if(document.hidden){document.addEventListener('visibilitychange',function v(){if(!document.hidden){document.removeEventListener('visibilitychange',v);setTimeout(measure,600)}});return}
+    var d=[],last=0,t0=0;
+    function f(t){
+      if(!t0){t0=last=t;return requestAnimationFrame(f)}
+      d.push(t-last);last=t;
+      if(t-t0<1400)return requestAnimationFrame(f);
+      if(document.hidden||d.length<8){return}
+      d.sort(function(a,b){return a-b});
+      var med=d[d.length>>1],slow=0;for(var i=0;i<d.length;i++)if(d[i]>34)slow++;
+      lite(med>24||slow/d.length>.35);
+    }
+    requestAnimationFrame(f);
+  }
+  function go(){setTimeout(measure,2500)}
+  if(document.readyState==='complete')go();else addEventListener('load',go,{once:true});
+})();
+</script>
+<style>
+html.bls-lite .bls-header .bls-bar,html.bls-lite .bls-header.is-solid .bls-bar{-webkit-backdrop-filter:none!important;backdrop-filter:none!important}
+html.bls-lite .bls-header.is-solid .bls-bar{background:rgba(14,16,24,.9)!important}
+html.bls-lite .ab-bar{-webkit-backdrop-filter:none!important;backdrop-filter:none!important;background-color:rgba(16,18,28,.92)!important}
+html.bls-lite .ab-lens,html.bls-lite .cl-lens{-webkit-backdrop-filter:none!important;backdrop-filter:none!important}
+html.bls-lite .bls-twinkle,html.bls-lite .bls-shoot{animation:none!important}
+</style>

@@ -1,0 +1,169 @@
+<header class="bs-header" data-header>
+  <div class="bs-announcement">
+    <div class="bs-shell bs-announcement__inner">
+      <span>{% render 'icon', name: 'truck' %} {{ section.settings.shipping_text }}</span>
+      <span>{% render 'icon', name: 'shield' %} {{ section.settings.returns_text }}</span>
+      <span>{% render 'icon', name: 'bag' %} {{ section.settings.payment_text }}</span>
+      <span class="bs-announcement__tag">{{ section.settings.tagline }} ♡</span>
+    </div>
+  </div>
+
+  <div class="bs-shell bs-nav">
+    <button class="bs-mobile-menu-btn" type="button" data-mobile-menu-toggle aria-label="Open menu" aria-controls="BsMobileMenu-{{ section.id }}" aria-expanded="false">
+      <span class="bs-mobile-menu-btn__lines" aria-hidden="true"><i></i><i></i><i></i></span>
+    </button>
+
+    <a class="bs-logo" href="{{ routes.root_url }}" aria-label="{{ shop.name }} home">
+      <span class="bs-logo__mark" aria-hidden="true">♡</span>
+      <span>{{ settings.brand_name | default: shop.name | upcase }}</span>
+    </a>
+
+    <nav class="bs-desktop-menu" aria-label="Primary">
+      {% if section.settings.menu != blank %}
+        {% for link in section.settings.menu.links %}
+          {% if link.links != blank %}
+            <div class="bs-menu-item">
+              <a class="bs-menu-link" href="{{ link.url }}">{{ link.title }} <span class="bs-menu-link__chev">⌄</span></a>
+              <div class="bs-mega">
+                {% for child in link.links limit: 2 %}
+                  <div class="bs-mega__col">
+                    <strong>{{ child.title }}</strong>
+                    {% if child.links != blank %}
+                      {% for grandchild in child.links %}<a href="{{ grandchild.url }}">{{ grandchild.title }}</a>{% endfor %}
+                    {% else %}
+                      <a href="{{ child.url }}">View {{ child.title }}</a>
+                    {% endif %}
+                  </div>
+                {% endfor %}
+                <a class="bs-mega__promo" href="{{ section.settings.mega_promo_link | default: routes.all_products_collection_url }}">
+                  <span>✦</span>
+                  <strong>{{ section.settings.mega_promo_title }}</strong>
+                  <small>{{ section.settings.mega_promo_text }}</small>
+                </a>
+              </div>
+            </div>
+          {% else %}
+            <a href="{{ link.url }}">{{ link.title }}</a>
+          {% endif %}
+        {% endfor %}
+      {% else %}
+        <a href="{{ routes.root_url }}">Home</a>
+        <a href="{{ routes.all_products_collection_url }}">Shop All</a>
+        <a href="{{ routes.collections_url }}">Collections</a>
+        <a href="{{ routes.search_url }}">Search</a>
+      {% endif %}
+    </nav>
+
+    <form class="bs-search" action="{{ routes.search_url }}" method="get" role="search" data-predictive-search>
+      {% render 'icon', name: 'search' %}
+      <input type="search" name="q" value="{{ search.terms | escape }}" placeholder="{{ section.settings.search_placeholder }}" aria-label="Search" {% if settings.predictive_search %}data-predictive-search-input autocomplete="off"{% endif %}>
+      {% if settings.predictive_search %}<div class="bs-predictive" data-predictive-results hidden></div>{% endif %}
+    </form>
+
+    <div class="bs-nav-actions">
+      <div class="bs-account-wrap bs-hide-mobile">
+        <a class="bs-icon-btn" href="{{ routes.account_url }}" aria-label="Account">{% render 'icon', name: 'user' %}</a>
+        <div class="bs-account-menu">
+          {% if customer %}
+            <a href="{{ routes.account_url }}">My account</a>
+            <a href="{{ routes.account_url }}">Orders</a>
+            <a href="{{ routes.account_logout_url }}">Log out</a>
+          {% else %}
+            <a href="{{ routes.account_login_url }}">Sign in</a>
+            <a href="{{ routes.account_register_url }}">Create account</a>
+          {% endif %}
+        </div>
+      </div>
+      <button class="bs-icon-btn bs-hide-mobile" type="button" aria-label="Wishlist">{% render 'icon', name: 'heart' %}</button>
+      <button class="bs-icon-btn bs-cart-trigger" type="button" data-cart-open aria-label="Open cart">
+        {% render 'icon', name: 'bag' %}<span class="bs-cart-badge" data-header-cart-count>{{ cart.item_count }}</span>
+      </button>
+    </div>
+  </div>
+
+  <div class="bs-mobile-menu-overlay" data-bs-mobile-menu-overlay hidden aria-hidden="true"></div>
+  <aside id="BsMobileMenu-{{ section.id }}" class="bs-mobile-menu bs-mobile-menu--lux" data-mobile-menu hidden aria-hidden="true" role="dialog" aria-modal="true" aria-label="BLESSHOP menu" tabindex="-1">
+    <div class="bs-mobile-menu__head">
+      <div class="bs-mobile-menu__brand">
+        <span class="bs-mobile-menu__eyebrow">THE EVERYDAY EDIT</span>
+        <strong>{{ settings.brand_name | default: shop.name | upcase }}</strong>
+      </div>
+      <button class="bs-mobile-menu__close" type="button" data-bs-mobile-menu-close aria-label="Close menu">×</button>
+    </div>
+    <div class="bs-mobile-menu__scroll">
+      <div class="bs-mobile-menu__intro">
+        <span>YOUR SPACE TO EXPLORE</span>
+        <p>Discover something lovely.</p>
+      </div>
+      <form class="bs-mobile-menu__search" action="{{ routes.search_url }}" role="search" method="get">
+        {% render 'icon', name: 'search' %}
+        <input type="search" name="q" placeholder="{{ section.settings.search_placeholder | escape }}" aria-label="Search products">
+        <button type="submit" aria-label="Submit search">↗</button>
+      </form>
+      <nav class="bs-mobile-menu__links" aria-label="Mobile main navigation">
+        {% if section.settings.menu != blank %}
+          {% for link in section.settings.menu.links %}
+            <div class="bs-mobile-menu__entry">
+              <div class="bs-mobile-menu__entry-top">
+                <a href="{{ link.url }}">{{ link.title }}</a>
+                {% if link.links != blank %}
+                  <button type="button" data-bs-mobile-submenu-toggle aria-expanded="false" aria-controls="BsMobileSubmenu-{{ section.id }}-{{ forloop.index }}" aria-label="Expand {{ link.title | escape }}">+</button>
+                {% else %}
+                  <span class="bs-mobile-menu__entry-arrow" aria-hidden="true">↗</span>
+                {% endif %}
+              </div>
+              {% if link.links != blank %}
+                <div class="bs-mobile-menu__submenu" id="BsMobileSubmenu-{{ section.id }}-{{ forloop.index }}" hidden>
+                  {% for child in link.links %}
+                    <a href="{{ child.url }}">{{ child.title }}</a>
+                    {% if child.links != blank %}
+                      {% for grandchild in child.links %}
+                        <a class="bs-mobile-menu__grandchild" href="{{ grandchild.url }}">{{ grandchild.title }}</a>
+                      {% endfor %}
+                    {% endif %}
+                  {% endfor %}
+                </div>
+              {% endif %}
+            </div>
+          {% endfor %}
+        {% else %}
+          <div class="bs-mobile-menu__entry"><div class="bs-mobile-menu__entry-top"><a href="{{ routes.root_url }}">Home</a><span class="bs-mobile-menu__entry-arrow" aria-hidden="true">↗</span></div></div>
+          <div class="bs-mobile-menu__entry"><div class="bs-mobile-menu__entry-top"><a href="{{ routes.all_products_collection_url }}">Shop All</a><span class="bs-mobile-menu__entry-arrow" aria-hidden="true">↗</span></div></div>
+          <div class="bs-mobile-menu__entry"><div class="bs-mobile-menu__entry-top"><a href="{{ routes.collections_url }}">Collections</a><span class="bs-mobile-menu__entry-arrow" aria-hidden="true">↗</span></div></div>
+          <div class="bs-mobile-menu__entry"><div class="bs-mobile-menu__entry-top"><a href="{{ routes.search_url }}">Search</a><span class="bs-mobile-menu__entry-arrow" aria-hidden="true">↗</span></div></div>
+        {% endif %}
+      </nav>
+      <a class="bs-mobile-menu__browse" href="{{ routes.collections_url }}">EXPLORE COLLECTIONS <span aria-hidden="true">↗</span></a>
+    </div>
+    <div class="bs-mobile-menu__foot">
+      <a href="{{ routes.all_products_collection_url }}">SHOP ALL <span aria-hidden="true">↗</span></a>
+      <a href="{{ routes.account_url }}">MY ACCOUNT <span aria-hidden="true">↗</span></a>
+      <small>A BRIGHTER EVERYDAY · BLESSHOP</small>
+    </div>
+  </aside>
+
+  <nav class="bs-mobile-bottom" aria-label="Mobile navigation">
+    <a href="{{ routes.root_url }}">{% render 'icon', name: 'home' %}<span>Home</span></a>
+    <a href="{{ routes.collections_url }}">{% render 'icon', name: 'grid' %}<span>Categories</span></a>
+    <a href="{{ routes.search_url }}" data-bs-v2-mobile-search>{% render 'icon', name: 'search' %}<span>Search</span></a>
+    <button type="button" data-cart-open>{% render 'icon', name: 'bag' %}<span>Cart</span></button>
+    <a href="{{ routes.account_url }}">{% render 'icon', name: 'user' %}<span>Account</span></a>
+  </nav>
+</header>
+{% schema %}
+{
+  "name": "BLESSHOP header",
+  "settings": [
+    {"type":"link_list","id":"menu","label":"Main menu"},
+    {"type":"text","id":"search_placeholder","label":"Search placeholder","default":"Search for anything..."},
+    {"type":"text","id":"shipping_text","label":"Shipping text","default":"Free Shipping on Orders $50+"},
+    {"type":"text","id":"returns_text","label":"Returns text","default":"30-Day Easy Returns"},
+    {"type":"text","id":"payment_text","label":"Payment text","default":"Secure Payment"},
+    {"type":"text","id":"tagline","label":"Top tagline","default":"A Brighter Everyday"},
+    {"type":"header","content":"Mega menu promotion"},
+    {"type":"text","id":"mega_promo_title","label":"Promotion title","default":"Fresh finds"},
+    {"type":"textarea","id":"mega_promo_text","label":"Promotion text","default":"Discover new useful products picked for happy everyday moments."},
+    {"type":"url","id":"mega_promo_link","label":"Promotion link"}
+  ]
+}
+{% endschema %}

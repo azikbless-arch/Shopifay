@@ -1,0 +1,178 @@
+{%- comment -%}The glass cart: a drawer that opens on every page, adding to the cart without leaving the page, live quantities and counters. Rendered by the glass layout.{%- endcomment -%}
+<div class="cd" data-cd aria-hidden="true">
+  <div class="cd__back" data-cd-close></div>
+  <aside class="cd__panel" role="dialog" aria-modal="true" aria-label="{{ 'cart.your_bag' | t }}" tabindex="-1" data-cd-panel>
+    <div class="cd__head">
+      <div>
+        <p class="pg-eyebrow" style="margin:0 0 4px">{{ 'cart.your_bag' | t }}</p>
+        <h2 class="cd__title">{{ 'general.cart' | t }} <span data-cd-count>{{ cart.item_count }}</span></h2>
+      </div>
+      <button class="cd__x" type="button" data-cd-close aria-label="{{ 'general.close' | t }}">
+        <svg aria-hidden="true" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M6 6l12 12"></path><path d="M18 6L6 18"></path></svg>
+      </button>
+    </div>
+    <p class="cd__msg" data-cd-msg role="status" aria-live="polite"></p>
+    <div class="cd__items" data-cd-items></div>
+    <div class="cd__foot" data-cd-foot>
+      <label class="pg-label" for="CdNote">{{ 'cart.order_note' | t }}</label>
+      <textarea class="pg-in cd__note" id="CdNote" rows="2" data-cd-note placeholder="{{ 'pg.cart.note_ph' | t }}">{{ cart.note }}</textarea>
+      <div class="cd__sum"><span>{{ 'cart.subtotal' | t }}</span><strong data-cd-total>{{ cart.total_price | money }}</strong></div>
+      <form action="{{ routes.cart_url }}" method="post">
+        <button class="pg-btn pg-btn--wide" type="submit" name="checkout">{{ 'cart.checkout' | t }}
+          <svg aria-hidden="true" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14"></path><path d="M13 6l6 6-6 6"></path></svg>
+        </button>
+      </form>
+      <p class="cd__fine">{{ 'pg.cart.taxes' | t }}</p>
+      <a class="pg-link" href="{{ routes.cart_url }}">{{ 'pg.cart.view' | t }}</a>
+    </div>
+  </aside>
+</div>
+<style>
+.cd{position:fixed;top:0;left:0;right:0;bottom:0;z-index:1100;visibility:hidden;pointer-events:none;transition:visibility 0s linear .4s}
+.cd.is-open{visibility:visible;pointer-events:auto;transition:none}
+.cd__back{position:absolute;top:0;left:0;right:0;bottom:0;background:rgba(4,6,12,.55);opacity:0;transition:opacity .3s ease;-webkit-backdrop-filter:blur(3px);backdrop-filter:blur(3px)}
+.cd.is-open .cd__back{opacity:1}
+.cd__panel{position:absolute;top:0;right:0;bottom:0;width:min(440px,100%);display:flex;flex-direction:column;padding:20px 18px calc(18px + env(safe-area-inset-bottom,0px));color:#F4F6FB;background:linear-gradient(160deg,rgba(255,255,255,.14),rgba(255,255,255,.02) 40%),rgba(14,17,27,.94);border-left:1px solid rgba(255,255,255,.2);box-shadow:inset 1px 0 0 rgba(255,255,255,.18),-24px 0 60px rgba(0,0,0,.5);-webkit-backdrop-filter:blur(24px) saturate(160%);backdrop-filter:blur(24px) saturate(160%);transform:translateX(104%);transition:transform .42s cubic-bezier(.2,.8,.2,1);outline:0}
+.cd.is-open .cd__panel{transform:none}
+@media (max-width:700px){.cd__panel{top:auto;left:0;width:100%;max-height:88vh;max-height:88dvh;border-radius:28px 28px 0 0;border-left:0;border-top:1px solid rgba(255,255,255,.22);transform:translateY(104%);padding-bottom:calc(88px + env(safe-area-inset-bottom,0px))}}
+.cd__head{display:flex;align-items:flex-start;justify-content:space-between;gap:12px;padding-bottom:12px}
+.cd__title{margin:0;font-family:var(--bls-display,'Jost',sans-serif);font-size:28px;font-weight:300}
+.cd__title span{color:var(--bls-gold,#E3B458);font-size:.7em}
+.cd__x{display:inline-flex;align-items:center;justify-content:center;width:42px;height:42px;padding:0;border-radius:50%;border:1px solid rgba(255,255,255,.22);background:rgba(255,255,255,.08);color:#fff;cursor:pointer}
+.cd__msg{margin:0;min-height:0;font-size:13px;color:#FFB4AC}
+.cd__msg:not(:empty){margin-bottom:10px}
+.cd__items{flex:1 1 auto;min-height:0;overflow-y:auto;overscroll-behavior:contain;display:flex;flex-direction:column;gap:10px;padding:2px 0 12px}
+.cd__line{display:grid;grid-template-columns:76px minmax(0,1fr);gap:12px;padding:8px;border-radius:20px;background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.12)}
+.cd__pic{display:block;width:76px;height:76px;overflow:hidden;border-radius:14px;background:#0A0C13}
+.cd__pic img{width:100%;height:100%;object-fit:cover}
+.cd__info{display:flex;flex-direction:column;gap:4px;min-width:0}
+.cd__name{display:-webkit-box;-webkit-box-orient:vertical;-webkit-line-clamp:2;overflow:hidden;font-size:14px;font-weight:600;line-height:1.3}
+.cd__var{font-size:12px;color:#B7BECF}
+.cd__row{display:flex;align-items:center;justify-content:space-between;gap:8px;margin-top:auto}
+.cd__row .pg-qty button{width:30px;height:30px;font-size:16px}
+.cd__row .pg-qty span{min-width:28px;width:30px;font-size:14px}
+.cd__money{font-size:15px;font-weight:700}
+.cd__rm{align-self:flex-start;padding:0;border:0;background:none;color:#B7BECF;font-size:12px;text-decoration:underline;cursor:pointer}
+.cd__rm:hover{color:#fff}
+.cd__empty{display:flex;flex-direction:column;align-items:center;gap:14px;padding:44px 10px;text-align:center;color:#B7BECF}
+.cd__foot{display:flex;flex-direction:column;gap:10px;padding-top:12px;border-top:1px solid rgba(255,255,255,.14)}
+.cd__foot[hidden]{display:none}
+.cd__note{min-height:56px!important;padding:10px 14px!important;font-size:14px!important;border-radius:16px!important}
+.cd__sum{display:flex;align-items:baseline;justify-content:space-between;font-size:15px}
+.cd__sum strong{font-size:22px}
+.cd__fine{margin:0;font-size:12px;color:#B7BECF}
+.cd__foot .pg-link{align-self:center}
+body.cd-lock{overflow:hidden}
+.bls-cart-count[data-zero],.ab-count[data-zero]{display:none}
+@media (prefers-reduced-motion:reduce){.cd__panel,.cd__back{transition:none}}
+</style>
+<script>
+(function(){
+  if(window.BlsCart)return;
+  var D=document,CUR='{{ cart.currency.iso_code }}',
+  U={add:'{{ routes.cart_add_url }}.js',change:'{{ routes.cart_change_url }}.js',update:'{{ routes.cart_update_url }}.js',cart:'{{ routes.cart_url }}.js'},
+  T={empty:{{ 'cart.empty' | t | json }},keep:{{ 'pg.cart.continue' | t | json }},remove:{{ 'pg.cart.remove' | t | json }},minus:{{ 'pg.cart.minus' | t | json }},plus:{{ 'pg.cart.plus' | t | json }},err:{{ 'pg.cart.error' | t | json }},shop:{{ routes.all_products_collection_url | json }}};
+  var api={cart:null,busy:false};
+  window.BlsCart=api;
+  function esc(s){return String(s==null?'':s).replace(/[&<>"']/g,function(c){return {'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c];});}
+  function money(c){try{return new Intl.NumberFormat('en-US',{style:'currency',currency:CUR}).format(c/100);}catch(e){return (c/100).toFixed(2);}}
+  api.money=money;
+  var root,panel,items,foot,msg;
+  function q(){root=root||D.querySelector('[data-cd]');if(!root)return false;panel=panel||root.querySelector('[data-cd-panel]');items=items||root.querySelector('[data-cd-items]');foot=foot||root.querySelector('[data-cd-foot]');msg=msg||root.querySelector('[data-cd-msg]');return true;}
+  function json(url,opt){return fetch(url,opt).then(function(r){return r.json().then(function(j){if(!r.ok){var e=new Error(j.description||j.message||T.err);e.data=j;throw e;}return j;});});}
+  function badges(n){
+    var a=D.querySelectorAll('.bls-cart'),i,b;
+    for(i=0;i<a.length;i++){b=a[i].querySelector('.bls-cart-count');if(!b){b=D.createElement('span');b.className='bls-cart-count';a[i].appendChild(b);}b.textContent=n;if(n>0)b.removeAttribute('data-zero');else b.setAttribute('data-zero','');}
+    a=D.querySelectorAll('.ab-tab[href$="/cart"]');
+    for(i=0;i<a.length;i++){b=a[i].querySelector('.ab-count');if(!b){b=D.createElement('i');b.className='ab-count';a[i].appendChild(b);}b.textContent=n;if(n>0)b.removeAttribute('data-zero');else b.setAttribute('data-zero','');}
+    a=D.querySelectorAll('[data-cd-count]');for(i=0;i<a.length;i++)a[i].textContent=n;
+  }
+  function render(c){
+    api.cart=c;badges(c.item_count);
+    if(!q())return;
+    var h='',i,it,tot=D.querySelector('[data-cd-total]'),note=D.querySelector('[data-cd-note]');
+    if(!c.items.length){
+      h='<div class="cd__empty"><span class="pg-empty__mark"><svg aria-hidden="true" width="30" height="30" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M5 8h14l-1 12H6L5 8z"></path><path d="M9 8V6a3 3 0 0 1 6 0v2"></path></svg></span><p style="margin:0">'+esc(T.empty)+'</p><a class="pg-btn pg-btn--ghost" href="'+esc(T.shop)+'">'+esc(T.keep)+'</a></div>';
+      foot.hidden=true;
+    }else{
+      foot.hidden=false;
+      for(i=0;i<c.items.length;i++){
+        it=c.items[i];
+        h+='<div class="cd__line"><a class="cd__pic" href="'+esc(it.url)+'">'+(it.image?'<img src="'+esc(it.image.replace(/(\.[a-z]+)(\?|$)/i,'_160x160$1$2'))+'" alt="" loading="lazy">':'')+'</a><div class="cd__info"><a class="cd__name" href="'+esc(it.url)+'">'+esc(it.product_title)+'</a>'+(it.variant_title&&it.variant_title!=='Default Title'?'<span class="cd__var">'+esc(it.variant_title)+'</span>':'')+'<div class="cd__row"><div class="pg-qty"><button type="button" data-cart-change="'+esc(it.key)+'" data-qty="'+(it.quantity-1)+'" aria-label="'+esc(T.minus)+'">&minus;</button><span>'+it.quantity+'</span><button type="button" data-cart-change="'+esc(it.key)+'" data-qty="'+(it.quantity+1)+'" aria-label="'+esc(T.plus)+'">+</button></div><span class="cd__money">'+money(it.final_line_price)+'</span></div><button class="cd__rm" type="button" data-cart-change="'+esc(it.key)+'" data-qty="0">'+esc(T.remove)+'</button></div></div>';
+      }
+    }
+    items.innerHTML=h;
+    if(tot)tot.textContent=money(c.total_price);
+    if(note&&D.activeElement!==note)note.value=c.note||'';
+  }
+  function refreshPage(){
+    var pg=D.querySelector('[data-pg-cart]');if(!pg)return Promise.resolve();
+    return fetch(location.pathname+'?section_id='+encodeURIComponent(pg.getAttribute('data-section')||'main')).then(function(r){return r.text();}).then(function(t){
+      var d=new DOMParser().parseFromString(t,'text/html'),n=d.querySelector('[data-pg-cart]');if(n)pg.innerHTML=n.innerHTML;
+    });
+  }
+  api.refresh=function(){return json(U.cart).then(function(c){render(c);return refreshPage();});};
+  var lastCartFocus=null;
+  api.open=function(){
+    if(!q())return;
+    D.dispatchEvent(new CustomEvent('bls:overlay:opening',{detail:{name:'cart'}}));
+    if(!root.classList.contains('is-open'))lastCartFocus=D.activeElement;
+    root.classList.add('is-open');root.setAttribute('aria-hidden','false');D.body.classList.add('cd-lock');
+    window.setTimeout(function(){if(root.classList.contains('is-open'))try{panel.focus({preventScroll:true});}catch(e){}},30);
+  };
+  api.close=function(){
+    if(!q()||!root.classList.contains('is-open'))return;
+    root.classList.remove('is-open');root.setAttribute('aria-hidden','true');D.body.classList.remove('cd-lock');
+    if(lastCartFocus&&lastCartFocus.isConnected){try{lastCartFocus.focus({preventScroll:true});}catch(e){}}
+    lastCartFocus=null;
+  };
+  function say(t){if(q())msg.textContent=t||'';}
+  function change(key,qty){
+    if(api.busy)return;api.busy=true;say('');
+    json(U.change,{method:'POST',headers:{'Content-Type':'application/json',Accept:'application/json'},body:JSON.stringify({id:key,quantity:qty})}).then(function(c){render(c);return refreshPage();}).catch(function(e){say(e.message||T.err);}).then(function(){api.busy=false;});
+  }
+  function add(form,btn){
+    if(api.busy)return;api.busy=true;say('');
+    if(btn)btn.classList.add('is-busy');
+    var fd=new FormData(form);fd.delete('checkout');
+    json(U.add,{method:'POST',headers:{Accept:'application/json'},body:fd}).then(function(){return json(U.cart);}).then(function(c){render(c);api.open();return refreshPage();}).catch(function(e){
+      api.open();say(e.message||T.err);
+    }).then(function(){api.busy=false;if(btn)btn.classList.remove('is-busy');});
+  }
+  D.addEventListener('submit',function(e){
+    var f=e.target;
+    if(!f||f.tagName!=='FORM'||!f.getAttribute('action')||f.getAttribute('action').indexOf('/cart/add')<0||f.hasAttribute('data-no-ajax'))return;
+    if(e.submitter&&e.submitter.name==='checkout')return;
+    if(!window.fetch||!window.FormData)return;
+    e.preventDefault();add(f,e.submitter);
+  },true);
+  D.addEventListener('click',function(e){
+    var t=e.target,c=t.closest&&t.closest('[data-cart-change]');
+    if(c){e.preventDefault();change(c.getAttribute('data-cart-change'),Math.max(0,parseInt(c.getAttribute('data-qty'),10)||0));return;}
+    if(t.closest&&t.closest('[data-cd-close]')){e.preventDefault();api.close();return;}
+    var o=t.closest&&t.closest('.bls-cart,.ab-tab[href$="/cart"],[data-cart-open]');
+    if(o&&q()&&!D.querySelector('[data-pg-cart]')&&e.button===0&&!e.metaKey&&!e.ctrlKey){e.preventDefault();api.open();}
+  });
+  D.addEventListener('keydown',function(e){
+    if(e.key==='Escape'){api.close();return;}
+    if(e.key!=='Tab'||!root||!root.classList.contains('is-open')||!panel)return;
+    var list=Array.from(panel.querySelectorAll('a[href],button:not([disabled]),input:not([disabled]),textarea:not([disabled])')).filter(function(el){return el.getClientRects().length>0;});
+    if(!list.length){e.preventDefault();panel.focus();return;}
+    var first=list[0],last=list[list.length-1];
+    if(e.shiftKey&&(D.activeElement===first||!panel.contains(D.activeElement))){e.preventDefault();last.focus();}
+    else if(!e.shiftKey&&(D.activeElement===last||!panel.contains(D.activeElement))){e.preventDefault();first.focus();}
+  });
+  D.addEventListener('bls:overlay:opening',function(e){if(e.detail&&e.detail.name!=='cart'&&root&&root.classList.contains('is-open'))api.close();});
+  D.addEventListener('change',function(e){
+    var t=e.target;
+    if(t&&t.hasAttribute&&(t.hasAttribute('data-cd-note')||t.hasAttribute('data-pg-note'))){
+      json(U.update,{method:'POST',headers:{'Content-Type':'application/json',Accept:'application/json'},body:JSON.stringify({note:t.value})}).catch(function(){});
+    }
+    if(t&&t.hasAttribute&&t.hasAttribute('data-cart-qty')){
+      change(t.getAttribute('data-cart-qty'),Math.max(0,parseInt(t.value,10)||0));
+    }
+  });
+  window.addEventListener('pageshow',function(e){if(e.persisted)api.refresh();});
+  render({{ cart | json }});
+})();
+</script>

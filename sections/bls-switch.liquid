@@ -1,0 +1,310 @@
+{%- liquid
+  assign bg_img = section.settings.home_image
+  assign fashion_bg_img = section.settings.fashion_image
+  assign sid = section.id
+-%}
+{%- capture arrow -%}<svg aria-hidden="true" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M7 17L17 7"></path><path d="M8 7h9v9"></path></svg>{%- endcapture -%}
+{%- capture plus -%}<svg aria-hidden="true" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M12 5v14"></path><path d="M5 12h14"></path></svg>{%- endcapture -%}
+<section class="gl-block sw" id="shop" aria-labelledby="Sw-{{ sid }}" data-sw data-sw-id="{{ sid }}">
+  {%- render 'bls-glass' -%}
+  <div class="sw__bg" data-sw-bg aria-hidden="true">
+    {%- if bg_img != blank -%}
+      <img data-sw-bg-image="home" alt="" decoding="async" sizes="100vw" data-src="{{ bg_img | image_url: width: 1600 }}" data-srcset="{{ bg_img | image_url: width: 800 }} 800w, {{ bg_img | image_url: width: 1200 }} 1200w, {{ bg_img | image_url: width: 1600 }} 1600w, {{ bg_img | image_url: width: 2400 }} 2400w">
+    {%- else -%}
+      <img data-sw-bg-image="home" alt="" decoding="async" data-src="{{ 'bls-home-bg.webp' | asset_url }}">
+    {%- endif -%}
+    {%- if fashion_bg_img != blank -%}
+      <img data-sw-bg-image="fashion" alt="" decoding="async" sizes="100vw" data-src="{{ fashion_bg_img | image_url: width: 1600 }}" data-srcset="{{ fashion_bg_img | image_url: width: 800 }} 800w, {{ fashion_bg_img | image_url: width: 1200 }} 1200w, {{ fashion_bg_img | image_url: width: 1600 }} 1600w">
+    {%- endif -%}
+  </div>
+  <div class="gl-wrap">
+    <div class="gl-head">
+      <div class="gl-title">
+        {%- if section.settings.label != blank -%}<p class="gl-eyebrow">{{ section.settings.label | escape }}</p>{%- endif -%}
+        <h2 class="gl-h2" id="Sw-{{ sid }}">{{ section.settings.heading | escape }}</h2>
+      </div>
+    </div>
+    <div class="gl-chips sw__tabs" role="tablist" aria-label="{{ section.settings.heading | escape }}">
+      <button type="button" class="gl-pill gl-glass sw__tab" role="tab" id="SwT-{{ sid }}-0" aria-controls="SwP-{{ sid }}-0" aria-selected="true" data-sw-tab data-handle="all" data-skin="space">{{ section.settings.first_label | escape }}</button>
+      {%- for block in section.blocks -%}
+        {%- assign c = block.settings.collection -%}
+        {%- assign t = block.settings.title | default: c.title -%}
+        <button type="button" class="gl-pill gl-glass sw__tab" role="tab" id="SwT-{{ sid }}-{{ forloop.index }}" aria-controls="SwP-{{ sid }}-{{ forloop.index }}" aria-selected="false" tabindex="-1" data-sw-tab data-handle="{{ c.handle }}" data-skin="{{ block.settings.skin }}" {{ block.shopify_attributes }}>{{ t | escape }}</button>
+      {%- endfor -%}
+    </div>
+    {%- for i in (0..section.blocks.size) -%}
+      {%- liquid
+        if i == 0
+          assign source = collections.all
+        else
+          assign pos = i | minus: 1
+          assign source = section.blocks[pos].settings.collection
+        endif
+        assign shop_url = routes.all_products_collection_url
+        if source != blank and i > 0
+          assign shop_url = source.url
+        endif
+        assign shown = 0
+      -%}
+      <div class="sw__panel" role="tabpanel" id="SwP-{{ sid }}-{{ i }}" aria-labelledby="SwT-{{ sid }}-{{ i }}" data-sw-panel{% if i > 0 %} hidden{% endif %}>
+        <div class="gl-railwrap" data-gl-rails>
+          <div class="gl-rail gl-prods" data-gl-rail tabindex="0" role="region" aria-label="{{ section.settings.heading | escape }}">
+            {%- if source != blank -%}
+            {%- for p in source.products limit: section.settings.products_to_show -%}
+              {%- liquid
+                assign shown = shown | plus: 1
+                assign load = 'lazy'
+                if i == 0 and forloop.index <= 4
+                  assign load = 'eager'
+                endif
+              -%}
+              <article class="gl-prod gl-pane">
+                <a class="gl-prod__media{% if section.settings.blend %} bls-shot{% endif %}" href="{{ p.url }}" aria-label="{{ p.title | escape }}">
+                  {%- if p.featured_image != blank -%}
+                    {{ p.featured_image | image_url: width: 600 | image_tag: loading: load, alt: p.title, widths: '300, 450, 600', sizes: '(max-width: 700px) 45vw, 240px' }}
+                  {%- endif -%}
+                  {%- if forloop.first and section.settings.flag != blank and i == 0 -%}<span class="gl-flag gl-glass">{{ section.settings.flag | escape }}</span>{%- endif -%}
+                </a>
+                <div class="gl-prod__body">
+                  <a class="gl-prod__title" href="{{ p.url }}">{{ p.title | escape }}</a>
+                  <div class="gl-prod__row">
+                    <span class="gl-price">{%- if p.price_varies -%}From {% endif -%}{{ p.price | money }}{%- if p.compare_at_price > p.price -%}<s>{{ p.compare_at_price | money }}</s>{%- endif -%}</span>
+                    {%- if p.available and p.variants.size == 1 -%}
+                      {%- form 'product', p, class: 'gl-add' -%}
+                        <input type="hidden" name="id" value="{{ p.selected_or_first_available_variant.id }}">
+                        <button class="gl-pill gl-pill--gold gl-glass" type="submit" aria-label="{{ section.settings.add_label | escape }}: {{ p.title | escape }}">{{ plus }}{{ section.settings.add_label | escape }}</button>
+                      {%- endform -%}
+                    {%- elsif p.available -%}
+                      <a class="gl-pill gl-pill--gold gl-glass" href="{{ p.url }}">{{ section.settings.options_label | escape }}</a>
+                    {%- else -%}
+                      <span class="gl-pill gl-glass" aria-disabled="true" style="opacity:.6">{{ section.settings.soldout_label | escape }}</span>
+                    {%- endif -%}
+                  </div>
+                </div>
+              </article>
+            {%- endfor -%}
+            {%- endif -%}
+            {%- if shown > 0 -%}
+              <a class="gl-end gl-pane" href="{{ shop_url }}">
+                <span class="gl-end__text">{{ section.settings.end_heading | escape }}</span>
+                <span class="gl-go" aria-hidden="true">{{ arrow }}</span>
+              </a>
+            {%- else -%}
+              <div class="gl-empty gl-pane">
+                <span class="gl-end__text">{{ section.settings.empty_heading | escape }}</span>
+                <span class="gl-pill gl-glass">{{ section.settings.empty_label | escape }}</span>
+              </div>
+            {%- endif -%}
+          </div>
+          <button type="button" class="gl-nav gl-nav--prev gl-glass" data-gl-prev aria-label="Previous"><svg aria-hidden="true" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M15 6l-6 6 6 6"></path></svg></button>
+          <button type="button" class="gl-nav gl-nav--next gl-glass" data-gl-next aria-label="Next"><svg aria-hidden="true" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 6l6 6-6 6"></path></svg></button>
+        </div>
+      </div>
+    {%- endfor -%}
+  </div>
+</section>
+<style>
+.sw__tabs{margin:2px 0 8px}
+.sw__tab{min-height:42px;padding:0 18px;font-size:13.5px}
+.sw__tab[aria-selected="true"]{background:linear-gradient(135deg,rgba(246,214,150,.62) 0%,rgba(227,180,88,.2) 55%,rgba(246,214,150,.4) 100%),rgba(60,44,16,.55);color:#FFF1CF;box-shadow:inset 0 1px 0 rgba(255,238,196,.7),0 8px 22px rgba(227,180,88,.18)}
+.sw__tab:focus-visible{outline:2px solid var(--bls-gold,#E3B458);outline-offset:2px}
+.sw__panel[hidden]{display:none}
+.sw__panel{animation:sw-in .4s ease both}
+@keyframes sw-in{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:none}}
+/* the photo behind the page for the Home skin. It sits above the space scene and below all content */
+.sw__bg{position:fixed;top:0;left:0;width:100%;height:100%;z-index:-1;overflow:hidden;opacity:0;visibility:hidden;pointer-events:none;background:#d9e4ef;transition:opacity .9s ease,visibility 0s linear .9s}
+.sw__bg.is-on{opacity:1;visibility:visible;transition:opacity .9s ease}
+.sw__bg img{position:absolute;inset:0;display:block;width:100%;height:100%;object-fit:cover;object-position:50% 42%;opacity:0;transition:opacity .55s ease}
+.sw__bg[data-active-skin="home"] img[data-sw-bg-image="home"],.sw__bg[data-active-skin="fashion"] img[data-sw-bg-image="fashion"]{opacity:1}
+.sw__bg[data-active-skin="fashion"]{background:#080a16}
+.sw__bg[data-active-skin="fashion"] img{object-position:50% 50%}
+.sw__bg[data-active-skin="fashion"]::after{background:linear-gradient(180deg,rgba(5,7,17,.25),rgba(5,7,17,.35) 55%,rgba(5,7,17,.7))}
+body[data-skin="fashion"]{--bls-gold:#e8bfaa;color:#f9e9e5}
+@media(max-width:700px){.sw__bg[data-active-skin="fashion"] img{object-position:47% 45%}}
+.sw__bg::after{content:"";position:absolute;top:0;left:0;right:0;bottom:0;background:linear-gradient(180deg,rgba(255,250,242,.2) 0%,rgba(255,246,232,.06) 38%,rgba(110,76,44,.22) 100%)}
+@media (max-width:700px){.sw__bg img{object-position:40% 40%}}
+
+/* the Home skin: the whole page turns into warm, bright glass with a touch of wood */
+body[data-skin="home"]{--bls-gold:#9A6A3C;color:#3A2A1D}
+body[data-skin="home"] .gl-block{color:#3A2A1D}
+body[data-skin="home"] .gl-h2{color:#3A2A1D;text-shadow:0 1px 18px rgba(255,250,240,.8)}
+body[data-skin="home"] .gl-eyebrow{color:#8E5F33;text-shadow:0 1px 12px rgba(255,250,240,.8)}
+body[data-skin="home"] .gl-glass,body[data-skin="home"] .gl-pane{color:#3A2A1D;background:linear-gradient(145deg,rgba(255,255,255,.66) 0%,rgba(255,255,255,.2) 44%,rgba(255,241,222,.42) 100%),rgba(255,247,236,.3);box-shadow:inset 0 1px 0 rgba(255,255,255,.9),inset 0 -1px 0 rgba(255,255,255,.25),0 12px 30px rgba(96,66,38,.2)}
+body[data-skin="home"] .gl-glass{-webkit-backdrop-filter:blur(18px) saturate(150%);backdrop-filter:blur(18px) saturate(150%)}
+body[data-skin="home"] .gl-glass::after,body[data-skin="home"] .gl-pane::after,body[data-skin="home"] .gl-cat::after{background:linear-gradient(135deg,rgba(255,255,255,.95) 0%,rgba(255,255,255,.3) 30%,rgba(255,255,255,.12) 56%,rgba(255,255,255,.8) 100%)}
+body[data-skin="home"] .sw__tab[aria-selected="true"],body[data-skin="home"] .gl-pill--gold{background:linear-gradient(135deg,rgba(224,184,134,.95) 0%,rgba(176,128,79,.88) 55%,rgba(206,160,110,.95) 100%);color:#FFF9EE;text-shadow:0 1px 1px rgba(80,50,24,.35);box-shadow:inset 0 1px 0 rgba(255,236,208,.8),0 8px 20px rgba(120,80,42,.3)}
+body[data-skin="home"] .gl-pill--gold::after{background:linear-gradient(135deg,rgba(255,244,222,.95),rgba(255,230,196,.3) 40%,rgba(255,230,196,.15) 60%,rgba(255,244,222,.8))}
+body[data-skin="home"] .gl-tag{border-color:rgba(90,60,30,.4)}
+body[data-skin="home"] .gl-info__text,body[data-skin="home"] .gl-note,body[data-skin="home"] .gl-cat__sub{color:#5C4430}
+body[data-skin="home"] .gl-join input[type=email]{color:#3A2A1D}
+body[data-skin="home"] .gl-join input::placeholder{color:rgba(58,42,29,.6)}
+body[data-skin="home"] .gl-go,body[data-skin="home"] .gl-join button{background:#FFF9F0;color:#6B4A2A}
+body[data-skin="home"] .gl-prod__media{background:#EFE5D8}
+body[data-skin="home"] .bls-shot.bls-shot{background:radial-gradient(120% 90% at 50% 42%,#FBF5EC 0%,#EBDDCB 62%,#D9C5AB 100%)}
+body[data-skin="home"] .gl-cat,body[data-skin="home"] .gl-prod{box-shadow:0 14px 32px rgba(96,66,38,.24)}
+body[data-skin="home"] .gl-railwrap::after{background:linear-gradient(90deg,rgba(255,246,232,0),rgba(255,246,232,.5))}
+body[data-skin="home"] .bls-bar{color:#3A2A1D;background:linear-gradient(135deg,rgba(255,255,255,.66),rgba(255,255,255,.2) 50%,rgba(255,241,222,.42)),rgba(255,247,236,.34);border-color:rgba(255,255,255,.75);box-shadow:inset 0 1px 0 rgba(255,255,255,.9),0 14px 34px rgba(96,66,38,.22)}
+body[data-skin="home"] .bls-scrolled .bls-bar{background-color:rgba(255,247,236,.5)}
+body[data-skin="home"] .bls-nav a,body[data-skin="home"] .bls-logo{color:#3A2A1D}
+body[data-skin="home"] .bls-nav a:hover{color:#8E5F33}
+body[data-skin="home"] .bls-search{background:rgba(255,255,255,.5);border-color:rgba(255,255,255,.8)}
+body[data-skin="home"] .bls-search input::placeholder{color:rgba(58,42,29,.6)}
+body[data-skin="home"] .bls-round--glass,body[data-skin="home"] .bls-search button{background:rgba(255,255,255,.55);border-color:rgba(255,255,255,.85);color:#3A2A1D}
+body[data-skin="home"] .bls-menu__panel{background:linear-gradient(135deg,rgba(255,255,255,.7),rgba(255,241,222,.5)),rgba(255,247,236,.9);color:#3A2A1D}
+body[data-skin="home"] .bls-banner,body[data-skin="home"] .bls-panel--smoke{color:#3A2A1D;background:linear-gradient(135deg,rgba(255,255,255,.66),rgba(255,255,255,.2) 50%,rgba(255,241,222,.42)),rgba(255,247,236,.32);border-color:rgba(255,255,255,.75);box-shadow:inset 0 1px 0 rgba(255,255,255,.9),0 22px 60px rgba(96,66,38,.24)}
+body[data-skin="home"] .bls-banner__meta,body[data-skin="home"] .bls-footer__tagline,body[data-skin="home"] .bls-footer__col-title,body[data-skin="home"] .bls-footer__bottom{color:#6B523C}
+body[data-skin="home"] .bls-footer__bottom{border-top-color:rgba(90,60,30,.2)}
+body[data-skin="home"] .bls-footer__col a:hover{color:#8E5F33}
+@media (prefers-reduced-motion:reduce){.sw__panel{animation:none}.sw__bg{transition:none}}
+</style>
+<script>
+(function(){
+  var W=window;
+  if(!W.BlsSwitch){
+    W.BlsSwitch=1;
+    var inst=[];
+    var B=function(){return document.body};
+    function sync(){
+      var shownSkin='';
+      for(var i=0;i<inst.length;i++){
+        var s=inst[i];
+        if(!document.contains(s.sec))continue;
+        var r=s.sec.getBoundingClientRect();
+        var hasImage=!!s.bg.querySelector('[data-sw-bg-image="'+s.skin+'"]');
+        var here=(s.skin==='home'||s.skin==='fashion')&&hasImage&&r.top<(W.innerHeight||800)*.7;
+        s.bg.setAttribute('data-active-skin',s.skin);
+        s.bg.classList.toggle('is-on',here);
+        if(here)shownSkin=s.skin;
+      }
+      if(shownSkin){if(B().getAttribute('data-skin')!==shownSkin)B().setAttribute('data-skin',shownSkin);}
+      else if(B().getAttribute('data-skin')==='home'||B().getAttribute('data-skin')==='fashion')B().removeAttribute('data-skin');
+    }
+    var queued=0;
+    function queue(){if(queued)return;queued=1;requestAnimationFrame(function(){queued=0;sync();});}
+    W.addEventListener('scroll',queue,{passive:true});
+    W.addEventListener('resize',queue);
+    function load(s){
+      var img=s.bg.querySelector('[data-sw-bg-image="'+s.skin+'"]');
+      if(!img||img.__on)return;
+      img.__on=1;
+      if(img.dataset.srcset)img.srcset=img.dataset.srcset;
+      img.src=img.dataset.src;
+    }
+    function setup(sec){
+      if(sec.__sw)return;
+      sec.__sw=1;
+      var sid=sec.getAttribute('data-sw-id');
+      var bg=sec.querySelector('[data-sw-bg]');
+      var tabs=[].slice.call(sec.querySelectorAll('[data-sw-tab]'));
+      var panels=[].slice.call(sec.querySelectorAll('[data-sw-panel]'));
+      if(!bg||!tabs.length)return;
+      [].slice.call(document.querySelectorAll('[data-sw-bg-for="'+sid+'"]')).forEach(function(n){n.parentNode.removeChild(n);});
+      bg.setAttribute('data-sw-bg-for',sid);
+      B().appendChild(bg);
+      var s={sec:sec,bg:bg,skin:'space'};
+      for(var k=inst.length-1;k>=0;k--){if(!document.contains(inst[k].sec))inst.splice(k,1);}
+      inst.push(s);
+      function pick(i,focus){
+        tabs.forEach(function(t,n){
+          var on=n===i;
+          t.setAttribute('aria-selected',on?'true':'false');
+          t.tabIndex=on?0:-1;
+          if(panels[n])panels[n].hidden=!on;
+        });
+        s.skin=tabs[i].getAttribute('data-skin')||'space';
+        if(s.skin==='home'||s.skin==='fashion')load(s);
+        if(focus)tabs[i].focus({preventScroll:true});
+        var t=tabs[i];
+        if(t.scrollIntoView&&t.parentNode.scrollWidth>t.parentNode.clientWidth){
+          var box=t.parentNode;
+          box.scrollTo?box.scrollTo({left:t.offsetLeft-(box.clientWidth-t.offsetWidth)/2,behavior:'smooth'}):0;
+        }
+        sync();
+      }
+      tabs.forEach(function(t,i){
+        t.addEventListener('click',function(){pick(i);});
+        t.addEventListener('keydown',function(e){
+          var n=-1;
+          if(e.key==='ArrowRight')n=(i+1)%tabs.length;
+          else if(e.key==='ArrowLeft')n=(i-1+tabs.length)%tabs.length;
+          else if(e.key==='Home')n=0;
+          else if(e.key==='End')n=tabs.length-1;
+          if(n>=0){e.preventDefault();pick(n,true);}
+        });
+      });
+      /* category cards above the tabs switch the tab instead of leaving the page */
+      document.addEventListener('click',function(e){
+        var a=e.target.closest&&e.target.closest('[data-sw-go]');
+        if(!a||!document.contains(sec))return;
+        if(e.defaultPrevented||e.button!==0||e.metaKey||e.ctrlKey||e.shiftKey||e.altKey)return;
+        var h=a.getAttribute('data-sw-go'),idx=-1;
+        tabs.forEach(function(t,n){if(t.getAttribute('data-handle')===h)idx=n;});
+        if(idx<0)return;
+        e.preventDefault();
+        pick(idx);
+        sec.scrollIntoView({behavior:'smooth',block:'start'});
+      });
+      if('IntersectionObserver'in W){
+        var io=new IntersectionObserver(function(en){if(en[0].isIntersecting){load(s);io.disconnect();}},{rootMargin:'900px 0px'});
+        io.observe(sec);
+      }
+      sync();
+    }
+    W.BlsSwitch={setup:setup,sync:sync,drop:function(sec){
+      var sid=sec.getAttribute&&sec.getAttribute('data-sw-id');
+      if(sid)[].slice.call(document.querySelectorAll('[data-sw-bg-for="'+sid+'"]')).forEach(function(n){n.parentNode.removeChild(n);});
+      sync();
+    }};
+    document.addEventListener('shopify:section:unload',function(e){var s=e.target.querySelector&&e.target.querySelector('[data-sw]');if(s)W.BlsSwitch.drop(s);});
+    document.addEventListener('shopify:section:load',function(e){var l=(e.target||document).querySelectorAll('[data-sw]');for(var i=0;i<l.length;i++)W.BlsSwitch.setup(l[i]);});
+  }
+  var run=function(){var l=document.querySelectorAll('[data-sw]');for(var i=0;i<l.length;i++)W.BlsSwitch.setup(l[i]);};
+  if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',run);else run();
+})();
+</script>
+{% schema %}
+{
+  "name": "Glass category switch",
+  "max_blocks": 6,
+  "settings": [
+    {"type": "text", "id": "label", "label": "Small label", "default": "Shop"},
+    {"type": "text", "id": "heading", "label": "Heading", "default": "Pick your world"},
+    {"type": "text", "id": "first_label", "label": "First tab (all products)", "default": "Latest"},
+    {"type": "image_picker", "id": "home_image", "label": "Photo for the bright Home look", "info": "Shown behind the whole page when a tab with the bright look is open. Wide photo, at least 1600 px."},
+    {"type": "image_picker", "id": "fashion_image", "label": "Background for Fashion look", "info": "Dark rose-gold cosmic scene when the Fashion tab is active."},
+    {"type": "range", "id": "products_to_show", "label": "Products in a row", "min": 2, "max": 16, "step": 1, "default": 10},
+    {"type": "text", "id": "flag", "label": "Badge on the first new product", "default": "New"},
+    {"type": "checkbox", "id": "blend", "label": "Blend white product photo backgrounds into the card", "default": true},
+    {"type": "header", "content": "Buttons"},
+    {"type": "text", "id": "add_label", "label": "Add to cart", "default": "Add"},
+    {"type": "text", "id": "options_label", "label": "Product with options", "default": "Options"},
+    {"type": "text", "id": "soldout_label", "label": "Sold out", "default": "Sold out"},
+    {"type": "text", "id": "end_heading", "label": "Last card", "default": "See everything"},
+    {"type": "header", "content": "When there are no products yet"},
+    {"type": "text", "id": "empty_heading", "label": "Heading", "default": "New finds are on the way"},
+    {"type": "text", "id": "empty_label", "label": "Label", "default": "Coming soon"}
+  ],
+  "blocks": [
+    {
+      "type": "tab",
+      "name": "Category tab",
+      "settings": [
+        {"type": "collection", "id": "collection", "label": "Collection"},
+        {"type": "text", "id": "title", "label": "Tab name", "info": "Leave empty to use the collection name."},
+        {
+          "type": "select",
+          "id": "skin",
+          "label": "Look of the page",
+          "default": "space",
+          "options": [
+            {"value": "space", "label": "Dark space"},
+            {"value": "home", "label": "Bright home (photo, warm glass)"},
+            {"value": "fashion", "label": "Fashion editorial (rose-gold cosmos)"}
+          ]
+        }
+      ]
+    }
+  ],
+  "presets": [{"name": "Glass category switch", "blocks": [{"type": "tab"}, {"type": "tab"}, {"type": "tab"}, {"type": "tab"}]}]
+}
+{% endschema %}

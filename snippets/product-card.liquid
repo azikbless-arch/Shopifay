@@ -1,0 +1,38 @@
+<article class="bs-product-card">
+  <div class="bs-product-card__media">
+    <a href="{{ product.url }}" aria-label="{{ product.title | escape }}">
+      {% if product.featured_image %}
+        {{ product.featured_image | image_url: width: 900 | image_tag: loading: 'lazy', widths: '240,360,520,700,900', sizes: '(max-width: 749px) 48vw, 20vw', alt: product.title, class: 'bs-primary-image' }}
+        {% if product.images.size > 1 %}
+          {{ product.images[1] | image_url: width: 900 | image_tag: loading: 'lazy', widths: '240,360,520,700,900', sizes: '(max-width: 749px) 48vw, 20vw', alt: product.title, class: 'bs-hover-image' }}
+        {% endif %}
+      {% else %}
+        <div class="bs-placeholder">♡</div>
+      {% endif %}
+    </a>
+    {% render 'product-badges', product: product %}
+    <button class="bs-wishlist" type="button" data-bs-v4-wishlist-toggle data-bs-v4-wishlist-url="{{ product.url | escape }}" data-bs-v4-wishlist-title="{{ product.title | escape }}" data-bs-v4-wishlist-image="{% if product.featured_image %}{{ product.featured_image | image_url: width: 520 }}{% endif %}" data-bs-v4-wishlist-price="{{ product.price | money | escape }}" aria-label="Add {{ product.title | escape }} to favorites" aria-pressed="false">♡</button>
+    {% if settings.quick_view %}<button class="bs-quick-view-trigger" type="button" data-quick-view data-product-url="{{ product.url }}">Quick view</button>{% endif %}
+  </div>
+
+  <div class="bs-product-card__body">
+    <a href="{{ product.url }}" class="bs-product-card__title">{{ product.title }}</a>
+    {% if product.metafields.reviews.rating.value != blank %}
+      <div class="bs-rating">★★★★★ <span>{{ product.metafields.reviews.rating.value }}</span></div>
+    {% endif %}
+    <div class="bs-product-card__bottom">
+      <div class="bs-price">
+        <strong>{{ product.price | money }}</strong>
+        {% if product.compare_at_price_max > product.price %}<s>{{ product.compare_at_price_max | money }}</s>{% endif %}
+      </div>
+      {% assign card_variant = product.selected_or_first_available_variant %}
+      {% if card_variant.available %}
+        {% form 'product', product, class: 'bs-add-form' %}
+          <input type="hidden" name="id" value="{{ card_variant.id }}">
+          <input type="hidden" name="quantity" value="1">
+          <button class="bs-card-cart" type="submit" aria-label="Add {{ product.title | escape }} to cart">{% render 'icon', name: 'bag' %}</button>
+        {% endform %}
+      {% endif %}
+    </div>
+  </div>
+</article>

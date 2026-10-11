@@ -1,0 +1,205 @@
+{%- comment -%}Recently viewed products (kept on the device) and customer reviews on the product page. Rendered once by the glass layout.{%- endcomment -%}
+{%- liquid
+  assign ru = false
+  if request.locale.iso_code == 'ru'
+    assign ru = true
+  endif
+-%}
+<style>
+.xr{max-width:1240px;margin:0 auto;padding:30px 16px 8px}
+.xr__panel{padding:16px 16px 18px;border-radius:30px;color:#F4F6FB;background:linear-gradient(160deg,rgba(255,255,255,.1),rgba(255,255,255,.02) 45%),rgba(20,23,34,.6);border:1px solid rgba(255,255,255,.16);box-shadow:inset 0 1px 0 rgba(255,255,255,.14)}
+.xr__head{display:flex;align-items:center;justify-content:space-between;gap:12px;margin:0 6px 12px}
+.xr__head p{margin:0;font-size:10px;font-weight:700;letter-spacing:.14em;text-transform:uppercase;opacity:.7}
+.xr__clear{padding:0;border:0;background:none;color:#B7BECF;font-size:12px;text-decoration:underline;cursor:pointer}
+.xr__row{display:flex;gap:10px;overflow-x:auto;scroll-snap-type:x proximity;scrollbar-width:none;-webkit-overflow-scrolling:touch}
+.xr__row::-webkit-scrollbar{display:none}
+.xr__c{flex:0 0 148px;display:flex;flex-direction:column;gap:3px;padding:6px 6px 10px;border-radius:22px;color:inherit;text-decoration:none;background:rgba(255,255,255,.05);border:1px solid rgba(255,255,255,.1);scroll-snap-align:start}
+.xr__img{display:block;aspect-ratio:1/1;overflow:hidden;border-radius:17px;background:#0A0C13;margin-bottom:6px}
+.xr__img img{display:block;width:100%;height:100%;object-fit:cover}
+.xr__c b{display:-webkit-box;-webkit-box-orient:vertical;-webkit-line-clamp:2;overflow:hidden;padding:0 4px;font-size:12.5px;font-weight:600;line-height:1.3}
+.xr__c em{padding:0 4px;font-style:normal;font-size:12.5px;font-weight:700;color:var(--bls-gold,#E3B458)}
+@media (min-width:900px){.xr__c{flex-basis:176px}}
+
+.xv{margin:46px 0 0;padding:22px 22px 24px;border-radius:30px;color:#F4F6FB;background:linear-gradient(160deg,rgba(255,255,255,.1),rgba(255,255,255,.02) 45%),rgba(20,23,34,.6);border:1px solid rgba(255,255,255,.16);box-shadow:inset 0 1px 0 rgba(255,255,255,.14)}
+.xv__head{display:flex;flex-wrap:wrap;align-items:flex-end;justify-content:space-between;gap:14px 24px}
+.xv__eye{margin:0 0 6px;font-size:10px;font-weight:700;letter-spacing:.14em;text-transform:uppercase;opacity:.6}
+.xv__title{margin:0;font:300 clamp(24px,3vw,34px)/1.1 var(--bls-display,'Jost',sans-serif)}
+.xv__sum{display:flex;align-items:center;gap:12px}
+.xv__avg{font:300 44px/1 var(--bls-display,'Jost',sans-serif)}
+.xv__st{display:inline-block;font-size:18px;letter-spacing:2px;line-height:1;background:linear-gradient(90deg,#E3B458 var(--p,0%),rgba(255,255,255,.25) var(--p,0%));-webkit-background-clip:text;background-clip:text;color:transparent;-webkit-text-fill-color:transparent}
+.xv__n{display:block;margin-top:3px;font-size:12px;opacity:.65}
+.xv__write{height:46px;padding:0 24px;border:0;border-radius:999px;background:#F4F6FB;color:#0C0E16;font:700 13px/1 var(--bls-body,'Manrope',sans-serif);cursor:pointer}
+.xv__list{display:grid;grid-template-columns:repeat(auto-fill,minmax(280px,1fr));gap:12px;margin-top:20px}
+.xv__card{display:flex;flex-direction:column;gap:8px;padding:16px 18px;border-radius:22px;background:rgba(255,255,255,.05);border:1px solid rgba(255,255,255,.12)}
+.xv__card h3{margin:0;font-size:15px;font-weight:700}
+.xv__card p{margin:0;font-size:13.5px;line-height:1.6;color:#DCE0EA}
+.xv__by{margin-top:auto;font-size:11px;letter-spacing:.06em;opacity:.6}
+.xv__empty{margin:18px 0 0;font-size:14px;color:#C9CFDC}
+.xv__form{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px;margin:20px 0 0;padding-top:20px;border-top:1px solid rgba(255,255,255,.12)}
+.xv__form[hidden]{display:none}
+.xv__form .xv__full{grid-column:1/-1}
+.xv__f{display:flex;flex-direction:column;gap:6px;min-width:0}
+.xv__f span{font-size:10px;font-weight:700;letter-spacing:.14em;text-transform:uppercase;opacity:.6}
+.xv__f input,.xv__f textarea{width:100%;box-sizing:border-box;padding:13px 16px;border-radius:16px;border:1px solid rgba(255,255,255,.22);background:rgba(255,255,255,.06);color:#fff;font:500 16px/1.4 var(--bls-body,'Manrope',sans-serif);outline:0}
+.xv__f input:focus,.xv__f textarea:focus{border-color:var(--bls-gold,#E3B458)}
+.xv__f textarea{min-height:110px;resize:vertical}
+.xv__stars{display:flex;gap:6px}
+.xv__stars button{width:42px;height:42px;padding:0;border-radius:50%;border:1px solid rgba(255,255,255,.24);background:rgba(255,255,255,.06);color:rgba(255,255,255,.4);font-size:20px;line-height:1;cursor:pointer}
+.xv__stars button.is-on{color:#E3B458;border-color:rgba(227,180,88,.8);background:rgba(227,180,88,.16)}
+.xv__send{height:50px;padding:0 28px;border:0;border-radius:999px;background:#E3B458;color:#1A1204;font:700 14px/1 var(--bls-body,'Manrope',sans-serif);cursor:pointer;justify-self:start}
+.xv__send[disabled]{opacity:.55;cursor:default}
+.xv__msg{grid-column:1/-1;margin:0;font-size:13.5px}
+.xv__msg.is-ok{color:#BFF0D2}
+.xv__msg.is-err{color:#FFB4AC}
+.xv__hint{margin:0;grid-column:1/-1;font-size:12px;opacity:.6}
+@media (max-width:700px){.xv{padding:18px 16px 20px;border-radius:26px}.xv__form{grid-template-columns:minmax(0,1fr)}.xv__list{grid-template-columns:minmax(0,1fr)}}
+</style>
+{%- if request.page_type == 'product' -%}
+{%- liquid
+  assign rv = product.metafields.bless.reviews.value
+  assign rn = 0
+  assign rs = 0
+  for r in rv
+    assign rn = rn | plus: 1
+    assign rs = rs | plus: r.rating
+  endfor
+  assign avg = 0
+  assign pct = 0
+  if rn > 0
+    assign avg = rs | times: 1.0 | divided_by: rn
+    assign pct = avg | times: 20
+  endif
+  if ru
+    assign t_eye = 'Отзывы'
+    assign t_h = 'Что говорят покупатели'
+    assign t_write = 'Написать отзыв'
+    assign t_none = 'Отзывов пока нет. Будьте первым, кто поделится впечатлением.'
+    assign t_name = 'Имя'
+    assign t_mail = 'Эл. почта (не публикуется)'
+    assign t_rate = 'Оценка'
+    assign t_text = 'Ваш отзыв'
+    assign t_send = 'Отправить отзыв'
+    assign t_hint = 'Отзывы публикуются после проверки.'
+    assign t_one = 'отзыв'
+    assign t_many = 'отзывов'
+  else
+    assign t_eye = 'Reviews'
+    assign t_h = 'What customers say'
+    assign t_write = 'Write a review'
+    assign t_none = 'No reviews yet. Be the first to share your thoughts.'
+    assign t_name = 'Name'
+    assign t_mail = 'Email (not published)'
+    assign t_rate = 'Rating'
+    assign t_text = 'Your review'
+    assign t_send = 'Send review'
+    assign t_hint = 'Reviews are published after a quick check.'
+    assign t_one = 'review'
+    assign t_many = 'reviews'
+  endif
+-%}
+<template data-xrv>
+<section class="xv" id="reviews" aria-labelledby="xv-h">
+  <div class="xv__head">
+    <div>
+      <p class="xv__eye">{{ t_eye }}</p>
+      <h2 class="xv__title" id="xv-h">{{ t_h }}</h2>
+    </div>
+    {%- if rn > 0 -%}
+    <div class="xv__sum">
+      <span class="xv__avg">{{ avg | round: 1 }}</span>
+      <span><span class="xv__st" style="--p:{{ pct }}%" aria-hidden="true">★★★★★</span><span class="xv__n">{{ rn }} {% if rn == 1 %}{{ t_one }}{% else %}{{ t_many }}{% endif %}</span></span>
+    </div>
+    {%- endif -%}
+    <button class="xv__write" type="button" data-xv-open aria-expanded="false">{{ t_write }}</button>
+  </div>
+  {%- if rn > 0 -%}
+  <div class="xv__list">
+    {%- for r in rv -%}
+    <article class="xv__card">
+      <span class="xv__st" style="--p:{{ r.rating | times: 20 }}%" aria-label="{{ r.rating }}/5">★★★★★</span>
+      {%- if r.title != blank -%}<h3>{{ r.title | escape }}</h3>{%- endif -%}
+      {%- if r.text != blank -%}<p>{{ r.text | escape }}</p>{%- endif -%}
+      <span class="xv__by">{{ r.name | escape }}{% if r.date != blank %} · {{ r.date | escape }}{% endif %}</span>
+    </article>
+    {%- endfor -%}
+  </div>
+  {%- else -%}
+  <p class="xv__empty">{{ t_none }}</p>
+  {%- endif -%}
+  {%- form 'contact', class: 'xv__form', id: 'XvForm', novalidate: 'novalidate' -%}
+    <input type="hidden" name="contact[Product]" value="{{ product.title | escape }} ({{ product.handle }})">
+    <input type="hidden" name="contact[Rating]" value="" data-xv-rating>
+    <label class="xv__f"><span>{{ t_name }}</span><input type="text" name="contact[name]" autocomplete="name" required></label>
+    <label class="xv__f"><span>{{ t_mail }}</span><input type="email" name="contact[email]" autocomplete="email" required></label>
+    <div class="xv__f xv__full"><span>{{ t_rate }}</span><div class="xv__stars" role="radiogroup" aria-label="{{ t_rate }}">
+      {%- for i in (1..5) -%}<button type="button" data-xv-star="{{ i }}" role="radio" aria-checked="false" aria-label="{{ i }}">★</button>{%- endfor -%}
+    </div></div>
+    <label class="xv__f xv__full"><span>{{ t_text }}</span><textarea name="contact[body]" required></textarea></label>
+    <button class="xv__send" type="submit">{{ t_send }}</button>
+    <p class="xv__hint">{{ t_hint }}</p>
+    <p class="xv__msg" data-xv-msg role="status" aria-live="polite"></p>
+  {%- endform -%}
+</section>
+</template>
+{%- endif -%}
+<script>
+(function(){
+  if(window.__xr)return;window.__xr=1;
+  var D=document,RU={{ ru }},KEY='bls_recent',PT='{{ request.page_type }}';
+  function L(a,b){return RU?b:a;}
+  function esc(s){return String(s==null?'':s).replace(/[&<>"']/g,function(c){return {'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c];});}
+  function get(){try{var a=JSON.parse(localStorage.getItem(KEY)||'[]');return Array.isArray(a)?a:[];}catch(e){return [];}}
+  function put(a){try{localStorage.setItem(KEY,JSON.stringify(a));}catch(e){}}
+  var cur='';
+  {%- if request.page_type == 'product' -%}
+  cur={{ product.handle | json }};
+  (function(){
+    var me={h:cur,u:{{ product.url | json }},t:{{ product.title | json }},i:{% if product.featured_image %}{{ product.featured_image | image_url: width: 400 | json }}{% else %}''{% endif %},p:{{ product.price | money | json }}};
+    var a=get().filter(function(x){return x&&x.h!==me.h;});a.unshift(me);put(a.slice(0,12));
+  })();
+  {%- endif -%}
+  function strip(){
+    var m=D.getElementById('MainContent');if(!m||D.querySelector('.xr'))return;
+    if(PT!=='product'&&PT!=='cart')return;
+    var r=get().filter(function(x){return x&&x.h!==cur;}).slice(0,10);if(!r.length)return;
+    var h='',i,s;
+    for(i=0;i<r.length;i++)h+='<a class="xr__c" href="'+esc(r[i].u)+'"><span class="xr__img">'+(r[i].i?'<img src="'+esc(r[i].i)+'" alt="" loading="lazy">':'')+'</span><b>'+esc(r[i].t)+'</b><em>'+esc(r[i].p)+'</em></a>';
+    s=D.createElement('section');s.className='xr';
+    s.innerHTML='<div class="xr__panel"><div class="xr__head"><p>'+L('Recently viewed','Вы недавно смотрели')+'</p><button class="xr__clear" type="button" data-xr-clear>'+L('Clear','Очистить')+'</button></div><div class="xr__row">'+h+'</div></div>';
+    m.appendChild(s);
+  }
+  function reviews(){
+    var t=D.querySelector('template[data-xrv]');if(!t||D.getElementById('reviews'))return;
+    var ref=D.querySelector('[data-pgp-related]'),node=t.content.cloneNode(true);
+    if(ref&&ref.parentNode)ref.parentNode.insertBefore(node,ref);
+    else{var m=D.getElementById('MainContent');if(m)m.appendChild(node);}
+    var f=D.getElementById('XvForm'),box=D.getElementById('reviews');if(!f||!box)return;
+    var op=box.querySelector('[data-xv-open]'),rt=f.querySelector('[data-xv-rating]'),msg=f.querySelector('[data-xv-msg]'),stars=f.querySelectorAll('[data-xv-star]');
+    f.hidden=true;
+    op.addEventListener('click',function(){f.hidden=!f.hidden;op.setAttribute('aria-expanded',f.hidden?'false':'true');if(!f.hidden){try{f.querySelector('input[type=text]').focus({preventScroll:true});}catch(e){}}});
+    [].forEach.call(stars,function(b){b.addEventListener('click',function(){
+      var n=parseInt(b.getAttribute('data-xv-star'),10);rt.value=n;
+      [].forEach.call(stars,function(x){var on=parseInt(x.getAttribute('data-xv-star'),10)<=n;x.classList.toggle('is-on',on);x.setAttribute('aria-checked',parseInt(x.getAttribute('data-xv-star'),10)===n?'true':'false');});
+    });});
+    f.addEventListener('submit',function(e){
+      var n=f.querySelector('[name="contact[name]"]').value.trim(),m=f.querySelector('[name="contact[email]"]').value.trim(),b=f.querySelector('[name="contact[body]"]').value.trim();
+      msg.className='xv__msg';
+      if(!rt.value||!n||!m||!b||m.indexOf('@')<1){e.preventDefault();msg.className='xv__msg is-err';msg.textContent=L('Please choose a rating and fill in every field.','Выберите оценку и заполните все поля.');return;}
+      if(!window.fetch||!window.FormData)return;
+      e.preventDefault();
+      var btn=f.querySelector('.xv__send');btn.disabled=true;
+      fetch(f.action,{method:'POST',body:new FormData(f),credentials:'same-origin'}).then(function(r){
+        if(!r.ok||(r.url&&r.url.indexOf('/challenge')>-1)){f.submit();return;}
+        msg.className='xv__msg is-ok';msg.textContent=L('Thank you! Your review was sent and will appear after a quick check.','Спасибо! Отзыв отправлен и появится после проверки.');
+        f.reset();rt.value='';[].forEach.call(stars,function(x){x.classList.remove('is-on');x.setAttribute('aria-checked','false');});btn.disabled=false;
+      }).catch(function(){msg.className='xv__msg is-err';msg.textContent=L('Something went wrong. Please try again.','Что-то пошло не так. Попробуйте ещё раз.');btn.disabled=false;});
+    });
+  }
+  D.addEventListener('click',function(e){
+    var c=e.target.closest&&e.target.closest('[data-xr-clear]');
+    if(c){put([]);var s=D.querySelector('.xr');if(s)s.parentNode.removeChild(s);}
+  });
+  function start(){reviews();strip();}
+  if(D.readyState==='loading')D.addEventListener('DOMContentLoaded',start);else start();
+})();
+</script>

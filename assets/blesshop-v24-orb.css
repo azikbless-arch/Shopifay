@@ -1,0 +1,328 @@
+/* BLESSHOP Premium v2.4 — Soft Crystal Pearl Orb
+   Scoped to homepage. Keep original BLESSHOP lettering, links, and mouse/scroll controllers.
+   Scroll motion owns .bs-pastel-orb.transform; floating owns only the nested glass shell. */
+
+.bs-body.template-index .bs-pastel-hero{
+  background:
+    radial-gradient(ellipse 54% 53% at 82% 44%,rgba(188,221,252,.56),transparent 80%),
+    radial-gradient(ellipse 52% 62% at 16% 71%,rgba(255,248,243,.90),transparent 82%),
+    radial-gradient(ellipse 43% 43% at 78% 90%,rgba(232,219,250,.37),transparent 87%),
+    radial-gradient(ellipse 33% 33% at 10% 6%,rgba(255,255,255,.82),transparent 75%),
+    linear-gradient(135deg,#fbfaf8 0%,#f3f9fe 49%,#f3f2fb 100%);
+}
+.bs-body.template-index .bs-pastel-hero__bg{
+  background:radial-gradient(ellipse at 69% 47%,rgba(233,249,255,.14),transparent 58%);
+}
+.bs-body.template-index .bs-pastel-hero__bg::after{
+  background-image:
+    radial-gradient(circle at 75% 32%,rgba(255,255,255,.63) 0 1px,transparent 2px),
+    radial-gradient(circle at 90% 63%,rgba(255,255,255,.47) 0 1px,transparent 2px),
+    radial-gradient(circle at 60% 68%,rgba(245,252,255,.67) 0 1px,transparent 2px);
+  background-size:320px 290px,410px 370px,460px 420px;
+  opacity:.5;
+  mask-image:linear-gradient(90deg,transparent 30%,#000 66%,#000);
+  -webkit-mask-image:linear-gradient(90deg,transparent 30%,#000 66%,#000);
+}
+.bs-body.template-index .bs-pastel-blob--blue{opacity:.42;filter:blur(24px)}
+.bs-body.template-index .bs-pastel-blob--pink{opacity:.30;filter:blur(23px)}
+.bs-body.template-index .bs-pastel-blob--lavender{opacity:.36;filter:blur(25px)}
+.bs-body.template-index .bs-pastel-ring{border-color:rgba(188,211,234,.18)}
+.bs-body.template-index .bs-pastel-art{isolation:isolate}
+.bs-body.template-index .bs-pastel-art::before{
+  content:"";position:absolute;z-index:0;pointer-events:none;
+  width:130%;height:102%;left:-15%;top:0;
+  border-radius:50%;
+  background:
+    radial-gradient(ellipse at 54% 53%,rgba(255,255,255,.7),transparent 29%),
+    radial-gradient(ellipse at 50% 56%,rgba(199,229,252,.34),transparent 60%);
+  filter:blur(18px);
+}
+.bs-body.template-index .bs-pastel-art::after{
+  content:"";position:absolute;z-index:0;pointer-events:none;
+  width:102%;height:31%;bottom:1%;left:-1%;
+  border-radius:50%;opacity:.68;
+  background:
+    radial-gradient(ellipse at 55% 47%,rgba(250,255,255,.96) 0 2%,rgba(164,213,246,.42) 10%,transparent 57%),
+    conic-gradient(from 4deg at 54% 53%,transparent 0 16%,rgba(255,255,255,.8) 19%,transparent 22% 42%,rgba(204,224,255,.35) 46%,transparent 50% 63%,rgba(255,230,249,.6) 68%,transparent 72% 100%);
+  filter:blur(18px);
+  transform:perspective(340px) rotateX(58deg);
+}
+/* The external orb box remains the single scroll-parallax target from space.js.
+   Disable its former transform-based float to avoid multiple writers. */
+.bs-body.template-index .bs-pastel-orb.bs-v24-orb{
+  position:relative;z-index:2;isolation:isolate;
+  border:0;
+  background:none;
+  box-shadow:none;
+  border-radius:50%;
+  animation:none!important;
+  filter:drop-shadow(0 25px 29px rgba(126,167,200,.19));
+  will-change:transform;
+}
+.bs-body.template-index .bs-pastel-orb.bs-v24-orb::before{
+  content:"";position:absolute;z-index:3;pointer-events:none;
+  inset:-10%;width:auto;height:auto;
+  border:1.3px solid rgba(205,229,250,.46);
+  border-radius:50%;
+  box-shadow:0 0 15px rgba(244,250,255,.42),inset 0 0 11px rgba(247,251,255,.27);
+  background:none;
+  transform:rotate(-27deg) scaleY(.37);
+}
+.bs-body.template-index .bs-pastel-orb.bs-v24-orb::after{
+  content:"";position:absolute;z-index:3;pointer-events:none;
+  inset:-16%;width:auto;height:auto;
+  border:1px solid rgba(213,198,236,.30);
+  border-radius:50%;
+  background:none;
+  transform:rotate(26deg) scaleY(.28);
+}
+.bs-body.template-index .bs-v24-orb-float{
+  position:absolute;inset:0;z-index:2;
+  border-radius:50%;
+  animation:bsV24Float 9.6s ease-in-out infinite;
+}
+.bs-body.template-index .bs-v24-orb-core{
+  position:absolute;inset:0;
+  isolation:isolate;overflow:hidden;
+  border-radius:50%;
+  border:1px solid rgba(255,255,255,.87);
+  background:
+    radial-gradient(circle at 26% 17%,rgba(255,255,255,.91) 0 3%,rgba(255,255,255,.28) 12%,transparent 37%),
+    radial-gradient(ellipse at 82% 22%,rgba(255,231,249,.52) 0,transparent 41%),
+    radial-gradient(ellipse at 14% 68%,rgba(163,217,255,.54) 0,transparent 35%),
+    radial-gradient(ellipse at 81% 88%,rgba(197,188,255,.4) 0,transparent 42%),
+    radial-gradient(circle at 50% 52%,rgba(252,254,255,.21) 0 32%,rgba(219,236,252,.12) 63%,rgba(173,204,232,.35) 87%,rgba(251,254,255,.56) 100%),
+    linear-gradient(142deg,rgba(230,249,255,.42),rgba(255,255,255,.24) 35%,rgba(201,225,247,.36) 61%,rgba(254,240,255,.31));
+  box-shadow:
+    inset 0 2px 3px rgba(255,255,255,.98),
+    inset 16px 22px 42px rgba(255,255,255,.45),
+    inset -15px -28px 38px rgba(104,163,217,.19),
+    inset 7px -13px 32px rgba(230,209,251,.15),
+    0 0 0 1px rgba(207,235,254,.26),
+    0 0 42px rgba(193,232,255,.21);
+  backdrop-filter:blur(7px) saturate(148%);
+  -webkit-backdrop-filter:blur(7px) saturate(148%);
+  transform:translateZ(0);
+}
+.bs-body.template-index .bs-v24-orb-core::before{
+  content:"";position:absolute;z-index:3;inset:1.6%;border-radius:50%;
+  pointer-events:none;
+  border:1px solid rgba(255,255,255,.47);
+  background:conic-gradient(from 209deg at 52% 49%,rgba(255,255,255,.0),rgba(247,253,255,.62) 19%,transparent 29%,rgba(187,229,255,.19) 39%,transparent 48%,rgba(255,223,238,.36) 71%,rgba(255,255,255,.9) 83%,transparent 95%);
+  mask-image:radial-gradient(circle,transparent 0 70%,#000 82% 98%);
+  -webkit-mask-image:radial-gradient(circle,transparent 0 70%,#000 82% 98%);
+  filter:blur(2px);
+}
+.bs-body.template-index .bs-v24-orb-core::after{
+  content:"";position:absolute;z-index:3;inset:0;border-radius:50%;pointer-events:none;
+  box-shadow:inset -8px -16px 26px rgba(93,157,215,.18),inset 9px 8px 21px rgba(255,255,255,.68),inset 0 0 0 2px rgba(252,254,255,.22);
+}
+.bs-body.template-index .bs-v24-orb-inner{
+  position:absolute;z-index:1;inset:12%;border-radius:50%;
+  border:1px solid rgba(255,255,255,.31);
+  background:
+    radial-gradient(circle at 25% 29%,rgba(255,255,255,.58),transparent 33%),
+    radial-gradient(ellipse at 72% 76%,rgba(169,201,251,.25),transparent 55%),
+    linear-gradient(133deg,rgba(252,255,255,.22),rgba(208,236,255,.09) 49%,rgba(249,224,254,.19));
+  box-shadow:inset 8px 10px 21px rgba(255,255,255,.24),inset -11px -13px 27px rgba(128,172,220,.10);
+}
+.bs-body.template-index .bs-v24-orb-refraction{
+  position:absolute;z-index:2;inset:0;border-radius:50%;
+  pointer-events:none;
+  background:
+    radial-gradient(ellipse 51% 49% at 69% 26%,rgba(255,255,255,.37),transparent 75%),
+    radial-gradient(ellipse 37% 48% at 27% 83%,rgba(129,216,251,.27),transparent 79%),
+    conic-gradient(from 18deg at 53% 55%,transparent 0 12%,rgba(227,210,255,.20) 24%,transparent 37%,rgba(255,253,255,.26) 52%,transparent 64%,rgba(182,221,254,.18) 78%,transparent 93%);
+  filter:blur(9px);
+  mix-blend-mode:screen;
+}
+.bs-body.template-index .bs-v24-orb-rim{
+  position:absolute;z-index:4;inset:1.5%;border-radius:50%;pointer-events:none;
+  border:2px solid rgba(255,255,255,.25);
+  box-shadow:inset 0 0 13px rgba(255,255,255,.42),0 0 14px rgba(221,241,255,.42);
+  mask-image:conic-gradient(from 12deg,rgba(0,0,0,.9),rgba(0,0,0,.25) 37%,rgba(0,0,0,.75) 58%,rgba(0,0,0,.16) 73%,rgba(0,0,0,.9));
+  -webkit-mask-image:conic-gradient(from 12deg,rgba(0,0,0,.9),rgba(0,0,0,.25) 37%,rgba(0,0,0,.75) 58%,rgba(0,0,0,.16) 73%,rgba(0,0,0,.9));
+}
+.bs-body.template-index .bs-v24-orb-shine{position:absolute;z-index:5;pointer-events:none;border-radius:50%}
+.bs-body.template-index .bs-v24-orb-shine--top{
+  left:16%;top:11%;width:39%;height:14%;
+  background:radial-gradient(ellipse at 50% 30%,rgba(255,255,255,.94),rgba(255,255,255,.24) 55%,transparent 80%);
+  filter:blur(6px);
+  transform:rotate(-27deg);
+}
+.bs-body.template-index .bs-v24-orb-shine--side{
+  right:8%;top:26%;width:12%;height:41%;
+  background:linear-gradient(90deg,transparent,rgba(255,255,255,.56) 35%,rgba(250,242,255,.17) 72%,transparent);
+  filter:blur(7px);
+  transform:rotate(17deg);
+}
+.bs-body.template-index .bs-v24-orb-lighttrace{
+  position:absolute;z-index:3;inset:14%;border-radius:50%;pointer-events:none;
+  border-top:1px solid rgba(255,255,255,.30);
+  border-right:1px solid rgba(218,247,255,.28);
+  box-shadow:0 0 10px rgba(245,255,255,.23);
+  transform:rotate(-23deg) scaleY(.54);
+}
+.bs-body.template-index .bs-v24-orb .bs-pastel-orb__label{
+  position:absolute;z-index:8;inset:0;
+  text-shadow:0 2px 11px rgba(255,255,255,.49);
+  color:#617f9b;
+}
+.bs-body.template-index .bs-v24-orb .bs-pastel-orb__label strong{
+  color:#688aa6;
+  font-weight:350;
+  letter-spacing:.085em;
+  text-shadow:0 1px 1px rgba(255,255,255,.52),0 7px 16px rgba(191,211,231,.16);
+}
+.bs-body.template-index .bs-v24-orb .bs-pastel-orb__label small{color:#6d90ae}
+.bs-body.template-index .bs-v24-orb .bs-pastel-orb__label span{color:#917ea6}
+.bs-body.template-index .bs-v24-orb-glint{
+  position:absolute;z-index:6;pointer-events:none;
+  width:7px;height:7px;border-radius:50%;
+  background:#fff;
+  box-shadow:0 0 4px 2px rgba(255,255,255,.9),0 0 15px 4px rgba(182,221,249,.7),0 0 27px rgba(224,207,246,.43);
+  animation:bsV24Glint 5.5s ease-in-out infinite alternate;
+}
+.bs-body.template-index .bs-v24-orb-glint--one{top:19%;right:13%}
+.bs-body.template-index .bs-v24-orb-glint--two{bottom:16%;left:15%;width:4px;height:4px;animation-delay:-2.8s}
+.bs-body.template-index .bs-v24-orb .bs-v24-orb-glint::after{
+  content:"";position:absolute;left:50%;top:50%;width:36px;height:1px;
+  background:linear-gradient(90deg,transparent,rgba(255,255,255,.85),transparent);
+  transform:translate(-50%,-50%) rotate(-33deg);
+}
+@keyframes bsV24Float{0%,100%{transform:translate3d(0,0,0)}50%{transform:translate3d(0,-11px,0)}}
+@keyframes bsV24Glint{0%,100%{opacity:.55;transform:scale(.75)}50%{opacity:1;transform:scale(1.16)}}
+.bs-body.template-index .bs-pastel-hero.is-paused .bs-v24-orb-float,
+.bs-body.template-index .bs-pastel-hero.is-paused .bs-v24-orb-glint{
+  animation-play-state:paused!important;
+}
+@media(max-width:900px){
+  .bs-body.template-index .bs-pastel-art{opacity:.94}
+  .bs-body.template-index .bs-pastel-orb.bs-v24-orb{filter:drop-shadow(0 17px 24px rgba(126,167,200,.15))}
+  .bs-body.template-index .bs-v24-orb-core{backdrop-filter:blur(4px);-webkit-backdrop-filter:blur(4px)}
+  .bs-body.template-index .bs-v24-orb-float{animation-duration:12s}
+  .bs-body.template-index .bs-pastel-art::after{opacity:.44;filter:blur(14px)}
+}
+@media(max-width:600px){
+  .bs-body.template-index .bs-v24-orb-float{animation:none!important}
+  .bs-body.template-index .bs-v24-orb-glint{animation:none!important}
+  .bs-body.template-index .bs-pastel-art::after{opacity:.25}
+  .bs-body.template-index .bs-pastel-art::before{filter:blur(10px)}
+  .bs-body.template-index .bs-v24-orb-core{backdrop-filter:none;-webkit-backdrop-filter:none}
+  .bs-body.template-index .bs-pastel-orb.bs-v24-orb{filter:drop-shadow(0 13px 22px rgba(126,167,200,.15))}
+  .bs-body.template-index .bs-pastel-hero__bg::after{opacity:.19}
+  .bs-body.template-index .bs-v24-orb .bs-pastel-orb__label strong{font-size:clamp(19px,5.3vw,27px)}
+}
+@media(prefers-reduced-motion:reduce){
+  .bs-body.template-index .bs-v24-orb-float,
+  .bs-body.template-index .bs-v24-orb-glint{animation:none!important}
+  .bs-body.template-index .bs-pastel-orb.bs-v24-orb{will-change:auto;transform:none!important}
+}
+
+
+/* BLESSHOP v2.5 — Realistic Opal Glass Orb (2026-10-08) */
+/* Optical depth with Fresnel-like edge darkening and directional studio lighting.
+   Keep native hero markup, lettering, menu, scroll and pointer animation intact. */
+.bs-body.template-index .bs-pastel-orb.bs-v24-orb{
+  filter:drop-shadow(8px 27px 27px rgba(76,120,167,.24)) drop-shadow(-10px -12px 27px rgba(255,255,255,.58));
+}
+.bs-body.template-index .bs-v24-orb-core{
+  border:1px solid rgba(255,255,255,.95);
+  background:
+    radial-gradient(ellipse 36% 23% at 30% 14%,rgba(255,255,255,.99),rgba(255,255,255,.58) 51%,transparent 100%),
+    radial-gradient(ellipse 67% 43% at 41% 29%,rgba(255,255,255,.86),rgba(246,252,255,.16) 72%,transparent 100%),
+    radial-gradient(ellipse 63% 68% at 94% 82%,rgba(91,143,191,.28),transparent 93%),
+    radial-gradient(ellipse 43% 65% at 7% 77%,rgba(110,194,224,.31),transparent 89%),
+    radial-gradient(ellipse 46% 51% at 83% 14%,rgba(255,227,246,.53),transparent 85%),
+    conic-gradient(from 196deg at 52% 47%,rgba(141,213,232,.12) 0deg,rgba(255,255,255,.33) 53deg,rgba(197,190,246,.24) 118deg,rgba(255,255,255,.18) 178deg,rgba(167,209,248,.24) 246deg,rgba(255,222,236,.30) 310deg,rgba(141,213,232,.12) 360deg),
+    radial-gradient(circle at 39% 31%,#f9ffff 0%,#edfaff 17%,#d7eef8 43%,#b5d9ef 72%,#7faacc 100%);
+  box-shadow:
+    inset 15px 19px 37px rgba(255,255,255,.88),
+    inset -21px -27px 45px rgba(62,111,166,.32),
+    inset 5px -17px 36px rgba(198,227,255,.35),
+    inset -4px 3px 9px rgba(255,255,255,.73),
+    inset 0 0 4px rgba(75,139,186,.18),
+    0 0 0 1px rgba(242,252,255,.8),
+    0 15px 43px rgba(94,151,193,.20);
+  backdrop-filter:blur(5px) saturate(142%);
+  -webkit-backdrop-filter:blur(5px) saturate(142%);
+}
+.bs-body.template-index .bs-v24-orb-core::before{
+  inset:0;
+  border:0;
+  background:
+    conic-gradient(from 210deg at 52% 52%,rgba(255,255,255,.9),rgba(255,255,255,.12) 18%,rgba(149,192,230,.43) 32%,rgba(255,255,255,.96) 48%,rgba(108,166,218,.24) 70%,rgba(255,255,255,.92) 88%,rgba(255,255,255,.9)),
+    radial-gradient(circle at 50% 50%,transparent 69%,rgba(65,134,180,.20) 90%,rgba(255,255,255,.9) 99%);
+  mask-image:radial-gradient(circle,transparent 0 73%,#000 91% 100%);
+  -webkit-mask-image:radial-gradient(circle,transparent 0 73%,#000 91% 100%);
+  filter:blur(1.5px);
+  opacity:.92;
+}
+.bs-body.template-index .bs-v24-orb-core::after{
+  box-shadow:
+    inset -12px -17px 27px rgba(59,112,174,.26),
+    inset 12px 10px 22px rgba(255,255,255,.85),
+    inset 0 0 0 2px rgba(255,255,255,.29);
+}
+.bs-body.template-index .bs-v24-orb-inner{
+  inset:10%;
+  border:0;
+  opacity:.73;
+  background:
+    radial-gradient(ellipse 61% 39% at 33% 28%,rgba(255,255,255,.72),transparent 92%),
+    radial-gradient(ellipse 63% 59% at 68% 78%,rgba(112,183,232,.17),transparent 91%),
+    linear-gradient(138deg,rgba(255,255,255,.27),transparent 46%,rgba(226,206,247,.15));
+  box-shadow:none;
+  filter:blur(12px);
+}
+.bs-body.template-index .bs-v24-orb-refraction{
+  background:
+    radial-gradient(ellipse 35% 18% at 35% 23%,rgba(255,255,255,.75),transparent 99%),
+    radial-gradient(ellipse 24% 48% at 86% 53%,rgba(245,252,255,.52),transparent 93%),
+    radial-gradient(ellipse 42% 29% at 30% 82%,rgba(107,216,239,.17),transparent 99%),
+    conic-gradient(from 36deg at 53% 55%,transparent 0 8%,rgba(231,213,255,.31) 21%,transparent 35%,rgba(255,255,255,.44) 52%,transparent 64%,rgba(157,217,255,.32) 83%,transparent 96%);
+  filter:blur(6px);
+  opacity:.90;
+  transform:translate3d(var(--bs-lux-orb-x,0px),var(--bs-lux-orb-y,0px),0);
+  transition:transform .55s cubic-bezier(.2,.7,.1,1);
+}
+.bs-body.template-index .bs-v24-orb-rim{
+  inset:.8%;
+  border:1px solid rgba(255,255,255,.64);
+  box-shadow:inset 0 0 19px rgba(255,255,255,.68),0 0 12px rgba(231,249,255,.66);
+}
+.bs-body.template-index .bs-v24-orb-shine--top{
+  left:17%;top:9%;width:46%;height:16%;
+  background:radial-gradient(ellipse at 45% 45%,rgba(255,255,255,.97),rgba(255,255,255,.4) 43%,transparent 78%);
+  filter:blur(9px);
+  transform:rotate(-24deg);
+}
+.bs-body.template-index .bs-v24-orb-shine--side{
+  right:5%;top:23%;width:12%;height:52%;
+  background:linear-gradient(90deg,transparent,rgba(255,255,255,.69) 32%,rgba(242,251,255,.21) 74%,transparent);
+  filter:blur(9px);
+  transform:rotate(14deg);
+}
+.bs-body.template-index .bs-v24-orb-lighttrace{opacity:.55}
+.bs-body.template-index .bs-v24-orb .bs-pastel-orb__label{
+  color:#587b9a;
+  text-shadow:0 2px 8px rgba(255,255,255,.96),0 9px 22px rgba(91,145,182,.12);
+}
+.bs-body.template-index .bs-v24-orb .bs-pastel-orb__label strong{
+  color:#587fa4;
+  text-shadow:0 1px 3px rgba(255,255,255,.98),0 6px 16px rgba(255,255,255,.52);
+}
+.bs-body.template-index .bs-v24-orb-glint{
+  width:4px;height:4px;
+  box-shadow:0 0 4px 1px rgba(255,255,255,.96),0 0 13px 3px rgba(221,243,255,.63);
+}
+@media(max-width:900px){
+  .bs-body.template-index .bs-pastel-orb.bs-v24-orb{filter:drop-shadow(5px 19px 22px rgba(76,120,167,.23))}
+}
+@media(max-width:600px){
+  .bs-body.template-index .bs-v24-orb-core{backdrop-filter:none;-webkit-backdrop-filter:none}
+  .bs-body.template-index .bs-v24-orb-refraction{filter:blur(4px)}
+}
+@media(prefers-reduced-motion:reduce){
+  .bs-body.template-index .bs-v24-orb-refraction{transition:none;transform:none}
+}

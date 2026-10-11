@@ -1,0 +1,49 @@
+/*
+ * ------------------------------------------------------------
+ * IMPORTANT: The contents of this file are auto-generated.
+ *
+ * This file may be updated by the Shopify admin theme editor
+ * or related systems. Please exercise caution as any changes
+ * made to this file may be overwritten.
+ * ------------------------------------------------------------
+ */
+{
+  "layout": "bls-home",
+  "sections": {
+    "main": {
+      "type": "bls-faq",
+      "settings": {},
+      "blocks": {
+        "q1": {
+          "type": "item",
+          "settings": {
+            "question": "How long does shipping take?",
+            "answer": "<p>Delivery estimates are shown at checkout and tracking is sent when available.</p>"
+          }
+        },
+        "q2": {
+          "type": "item",
+          "settings": {
+            "question": "Can I return an item?",
+            "answer": "<p>Contact us within 30 days of delivery and we will guide you through the return process.</p>"
+          }
+        },
+        "q3": {
+          "type": "item",
+          "settings": {
+            "question": "How do I track my order?",
+            "answer": "<p>When tracking is available, you will receive it after your order ships.</p>"
+          }
+        }
+      },
+      "block_order": [
+        "q1",
+        "q2",
+        "q3"
+      ]
+    }
+  },
+  "order": [
+    "main"
+  ]
+}

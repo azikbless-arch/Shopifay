@@ -1,0 +1,201 @@
+{%- liquid
+  assign source = section.settings.collection
+  if source == blank
+    assign source = collections.all
+  endif
+  assign p1 = nil
+  assign p2 = nil
+  assign p3 = nil
+  for product in source.products limit: 3
+    case forloop.index
+      when 1
+        assign p1 = product
+      when 2
+        assign p2 = product
+      when 3
+        assign p3 = product
+    endcase
+  endfor
+  assign kinds = source.all_types
+  assign shop_url = routes.all_products_collection_url
+  if section.settings.collection != blank
+    assign shop_url = section.settings.collection.url
+  endif
+-%}
+<section class="bls-block" id="shop">
+  <div class="bls-wrap">
+    <div class="bls-panel bls-panel--smoke bls-reveal">
+      <div class="bls-shop__top">
+        <div class="bls-shop__title">
+          {%- if section.settings.label != blank -%}<p class="bls-label">{{ section.settings.label | escape }}</p>{%- endif -%}
+          <h2 class="bls-h2">{{ section.settings.heading | escape }}</h2>
+        </div>
+        <div class="bls-chips">
+          <a class="bls-chip" href="{{ shop_url }}">{{ section.settings.all_label | escape }}</a>
+          {%- for kind in kinds limit: 5 -%}
+            {%- if kind != blank -%}<a class="bls-chip" href="{{ kind | url_for_type }}">{{ kind | escape }}</a>{%- endif -%}
+          {%- endfor -%}
+        </div>
+      </div>
+      <div class="bls-shop">
+        {%- if p1 != blank -%}
+          <a class="bls-card bls-card--photo bls-shop__a" href="{{ p1.url }}">
+            <span class="bls-card__media{% if section.settings.blend %} bls-shot{% endif %}">
+              {%- if p1.featured_image != blank -%}
+                {{ p1.featured_image | image_url: width: 1200 | image_tag: loading: 'lazy', alt: p1.title, widths: '400, 600, 900, 1200', sizes: '(max-width: 700px) 100vw, (max-width: 1040px) 50vw, 420px' }}
+              {%- endif -%}
+            </span>
+            <span class="bls-card__price">
+              <span>{%- if p1.price_varies -%}From {% endif -%}{{ p1.price | money }}{%- if p1.compare_at_price > p1.price %} <s>{{ p1.compare_at_price | money }}</s>{%- endif -%}</span>
+              {%- if p1.type != blank -%}<span class="bls-card__kind">{{ p1.type | escape }}</span>{%- endif -%}
+            </span>
+            {%- if section.settings.flag != blank -%}<span class="bls-card__flag">{{ section.settings.flag | escape }}</span>{%- endif -%}
+            <span class="bls-card__bar">
+              <span class="bls-card__name">{{ p1.title | escape }}</span>
+              <span class="bls-round bls-round--dark" aria-hidden="true"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14"></path><path d="M13 6l6 6-6 6"></path></svg></span>
+            </span>
+          </a>
+        {%- else -%}
+          <div class="bls-card bls-card--photo bls-shop__a">
+            <span class="bls-card__media" aria-hidden="true"><span class="bls-artbox bls-artbox--moon"><canvas class="bls-art" data-bls-art="moon"></canvas></span></span>
+            <span class="bls-card__head"><span class="bls-card__title">{{ section.settings.empty_heading | escape }}</span></span>
+            <span class="bls-card__go"><span class="bls-pill bls-pill--ghost">{{ section.settings.empty_label | escape }}</span></span>
+          </div>
+        {%- endif -%}
+
+        {%- if p2 != blank -%}
+          <a class="bls-card bls-card--photo bls-shop__b1" href="{{ p2.url }}">
+            <span class="bls-card__media{% if section.settings.blend %} bls-shot{% endif %}">
+              {%- if p2.featured_image != blank -%}
+                {{ p2.featured_image | image_url: width: 1200 | image_tag: loading: 'lazy', alt: p2.title, widths: '400, 600, 900, 1200', sizes: '(max-width: 700px) 100vw, (max-width: 1040px) 50vw, 520px' }}
+              {%- endif -%}
+            </span>
+            <span class="bls-card__head">
+              <span class="bls-card__title">{{ p2.title | truncate: 46 | escape }}</span>
+              <span class="bls-card__note">{%- if p2.price_varies -%}From {% endif -%}{{ p2.price | money }}</span>
+            </span>
+            <span class="bls-card__go"><span class="bls-round bls-round--dark" aria-hidden="true"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M7 17L17 7"></path><path d="M8 7h9v9"></path></svg></span></span>
+          </a>
+        {%- else -%}
+          <a class="bls-card bls-card--photo bls-shop__b1" href="{{ shop_url }}">
+            <span class="bls-card__media" aria-hidden="true"><span class="bls-artbox bls-artbox--crescent"><canvas class="bls-art" data-bls-art="crescent"></canvas></span></span>
+            <span class="bls-card__head">
+              <span class="bls-card__title">{{ section.settings.promo_heading | escape }}</span>
+              {%- if section.settings.promo_text != blank -%}<span class="bls-card__note">{{ section.settings.promo_text | escape }}</span>{%- endif -%}
+            </span>
+            <span class="bls-card__go"><span class="bls-round bls-round--light" aria-hidden="true"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M7 17L17 7"></path><path d="M8 7h9v9"></path></svg></span></span>
+          </a>
+        {%- endif -%}
+
+        <div class="bls-card bls-story bls-shop__b2">
+          <div class="bls-story__copy">
+            {%- if section.settings.story_label != blank -%}<span class="bls-tag">{{ section.settings.story_label | escape }}</span>{%- endif -%}
+            <h3 class="bls-story__title">{{ section.settings.story_heading | escape }}</h3>
+            {%- if section.settings.story_text != blank -%}<p class="bls-story__text">{{ section.settings.story_text | escape }}</p>{%- endif -%}
+          </div>
+          {%- liquid
+            assign story_url = shop_url
+            if p3 != blank
+              assign story_url = p3.url
+            endif
+          -%}
+          <a class="bls-story__thumb{% if p3 != blank and section.settings.blend %} bls-shot{% endif %}" href="{{ story_url }}">
+            {%- if p3 != blank and p3.featured_image != blank -%}
+              {{ p3.featured_image | image_url: width: 700 | image_tag: loading: 'lazy', alt: p3.title, widths: '300, 500, 700', sizes: '(max-width: 700px) 100vw, 260px' }}
+            {%- else -%}
+              <span class="bls-artbox bls-artbox--surface" aria-hidden="true"><canvas class="bls-art" data-bls-art="surface"></canvas></span>
+            {%- endif -%}
+            <span class="bls-open">
+              {{ section.settings.story_button | escape }}
+              <span class="bls-round bls-round--dark" aria-hidden="true"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M7 17L17 7"></path><path d="M8 7h9v9"></path></svg></span>
+            </span>
+          </a>
+        </div>
+
+        <div class="bls-shop__c">
+          {%- for block in section.blocks limit: 3 -%}
+            <div class="bls-info" {{ block.shopify_attributes }}>
+              {%- if block.settings.label != blank -%}<span class="bls-tag">{{ block.settings.label | escape }}</span>{%- endif -%}
+              {%- if block.type == 'newsletter' -%}
+                {%- if block.settings.text != blank -%}<p class="bls-info__text">{{ block.settings.text | escape }}</p>{%- endif -%}
+                {%- assign form_id = 'bls-join-' | append: block.id -%}
+                {%- form 'customer', id: form_id, class: 'bls-join' -%}
+                  <input type="hidden" name="contact[tags]" value="newsletter">
+                  {%- if form.posted_successfully? -%}
+                    <p class="bls-join__note" role="status">{{ block.settings.success | escape }}</p>
+                  {%- else -%}
+                    {%- if form.errors -%}<p class="bls-join__note" role="alert">{{ block.settings.error | escape }}</p>{%- endif -%}
+                    <label class="bls-join__field">
+                      <span class="bls-vh">{{ block.settings.placeholder | escape }}</span>
+                      <input type="email" name="contact[email]" autocomplete="email" placeholder="{{ block.settings.placeholder | escape }}" required>
+                    </label>
+                    <button class="bls-join__btn" type="submit">{{ block.settings.button | escape }}</button>
+                  {%- endif -%}
+                {%- endform -%}
+              {%- else -%}
+                {%- if block.settings.heading != blank -%}<p class="bls-info__big">{{ block.settings.heading | escape }}</p>{%- endif -%}
+                {%- if block.settings.text != blank -%}<p class="bls-info__text">{{ block.settings.text | escape }}</p>{%- endif -%}
+                {%- if block.settings.link != blank -%}
+                  <a class="bls-round bls-info__go" href="{{ block.settings.link }}" aria-label="{{ block.settings.label | default: block.settings.heading | escape }}">
+                    <svg aria-hidden="true" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M7 17L17 7"></path><path d="M8 7h9v9"></path></svg>
+                  </a>
+                {%- endif -%}
+              {%- endif -%}
+            </div>
+          {%- endfor -%}
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+{% schema %}
+{
+  "name": "Glass storefront",
+  "max_blocks": 3,
+  "settings": [
+    {"type": "text", "id": "label", "label": "Small label", "default": "New in"},
+    {"type": "text", "id": "heading", "label": "Heading", "default": "Latest finds"},
+    {"type": "collection", "id": "collection", "label": "Collection", "info": "Leave empty to show all products. The first three products fill the large cards."},
+    {"type": "text", "id": "all_label", "label": "First chip", "default": "All"},
+    {"type": "text", "id": "flag", "label": "Badge on the first product", "default": "New"},
+    {"type": "checkbox", "id": "blend", "label": "Blend white product photo backgrounds into the card", "default": true},
+    {"type": "header", "content": "Second card, shown until there is a second product"},
+    {"type": "text", "id": "promo_heading", "label": "Heading", "default": "Made for cozy days"},
+    {"type": "text", "id": "promo_text", "label": "Text", "default": "Small things that make home feel better."},
+    {"type": "header", "content": "Story card"},
+    {"type": "text", "id": "story_label", "label": "Label", "default": "Blesshop"},
+    {"type": "text", "id": "story_heading", "label": "Heading", "default": "Beautiful finds, simply chosen"},
+    {"type": "textarea", "id": "story_text", "label": "Text", "default": "Pet, home and fashion picks for a more comfortable life."},
+    {"type": "text", "id": "story_button", "label": "Button", "default": "Open"},
+    {"type": "header", "content": "When there are no products yet"},
+    {"type": "text", "id": "empty_heading", "label": "Heading", "default": "New finds are on the way"},
+    {"type": "text", "id": "empty_label", "label": "Label", "default": "Coming soon"}
+  ],
+  "blocks": [
+    {
+      "type": "info",
+      "name": "Info card",
+      "settings": [
+        {"type": "text", "id": "label", "label": "Label", "default": "Delivery"},
+        {"type": "text", "id": "heading", "label": "Large line"},
+        {"type": "textarea", "id": "text", "label": "Text"},
+        {"type": "url", "id": "link", "label": "Link"}
+      ]
+    },
+    {
+      "type": "newsletter",
+      "name": "Email sign-up",
+      "limit": 1,
+      "settings": [
+        {"type": "text", "id": "label", "label": "Label", "default": "Join now"},
+        {"type": "text", "id": "text", "label": "Text", "default": "New finds and offers by email."},
+        {"type": "text", "id": "placeholder", "label": "Field text", "default": "Email"},
+        {"type": "text", "id": "button", "label": "Button", "default": "Subscribe"},
+        {"type": "text", "id": "success", "label": "Message after signing up", "default": "Thank you. You are on the list."},
+        {"type": "text", "id": "error", "label": "Message when the email is not accepted", "default": "Please check the email address."}
+      ]
+    }
+  ],
+  "presets": [{"name": "Glass storefront", "blocks": [{"type": "info"}, {"type": "newsletter"}, {"type": "info"}]}]
+}
+{% endschema %}

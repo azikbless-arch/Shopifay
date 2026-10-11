@@ -1,0 +1,101 @@
+{%- if template.name == 'index' -%}
+<style>
+.bls-astro__vid{position:absolute;display:block;max-width:none;pointer-events:none;opacity:0;transition:opacity .9s ease;height:calc(var(--bls-ah)*1.172);width:calc(var(--bls-ah)*.547);left:calc(var(--bls-ah)*-.277);top:calc(var(--bls-ah)*-1.168);background:transparent}
+.bls-scene--hd .bls-pl--float .bls-astro__body{transition:opacity .9s ease}
+.bls-scene--hd .bls-pl--float.is-vid{mix-blend-mode:screen}
+.bls-scene--hd .bls-pl--float.is-vid .bls-astro__vid{opacity:1}
+.bls-scene--hd .bls-pl--float.is-vid .bls-astro__body{opacity:0}
+@media (prefers-reduced-motion:reduce){.bls-astro__vid{display:none}}
+</style>
+<script>
+/* The floating astronaut as a short silent loop (black background, blended into the scene with "screen").
+   The still cut-out stays underneath and is what weak devices keep. The video starts only after the page has
+   loaded and the browser is idle, never on a slow or data-saver connection, a low-memory phone or with
+   "reduce motion"; it plays only while the first screen is in view; and if frames are dropped it switches itself off. */
+(function(){
+  var SRC='{{ 'bls-float.mp4' | asset_url }}';
+  var KEY='bls-av-off';
+  if(window.BlsAstroVideo)return;
+  window.BlsAstroVideo=1;
+  function flagged(){try{return sessionStorage.getItem(KEY)==='1'}catch(e){return false}}
+  function flag(){try{sessionStorage.setItem(KEY,'1')}catch(e){}}
+  function allowed(){
+    var c=navigator.connection||navigator.mozConnection||navigator.webkitConnection||{};
+    var slow=c.saveData===true||/^(slow-2g|2g|3g)$/.test(c.effectiveType||'');
+    var weak=!!navigator.deviceMemory&&navigator.deviceMemory<=2;
+    var still=!!(window.matchMedia&&window.matchMedia('(prefers-reduced-motion: reduce)').matches);
+    return !(slow||weak||still||flagged());
+  }
+  function setup(){
+    var el=document.querySelector('.bls-scene--hd .bls-pl--float');
+    if(!el||el.__av)return;
+    el.__av=1;
+    if(!allowed())return;
+    var hero=el.closest('.bls-hero');
+    var v=document.createElement('video');
+    v.className='bls-astro__vid';
+    v.muted=true;v.defaultMuted=true;v.loop=true;
+    v.setAttribute('muted','');v.setAttribute('playsinline','');v.setAttribute('webkit-playsinline','');
+    v.setAttribute('aria-hidden','true');v.setAttribute('tabindex','-1');
+    v.setAttribute('disablepictureinpicture','');v.setAttribute('disableremoteplayback','');
+    v.preload='none';
+    el.appendChild(v);
+    var started=false,gone=false,inView=true,armed=false,waits=0,t0=0;
+    function live(on){el.classList.toggle('is-vid',!!on)}
+    function pause(){try{v.pause()}catch(e){}}
+    function giveUp(){
+      if(gone)return;
+      gone=true;flag();pause();live(false);
+      setTimeout(function(){v.removeAttribute('src');try{v.load()}catch(e){}if(v.parentNode)v.parentNode.removeChild(v)},1000);
+    }
+    function armTap(){
+      if(armed)return;armed=true;
+      var evs=['touchend','pointerup','click','keydown'],i;
+      function go(){for(i=0;i<evs.length;i++)window.removeEventListener(evs[i],go,true);armed=false;play()}
+      for(i=0;i<evs.length;i++)window.addEventListener(evs[i],go,{capture:true,passive:true});
+    }
+    function play(){
+      if(!started||gone||!inView||document.hidden||!v.getAttribute('src'))return;
+      var r=v.play();
+      if(r&&r.catch)r.catch(function(){armTap()});
+    }
+    function check(){
+      if(gone||v.paused||!document.body.contains(v))return;
+      var q=v.getVideoPlaybackQuality?v.getVideoPlaybackQuality():null;
+      if(q&&q.totalVideoFrames>=36&&q.droppedVideoFrames/q.totalVideoFrames>.28)giveUp();
+    }
+    function start(){
+      if(started||!document.body.contains(v))return;
+      started=true;
+      v.preload='auto';
+      v.addEventListener('playing',function once(){
+        v.removeEventListener('playing',once);
+        t0=Date.now();
+        if(v.requestVideoFrameCallback)v.requestVideoFrameCallback(function(){live(true)});
+        else setTimeout(function(){live(true)},150);
+        setTimeout(check,3500);setTimeout(check,9000);
+      });
+      v.addEventListener('waiting',function(){if(t0&&Date.now()-t0<20000&&++waits>4)giveUp()});
+      v.addEventListener('error',giveUp);
+      v.src=SRC;
+      play();
+    }
+    function schedule(){
+      if(window.requestIdleCallback)requestIdleCallback(start,{timeout:2500});else setTimeout(start,900);
+    }
+    if('IntersectionObserver'in window&&hero){
+      new IntersectionObserver(function(l){
+        var e=l[l.length-1];
+        inView=e.intersectionRatio>.2;
+        if(inView)play();else pause();
+      },{threshold:[0,.2,.5]}).observe(hero);
+    }
+    document.addEventListener('visibilitychange',function(){if(document.hidden)pause();else play()});
+    if(document.readyState==='complete')schedule();else window.addEventListener('load',schedule,{once:true});
+  }
+  setup();
+  document.addEventListener('DOMContentLoaded',setup);
+  document.addEventListener('shopify:section:load',setup);
+})();
+</script>
+{%- endif -%}

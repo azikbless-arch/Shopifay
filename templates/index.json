@@ -1,0 +1,72 @@
+/*
+ * ------------------------------------------------------------
+ * IMPORTANT: The contents of this file are auto-generated.
+ *
+ * This file may be updated by the Shopify admin theme editor
+ * or related systems. Please exercise caution as any changes
+ * made to this file may be overwritten.
+ * ------------------------------------------------------------
+ */
+{
+  "layout": "bls-home",
+  "sections": {
+    "hero": {
+      "type": "bls-hero",
+      "settings": {
+        "eyebrow": "PET · HOME · FASHION",
+        "heading": "BLESSHOP",
+        "text": "Beautiful finds for a more comfortable life.",
+        "button_label": "Shop all",
+        "second_button_label": "Browse collections",
+        "video_url": "",
+        "image": "shopify://shop_images/Astronavt_pod_gigantskimi_planetami_1.png",
+        "flip": false,
+        "life": true,
+        "focus_x": 50,
+        "focus_x_mobile": 72,
+        "zoom_seconds": 70
+      }
+    },
+    "collections": {
+      "type": "bls-rail",
+      "blocks": {
+        "pets": {"type": "category", "settings": {"collection": "pet-supplies", "title": "Pet Supplies", "subtitle": "Cleaner home, happier pets", "image": "shopify://shop_images/koshka1dc337fe-cc43-4ede-9184-f46d5f1fe155.png", "art": "auto"}},
+        "home": {"type": "category", "settings": {"collection": "home-living", "title": "Home & Living", "subtitle": "Comfort at home", "image": "shopify://shop_images/b008e2b7-00d4-4606-9c3b-61662eddf521.png", "art": "auto"}},
+        "fashion": {"type": "category", "settings": {"collection": "fashion", "title": "Fashion", "subtitle": "Everyday style", "image": "shopify://shop_images/BLESSHOP-Fashion-Editorial-Portrait.webp", "art": "auto"}},
+        "kids": {"type": "category", "settings": {"collection": "kids-toys", "title": "Kids & Toys", "subtitle": "Little explorers", "art": "window"}}
+      },
+      "block_order": ["pets", "home", "fashion", "kids"],
+      "settings": {"label": "Collections", "heading": "Shop by category", "link_label": "Shop all", "soon_label": "Coming soon", "blend": true}
+    },
+    "deals": {
+      "type": "bls-deals",
+      "settings": {"label": "Offers", "heading": "Deals of the day", "products_to_show": 10, "timer_label": "Ends in", "blend": true, "add_label": "Add", "options_label": "Options", "end_heading": "All offers", "empty_heading": "New offers are on the way", "empty_label": "Browse the shop"}
+    },
+    "switch": {
+      "type": "bls-switch",
+      "blocks": {
+        "pets": {"type": "tab", "settings": {"collection": "pet-supplies", "title": "Pet Supplies", "skin": "space"}},
+        "home": {"type": "tab", "settings": {"collection": "home-living", "title": "Home & Living", "skin": "home"}},
+        "fashion": {"type": "tab", "settings": {"collection": "fashion", "title": "Fashion", "skin": "fashion"}},
+        "kids": {"type": "tab", "settings": {"collection": "kids-toys", "title": "Kids & Toys", "skin": "space"}}
+      },
+      "block_order": ["pets", "home", "fashion", "kids"],
+      "settings": {"label": "Shop", "heading": "Pick your world", "first_label": "Latest", "home_image": "shopify://shop_images/b008e2b7-00d4-4606-9c3b-61662eddf521.png", "fashion_image": "shopify://shop_images/BLESSHOP-Fashion-Rose-Gold-Cosmos-Background.webp", "products_to_show": 10, "flag": "New", "blend": true, "add_label": "Add", "options_label": "Options", "soldout_label": "Sold out", "end_heading": "See everything", "empty_heading": "New finds are on the way", "empty_label": "Coming soon"}
+    },
+    "shop": {
+      "type": "bls-shelf",
+      "blocks": {
+        "delivery": {"type": "info", "settings": {"label": "Delivery", "heading": "Free shipping", "text": "On orders $50+"}},
+        "join": {"type": "newsletter", "settings": {"label": "Join now", "text": "New finds and offers by email.", "placeholder": "Email", "button": "Subscribe", "success": "Thank you. You are on the list.", "error": "Please check the email address."}},
+        "returns": {"type": "info", "settings": {"label": "Returns", "heading": "30-day easy returns", "text": "Secure payment at checkout."}}
+      },
+      "block_order": ["delivery", "join", "returns"],
+      "settings": {"show_products": false, "label": "New in", "heading": "Latest finds", "products_to_show": 10, "all_label": "All", "flag": "New", "blend": true, "add_label": "Add", "options_label": "Options", "soldout_label": "Sold out", "end_heading": "See everything", "empty_heading": "New finds are on the way", "empty_label": "Coming soon"}
+    },
+    "banner": {
+      "type": "bls-banner",
+      "settings": {"text": "New · cosmic finds", "note": "Pet · Home · Fashion", "note_2": "Shop all", "use_product": true}
+    }
+  },
+  "order": ["hero", "collections", "deals", "switch", "shop", "banner"]
+}

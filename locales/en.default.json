@@ -1,0 +1,181 @@
+/*
+ * ------------------------------------------------------------
+ * IMPORTANT: The contents of this file are auto-generated.
+ *
+ * This file may be updated by the Shopify admin language editor
+ * or related systems. Please exercise caution as any changes
+ * made to this file may be overwritten.
+ * ------------------------------------------------------------
+ */
+{
+  "general": {
+    "home": "Home",
+    "shop_all": "Shop All",
+    "collections": "Collections",
+    "search": "Search",
+    "account": "Account",
+    "cart": "Cart",
+    "categories": "Categories",
+    "close": "Close",
+    "apply": "Apply",
+    "clear": "Clear",
+    "quick_view": "Quick view",
+    "back_to_top": "Back to top"
+  },
+  "product": {
+    "add_to_cart": "Add to Cart",
+    "sold_out": "Sold Out",
+    "preorder": "Pre-order",
+    "quantity": "Quantity",
+    "choose_option": "Choose option",
+    "description": "Description",
+    "shipping": "Shipping",
+    "returns": "Returns",
+    "size_chart": "Size chart",
+    "ingredients": "Ingredients / nutrition",
+    "how_to_use": "How to use",
+    "recently_viewed": "Recently viewed",
+    "recommendations": "You may also like"
+  },
+  "collection": {
+    "filter": "Filter products",
+    "products": "products",
+    "no_products": "No products found",
+    "load_more": "Scroll for more"
+  },
+  "cart": {
+    "your_bag": "Your bag",
+    "subtotal": "Subtotal",
+    "order_note": "Order note",
+    "checkout": "Checkout",
+    "empty": "Your cart is empty"
+  },
+  "contact": {
+    "send": "Send message",
+    "success": "Thanks — your message has been sent."
+  },
+  "space": {
+    "hero": {
+      "collections": "Browse categories",
+      "scroll": "Scroll to discover",
+      "explore": "DISCOVER MORE",
+      "pause": "Pause animation",
+      "play": "Resume animation"
+    }
+  },
+  "multinav": {
+    "screens": "Page sections",
+    "latest": "Latest finds",
+    "hint": "Swipe left or right to explore. Scroll down to keep discovering.",
+    "carousel": "Category carousel. Use left and right arrow keys to browse.",
+    "explore": "Explore {{ category }}",
+    "view": "View {{ category }}",
+    "empty": "New finds are on the way. This collection is currently empty.",
+    "previous": "Previous category",
+    "next": "Next category",
+    "open_menu": "Open {{ category }} menu",
+    "vertical_hint": "Swipe up or down to switch page sections.",
+    "kids_soon": "Coming soon in Kids & Toys",
+    "coming_soon": "Coming soon",
+    "toys": "Toys",
+    "baby_care": "Baby Care",
+    "school": "School Essentials",
+    "kids_fashion": "Kids Fashion",
+    "room_decor": "Room Decor"
+  },
+  "bls": {
+    "app": "App",
+    "home": "Home",
+    "catalog": "Catalog",
+    "deals": "Deals",
+    "cart": "Cart",
+    "profile": "Profile",
+    "search": "Search",
+    "close": "Close",
+    "menu": "Menu",
+    "shop": "Shop",
+    "help": "Help",
+    "shop_all": "Shop all",
+    "contact": "Contact",
+    "faq": "FAQ",
+    "coming_soon": "Coming soon",
+    "language": "Language",
+    "col": {
+      "label": "Collection",
+      "back": "Home",
+      "count": "products",
+      "cats": "Categories",
+      "products": "Products",
+      "sort": "Sort",
+      "add": "Add",
+      "options": "Options",
+      "soldout": "Sold out",
+      "prev": "Back",
+      "next": "Next",
+      "pages": "Pages",
+      "from": "From",
+      "empty_heading": "New finds are on the way",
+      "empty_label": "Browse the shop"
+    },
+    "tile": {
+      "lighting": "Lighting",
+      "decor": "Decor",
+      "kitchen": "Kitchen",
+      "bedroom": "Bedroom",
+      "bath": "Bath",
+      "storage": "Storage",
+      "beds": "Beds & comfort",
+      "toys": "Toys",
+      "feeding": "Feeding",
+      "walks": "Walks",
+      "grooming": "Grooming",
+      "dogs": "For dogs",
+      "cats": "For cats"
+    }
+  },
+  "pg": {
+    "add": "Add to cart",
+    "options": "Choose options",
+    "sold_out": "Sold out",
+    "back_home": "Back home",
+    "cart": {
+      "continue": "Continue shopping",
+      "empty_text": "Add something lovely and it will wait for you here.",
+      "summary": "Order summary",
+      "note_ph": "A gift message or a note for delivery",
+      "taxes": "Shipping and taxes are calculated at checkout.",
+      "view": "Open the full cart",
+      "remove": "Remove",
+      "minus": "Decrease quantity",
+      "plus": "Increase quantity",
+      "error": "Something went wrong. Please try again."
+    },
+    "product": {
+      "ship": "Delivery estimate and tracking at checkout",
+      "returns": "30-day easy returns",
+      "secure": "Secure payment",
+      "more": "More to love"
+    },
+    "search": {
+      "eyebrow": "Find your next favorite",
+      "placeholder": "What are you looking for?",
+      "results": "{{ num }} results for “{{ terms }}”",
+      "none": "Nothing found. Try another word or browse the whole shop.",
+      "page": "Page"
+    },
+    "blog": {
+      "title": "Journal",
+      "none": "New stories are on the way."
+    },
+    "contact": {
+      "name": "Name",
+      "email": "Email",
+      "phone": "Phone (optional)",
+      "message": "Message"
+    },
+    "e404": {
+      "title": "This page wandered off",
+      "text": "Let us get you back to the good things."
+    }
+  }
+}

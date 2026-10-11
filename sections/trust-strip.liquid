@@ -1,0 +1,22 @@
+<section class="bs-section bs-trust-strip">
+  <div class="bs-shell bs-trust-grid">
+    <div>{% render 'icon', name: 'user' %}<span><strong>{{ section.settings.value_1 }}</strong><small>{{ section.settings.label_1 }}</small></span></div>
+    <div>{% render 'icon', name: 'star' %}<span><strong>{{ section.settings.value_2 }}</strong><small>{{ section.settings.label_2 }}</small></span></div>
+    <div>{% render 'icon', name: 'diamond' %}<span><strong>{{ section.settings.value_3 }}</strong><small>{{ section.settings.label_3 }}</small></span></div>
+    <div>{% render 'icon', name: 'truck' %}<span><strong>{{ section.settings.value_4 }}</strong><small>{{ section.settings.label_4 }}</small></span></div>
+    <div>{% render 'icon', name: 'heart' %}<span><strong>{{ section.settings.value_5 }}</strong><small>{{ section.settings.label_5 }}</small></span></div>
+  </div>
+</section>
+{% schema %}
+{
+  "name":"Trust strip",
+  "settings":[
+    {"type":"text","id":"value_1","label":"Item 1 title","default":"Curated"},{"type":"text","id":"label_1","label":"Item 1 text","default":"Useful Everyday Finds"},
+    {"type":"text","id":"value_2","label":"Item 2 title","default":"Loved"},{"type":"text","id":"label_2","label":"Item 2 text","default":"Customer Favorites"},
+    {"type":"text","id":"value_3","label":"Item 3 title","default":"Premium Quality"},{"type":"text","id":"label_3","label":"Item 3 text","default":"Carefully Selected"},
+    {"type":"text","id":"value_4","label":"Item 4 title","default":"Fast & Reliable"},{"type":"text","id":"label_4","label":"Item 4 text","default":"Worldwide Shipping"},
+    {"type":"text","id":"value_5","label":"Item 5 title","default":"A Brighter Everyday"},{"type":"text","id":"label_5","label":"Item 5 text","default":"More Good Things"}
+  ],
+  "presets":[{"name":"Trust strip"}]
+}
+{% endschema %}

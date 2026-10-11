@@ -1,0 +1,167 @@
+{%- liquid
+  assign primary_url = section.settings.button_url | default: routes.all_products_collection_url
+  assign secondary_url = section.settings.second_button_url | default: '#collections'
+  assign own = section.settings.image
+-%}
+<section class="bls-hero bls-hero--vid{% if own != blank %} bls-hero--one{% endif %}">
+  <div class="bls-scene" aria-hidden="true">
+    <div class="bls-scene__layer bls-scene__layer--far"><canvas></canvas></div>
+    <div class="bls-scene__layer bls-scene__layer--near"><canvas></canvas></div>
+    <div class="bls-shoot"></div>
+    {%- if own != blank -%}
+      <div class="bls-one" data-src="{{ own | image_url: width: 1916 }}">
+        <div class="bls-one__cam"><div class="bls-one__box">
+          {{ own | image_url: width: own.width | image_tag: class: 'bls-one__img', alt: '', loading: 'eager', widths: '800, 1200, 1600, 1916', sizes: '(max-aspect-ratio: 1/1) 150vh, 233vh', fetchpriority: 'high' }}
+        </div></div>
+        <canvas class="bls-one__gl" aria-hidden="true"></canvas>
+        <div class="bls-one__fx"></div>
+      </div>
+      <script>
+(function(){
+var root=document.querySelector('.bls-one[data-src]');if(!root)return;
+if(window.matchMedia&&matchMedia('(prefers-reduced-motion: reduce)').matches)return;
+var cv=root.querySelector('.bls-one__gl'),img=root.querySelector('.bls-one__img'),cam=root.querySelector('.bls-one__cam');
+function fail(){root.classList.add('bls-nogl');if(cv&&cv.parentNode)cv.parentNode.removeChild(cv);cv=null;}
+var gl=null;try{gl=cv.getContext('webgl',{alpha:false,antialias:false,powerPreference:'high-performance'})||cv.getContext('experimental-webgl');}catch(e){}
+if(!gl||!gl.getShaderPrecisionFormat||gl.getShaderPrecisionFormat(gl.FRAGMENT_SHADER,gl.HIGH_FLOAT).precision<1){fail();return;}
+var VS='attribute vec2 a;void main(){gl_Position=vec4(a,0.,1.);}';
+var FS='precision highp float;uniform sampler2D uTex,uMk;uniform vec2 uRes,uPiv;uniform vec4 uBox;uniform vec2 uCam;uniform float uT,uS,uHor;uniform vec3 uHz;'+
+'float h21(vec2 p){p=fract(p*vec2(123.34,456.21));p+=dot(p,p+45.32);return fract(p.x*p.y);}'+
+'float vn(vec2 p){vec2 i=floor(p),f=fract(p);f=f*f*(3.-2.*f);return mix(mix(h21(i),h21(i+vec2(1.,0.)),f.x),mix(h21(i+vec2(0.,1.)),h21(i+vec2(1.,1.)),f.x),f.y);}'+
+'float fbm(vec2 p){return vn(p)*.6+vn(p*2.03+7.1)*.3+vn(p*4.1+3.3)*.1;}'+
+'void main(){vec2 p=vec2(gl_FragCoord.x,uRes.y-gl_FragCoord.y);p=uCam+(p-uCam)/uS;vec2 uv=(p-uBox.xy)/uBox.zw;'+
+'if(uv.x<0.||uv.x>1.||uv.y<0.||uv.y>1.){gl_FragColor=vec4(.0157,.0196,.0392,1.);return;}'+
+'vec4 mk=texture2D(uMk,uv);float m=mk.r,sk=mk.g;'+
+'vec2 q=uv*vec2(3.,1.6);vec2 fl=vec2(fbm(q+vec2(uT*.018,0.))-.5,fbm(q+vec2(5.2,1.3)+vec2(0.,uT*.015))-.5);'+
+'uv+=fl*.0036*sk+vec2(.0010*sin(uT*.07),.0004*sin(uT*.05+1.))*sk;'+
+'float hb=smoothstep(uHor-.05,uHor,uv.y)*(1.-smoothstep(uHor,uHor+.07,uv.y));'+
+'uv.x+=hb*.0005*sin(uv.y*520.+uT*1.3)*(1.-m);'+
+'float a=.0087*sin(uT*.449);vec2 d=(uv-uPiv)*uBox.zw;'+
+'vec2 r=vec2(cos(a)*d.x-sin(a)*d.y,sin(a)*d.x+cos(a)*d.y)/uBox.zw;uv=mix(uv,uPiv+r,m);'+
+'vec3 c=texture2D(uTex,uv).rgb;'+
+'float band=smoothstep(.5,.62,uv.y)*(1.-smoothstep(.8,.95,uv.y));'+
+'float hz=fbm(vec2(uv.x*3.2+uT*.012,uv.y*9.+uT*.004))*band*(1.-m);c+=uHz*hz*.11;'+
+'c+=(h21(gl_FragCoord.xy)-.5)/255.;gl_FragColor=vec4(c,1.);}';
+function sh(t,s){var o=gl.createShader(t);gl.shaderSource(o,s);gl.compileShader(o);if(!gl.getShaderParameter(o,gl.COMPILE_STATUS)){if(window.console)console.warn(gl.getShaderInfoLog(o));return null;}return o;}
+var vs=sh(gl.VERTEX_SHADER,VS),fs=sh(gl.FRAGMENT_SHADER,FS);if(!vs||!fs){fail();return;}
+var pg=gl.createProgram();gl.attachShader(pg,vs);gl.attachShader(pg,fs);gl.linkProgram(pg);
+if(!gl.getProgramParameter(pg,gl.LINK_STATUS)){fail();return;}
+gl.useProgram(pg);
+var bf=gl.createBuffer();gl.bindBuffer(gl.ARRAY_BUFFER,bf);gl.bufferData(gl.ARRAY_BUFFER,new Float32Array([-1,-1,3,-1,-1,3]),gl.STATIC_DRAW);
+var al=gl.getAttribLocation(pg,'a');gl.enableVertexAttribArray(al);gl.vertexAttribPointer(al,2,gl.FLOAT,false,0,0);
+var U={};['uTex','uMk','uRes','uPiv','uBox','uCam','uT','uS','uHor','uHz'].forEach(function(n){U[n]=gl.getUniformLocation(pg,n);});
+/* the soft mask: R = astronaut and chair (they sway), G = sky (it drifts), built once on a small canvas */
+var MW=256,MH=110,POLY=[900,224,868,238,862,262,880,270,850,292,815,300,775,315,770,335,745,350,725,372,712,395,680,408,682,421,735,420,760,408,790,396,800,398,792,410,840,422,900,430,940,422,944,405,962,380,973,300,969,255,940,243,920,226],VW=1200,VH=514;
+function blur(a,w,h,r){var t=new Float32Array(a.length),x,y,k,s,n=2*r+1;
+for(y=0;y<h;y++)for(x=0;x<w;x++){s=0;for(k=-r;k<=r;k++)s+=a[y*w+Math.min(w-1,Math.max(0,x+k))];t[y*w+x]=s/n;}
+for(y=0;y<h;y++)for(x=0;x<w;x++){s=0;for(k=-r;k<=r;k++)s+=t[Math.min(h-1,Math.max(0,y+k))*w+x];a[y*w+x]=s/n;}}
+function mask(){var c=document.createElement('canvas');c.width=MW;c.height=MH;var x=c.getContext('2d'),i;x.fillStyle='#000';x.fillRect(0,0,MW,MH);x.fillStyle='#fff';x.beginPath();
+for(i=0;i<POLY.length;i+=2)x[i?'lineTo':'moveTo'](POLY[i]/VW*MW,POLY[i+1]/VH*MH);x.closePath();x.fill();
+var d=x.getImageData(0,0,MW,MH).data,a=new Float32Array(MW*MH),o=new Uint8Array(MW*MH*4),y,v,f;
+for(i=0;i<a.length;i++)a[i]=d[i*4]/255;blur(a,MW,MH,2);blur(a,MW,MH,2);blur(a,MW,MH,2);
+for(y=0;y<MH;y++)for(i=0;i<MW;i++){v=a[y*MW+i];f=y/MH;f=f<.5?1:f>.63?0:1-(f-.5)/.13;f=f*f*(3-2*f);
+o[(y*MW+i)*4]=Math.min(255,v*255*1.25);o[(y*MW+i)*4+1]=255*f*(1-Math.min(1,v*2));o[(y*MW+i)*4+3]=255;}
+return o;}
+function tex(unit,setup){var t=gl.createTexture();gl.activeTexture(gl.TEXTURE0+unit);gl.bindTexture(gl.TEXTURE_2D,t);
+gl.texParameteri(gl.TEXTURE_2D,gl.TEXTURE_MIN_FILTER,gl.LINEAR);gl.texParameteri(gl.TEXTURE_2D,gl.TEXTURE_MAG_FILTER,gl.LINEAR);
+gl.texParameteri(gl.TEXTURE_2D,gl.TEXTURE_WRAP_S,gl.CLAMP_TO_EDGE);gl.texParameteri(gl.TEXTURE_2D,gl.TEXTURE_WRAP_T,gl.CLAMP_TO_EDGE);setup();return t;}
+var scale=1,box=[0,0,1,1],camO=[0,0],T=0,last=0,slow=0,cnt=0,ema=16,drawn=false,dead=false;
+var touch=window.matchMedia&&matchMedia('(hover:none) and (pointer:coarse)').matches;
+function size(){if(!cv)return;var r=root.getBoundingClientRect(),dpr=Math.min(window.devicePixelRatio||1,touch?1.5:2)*scale,
+w=Math.max(2,Math.round(r.width*dpr)),h=Math.max(2,Math.round(r.height*dpr));if(cv.width!==w||cv.height!==h){cv.width=w;cv.height=h;}
+var k=w/r.width,b=img.getBoundingClientRect(),co=(getComputedStyle(cam).transformOrigin||'0 0').split(' ');
+box=[(b.left-r.left)*k,(b.top-r.top)*k,b.width*k,b.height*k];camO=[parseFloat(co[0])*k,parseFloat(co[1])*k];gl.viewport(0,0,w,h);}
+function deep(){return (window.pageYOffset||0)>window.innerHeight*.55;}
+function draw(){gl.uniform2f(U.uRes,cv.width,cv.height);gl.uniform4f(U.uBox,box[0],box[1],box[2],box[3]);gl.uniform2f(U.uCam,camO[0],camO[1]);
+gl.uniform1f(U.uT,T);gl.uniform1f(U.uS,1+.035*(1-Math.cos(T*.10472)));gl.drawArrays(gl.TRIANGLES,0,3);}
+var renderFrame=0,lastPaint=0;
+function scheduleFrame(){if(!renderFrame&&!dead&&!document.hidden&&!deep())renderFrame=requestAnimationFrame(frame);}
+function frame(now){renderFrame=0;if(dead||document.hidden||deep()){last=0;return;}
+scheduleFrame();if(touch&&now-lastPaint<33)return;lastPaint=now;
+var dt=last?Math.min(.1,(now-last)/1000):0;last=now;T+=dt;draw();
+if(!drawn){drawn=true;root.classList.add('bls-gl');}
+if(dt>0){ema+=(dt*1000-ema)*.05;if(++cnt>90){cnt=0;if(ema>27){if(scale>.62){scale*=.82;size();}else if(++slow>2){dead=true;fail();root.classList.remove('bls-gl');}}}}}
+var im=new Image();im.crossOrigin='anonymous';
+im.onload=function(){try{
+tex(0,function(){gl.texImage2D(gl.TEXTURE_2D,0,gl.RGBA,gl.RGBA,gl.UNSIGNED_BYTE,im);});
+tex(1,function(){gl.texImage2D(gl.TEXTURE_2D,0,gl.RGBA,MW,MH,0,gl.RGBA,gl.UNSIGNED_BYTE,mask());});
+gl.uniform1i(U.uTex,0);gl.uniform1i(U.uMk,1);gl.uniform2f(U.uPiv,.72,.81);gl.uniform1f(U.uHor,.64);gl.uniform3f(U.uHz,1,.87,.72);
+size();draw();
+scheduleFrame();}catch(e){fail();}};
+im.onerror=fail;im.src=root.getAttribute('data-src');
+cv.addEventListener('webglcontextlost',function(e){e.preventDefault();dead=true;fail();root.classList.remove('bls-gl');});
+var rt=0;window.addEventListener('resize',function(){clearTimeout(rt);rt=setTimeout(function(){size();scheduleFrame();},120);});
+document.addEventListener('visibilitychange',scheduleFrame);
+window.addEventListener('scroll',scheduleFrame,{passive:true});
+window.addEventListener('pageshow',scheduleFrame);
+})();
+</script>
+    {%- endif -%}
+    <div class="bls-scene__shade"></div>
+  </div>
+  <div class="bls-wrap bls-hero__inner">
+    <div class="bls-hero__copy">
+      {%- if section.settings.eyebrow != blank -%}<p class="bls-eyebrow">{{ section.settings.eyebrow | escape }}</p>{%- endif -%}
+      <h1 class="bls-hero__title">{{ section.settings.heading | default: shop.name | escape }}</h1>
+      {%- if section.settings.text != blank -%}<p class="bls-hero__text">{{ section.settings.text | escape }}</p>{%- endif -%}
+      <div class="bls-hero__cta">
+        {%- if section.settings.button_label != blank -%}
+          <a class="bls-btn bls-btn--gold" href="{{ primary_url }}">
+            {{ section.settings.button_label | escape }}
+            <svg aria-hidden="true" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14"></path><path d="M13 6l6 6-6 6"></path></svg>
+          </a>
+        {%- endif -%}
+        {%- if section.settings.second_button_label != blank -%}
+          <a class="bls-btn bls-btn--glass" href="{{ secondary_url }}">{{ section.settings.second_button_label | escape }}</a>
+        {%- endif -%}
+      </div>
+    </div>
+  </div>
+</section>
+<style>
+.bls-hero--one .bls-scene{background:#04050A}
+.bls-hero--one .bls-scene__layer,.bls-hero--one .bls-scene__shade,.bls-hero .bls-shoot{display:none}
+.bls-one{--ar:2.3337;--fx:.3;position:absolute;top:0;left:0;width:100%;height:100%;overflow:hidden}
+.bls-one__cam{position:absolute;top:0;left:0;width:100%;height:100%;transform-origin:74% 62%}
+.bls-one__box{position:absolute;width:max(100vw,calc(100 * var(--bls-u) * var(--ar)));aspect-ratio:1916/821;left:calc((100vw - max(100vw,calc(100 * var(--bls-u) * var(--ar)))) * var(--fx));top:calc((100 * var(--bls-u) - max(100vw,calc(100 * var(--bls-u) * var(--ar))) / var(--ar)) * .5)}
+.bls-one__img{position:absolute;left:0;top:0;width:100%;height:100%;max-width:none;display:block}
+.bls-one__gl{position:absolute;top:0;left:0;width:100%;height:100%;display:block;opacity:0;transition:opacity 1.2s ease;pointer-events:none}
+.bls-one.bls-gl .bls-one__gl{opacity:1}
+.bls-one__fx{position:absolute;top:0;left:0;width:100%;height:100%;pointer-events:none;background:radial-gradient(56% 44% at 50% 88%,rgba(4,5,10,.6) 0%,rgba(4,5,10,0) 100%),linear-gradient(0deg,rgba(4,5,10,.55) 0%,rgba(4,5,10,0) 26%),linear-gradient(180deg,rgba(4,5,10,.4) 0%,rgba(4,5,10,0) 16%)}
+.bls-hero--vid .bls-hero__inner{align-items:center;justify-content:flex-end;text-align:center;padding-top:96px;padding-bottom:calc(9 * var(--bls-u))}
+.bls-hero--vid .bls-hero__copy{max-width:min(560px,92vw);margin-left:auto;margin-right:auto}
+.bls-hero--vid .bls-eyebrow,.bls-hero--vid .bls-hero__title{text-indent:0}
+.bls-hero--vid .bls-hero__text{max-width:420px;margin-left:auto;margin-right:auto}
+.bls-hero--vid .bls-hero__cta{justify-content:center}
+@media (max-aspect-ratio:1/1){
+  .bls-one{--fx:.8}
+  .bls-one__box{width:calc(58 * var(--bls-u) * var(--ar));left:calc((100vw - 56 * var(--bls-u) * var(--ar)) * var(--fx));top:calc(7 * var(--bls-u))}
+  .bls-one__fx{background:linear-gradient(0deg,#04050A 0%,#04050A 30%,rgba(4,5,10,.8) 35%,rgba(4,5,10,.3) 42%,rgba(4,5,10,0) 54%),linear-gradient(180deg,#04050A 0%,rgba(4,5,10,.85) 9%,rgba(4,5,10,0) 24%)}
+}
+@media (max-width:900px),(orientation:portrait){
+  .bls-hero--vid .bls-hero__inner{padding-top:96px;padding-bottom:calc(112px + env(safe-area-inset-bottom,0px))}
+  .bls-hero--vid .bls-eyebrow,.bls-hero--vid .bls-hero__title{margin-bottom:10px}
+  .bls-hero--vid .bls-hero__text{max-width:300px;margin-bottom:16px;font-size:14px;line-height:1.5}
+}
+@media (prefers-reduced-motion:no-preference){
+  .bls-js .bls-one.bls-nogl .bls-one__cam{animation:bls-one-cam 28s ease-in-out infinite alternate}
+  .bls-deep .bls-one.bls-nogl .bls-one__cam{animation-play-state:paused}
+}
+@keyframes bls-one-cam{from{transform:scale(1)}to{transform:scale(1.07)}}
+</style>
+{% schema %}
+{
+  "name": "Space hero",
+  "settings": [
+    {"type": "text", "id": "eyebrow", "label": "Small line above the name", "default": "PET · HOME · FASHION"},
+    {"type": "text", "id": "heading", "label": "Name", "default": "BLESSHOP"},
+    {"type": "textarea", "id": "text", "label": "Text", "default": "Beautiful finds for a more comfortable life."},
+    {"type": "text", "id": "button_label", "label": "Main button", "default": "Shop all"},
+    {"type": "url", "id": "button_url", "label": "Main button link"},
+    {"type": "text", "id": "second_button_label", "label": "Second button", "default": "Categories"},
+    {"type": "url", "id": "second_button_url", "label": "Second button link", "info": "Leave empty to jump to the category cards."},
+    {"type": "image_picker", "id": "image", "label": "Background picture", "info": "A wide picture. It is brought to life on screen: the camera, the sky, the chair and the haze move softly."}
+  ],
+  "presets": [{"name": "Space hero"}]
+}
+{% endschema %}

@@ -1,0 +1,77 @@
+/*
+ * ------------------------------------------------------------
+ * IMPORTANT: The contents of this file are auto-generated.
+ *
+ * This file may be updated by the Shopify admin language editor
+ * or related systems. Please exercise caution as any changes
+ * made to this file may be overwritten.
+ * ------------------------------------------------------------
+ */
+{
+  "general": {
+    "home": "Inicio",
+    "shop_all": "Comprar todo",
+    "collections": "Colecciones",
+    "search": "Buscar",
+    "account": "Cuenta",
+    "cart": "Carrito",
+    "categories": "Categorías",
+    "close": "Cerrar",
+    "apply": "Aplicar",
+    "clear": "Limpiar",
+    "quick_view": "Vista rápida",
+    "back_to_top": "Volver arriba"
+  },
+  "product": {
+    "add_to_cart": "Añadir al carrito",
+    "sold_out": "Agotado",
+    "preorder": "Reservar",
+    "quantity": "Cantidad",
+    "choose_option": "Elegir opción",
+    "description": "Descripción",
+    "shipping": "Envío",
+    "returns": "Devoluciones",
+    "size_chart": "Guía de tallas",
+    "ingredients": "Ingredientes / nutrición",
+    "how_to_use": "Cómo usar",
+    "recently_viewed": "Vistos recientemente",
+    "recommendations": "También te puede gustar"
+  },
+  "collection": {
+    "filter": "Filtrar productos",
+    "products": "productos",
+    "no_products": "No se encontraron productos",
+    "load_more": "Desplázate para ver más"
+  },
+  "cart": {
+    "your_bag": "Tu carrito",
+    "subtotal": "Subtotal",
+    "order_note": "Nota del pedido",
+    "checkout": "Pagar",
+    "empty": "Tu carrito está vacío"
+  },
+  "contact": {
+    "send": "Enviar mensaje",
+    "success": "Gracias — tu mensaje ha sido enviado."
+  },
+  "multinav": {
+    "screens": "Secciones de la página",
+    "latest": "Novedades",
+    "hint": "Desliza hacia la izquierda o la derecha para explorar. Desplázate hacia abajo para seguir descubriendo.",
+    "carousel": "Carrusel de categorías. Usa las flechas izquierda y derecha para navegar.",
+    "explore": "Explorar {{ category }}",
+    "view": "Ver {{ category }}",
+    "empty": "Pronto llegarán novedades. Esta colección aún está vacía.",
+    "previous": "Categoría anterior",
+    "next": "Categoría siguiente",
+    "open_menu": "Abrir menú de {{ category }}",
+    "vertical_hint": "Desliza hacia arriba o abajo para cambiar de sección.",
+    "kids_soon": "Próximamente en Kids & Toys",
+    "coming_soon": "Próximamente",
+    "toys": "Juguetes",
+    "baby_care": "Cuidado del bebé",
+    "school": "Artículos escolares",
+    "kids_fashion": "Moda infantil",
+    "room_decor": "Decoración infantil"
+  }
+}

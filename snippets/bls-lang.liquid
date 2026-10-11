@@ -1,0 +1,16 @@
+{%- comment -%}Language switch. Shows only when the store has more than one published language.{%- endcomment -%}
+{%- if localization.available_languages.size > 1 -%}
+  {%- form 'localization', id: lang_id, class: 'bls-lang' -%}
+    <label class="bls-vh" for="{{ lang_id }}-sel">{{ 'bls.language' | t }}</label>
+    <select id="{{ lang_id }}-sel" name="locale_code" onchange="this.form.submit()">
+      {%- for l in localization.available_languages -%}
+        <option value="{{ l.iso_code }}"{% if l.iso_code == localization.language.iso_code %} selected{% endif %} lang="{{ l.iso_code }}">{{ l.endonym_name | capitalize }}</option>
+      {%- endfor -%}
+    </select>
+  {%- endform -%}
+  <style>
+  .bls-lang{display:inline-flex;align-items:center;margin:0}
+  .bls-lang select{min-height:40px;padding:0 14px;border:1px solid rgba(255,255,255,.28);border-radius:999px;background:rgba(255,255,255,.1);color:inherit;font:600 13px/1 var(--bls-body,'Manrope',system-ui,sans-serif);outline:0;cursor:pointer}
+  .bls-lang select option{color:#111}
+  </style>
+{%- endif -%}

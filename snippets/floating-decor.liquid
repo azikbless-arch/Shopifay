@@ -1,0 +1,22 @@
+{% doc %}
+Floating premium decorative elements that move gently with page scroll.
+{% enddoc %}
+{% if settings.floating_decor %}
+  <div class="bs-floaters" aria-hidden="true" data-motion-root>
+    <div class="bs-floater bs-floater--plane" data-float-speed="0.045">
+      <svg viewBox="0 0 64 64" aria-hidden="true"><path d="M7 30 55 8 39 56 29 37 7 30Z"/><path d="M29 37 55 8"/></svg>
+    </div>
+    <div class="bs-floater bs-floater--gift" data-float-speed="-0.035">
+      <svg viewBox="0 0 64 64" aria-hidden="true"><rect x="12" y="25" width="40" height="30" rx="4"/><path d="M32 25v30M9 25h46v-9H9v9ZM32 16c-7-10-17-7-15-1 2 5 15 1 15 1Zm0 0c7-10 17-7 15-1-2 5-15 1-15 1Z"/></svg>
+    </div>
+    <div class="bs-floater bs-floater--spark" data-float-speed="0.055">
+      <svg viewBox="0 0 64 64" aria-hidden="true"><path d="M32 5c3 17 10 24 27 27-17 3-24 10-27 27-3-17-10-24-27-27C22 29 29 22 32 5Z"/></svg>
+    </div>
+    <div class="bs-floater bs-floater--bag" data-float-speed="-0.05">
+      <svg viewBox="0 0 64 64" aria-hidden="true"><path d="M16 22h32l4 34H12l4-34Z"/><path d="M24 23c0-8 3-13 8-13s8 5 8 13"/><path d="M25 38h14"/></svg>
+    </div>
+    <div class="bs-floater bs-floater--heart" data-float-speed="0.04">
+      <svg viewBox="0 0 64 64" aria-hidden="true"><path d="M32 53S8 39 8 22c0-8 6-13 13-13 5 0 9 3 11 7 2-4 6-7 11-7 7 0 13 5 13 13 0 17-24 31-24 31Z"/></svg>
+    </div>
+  </div>
+{% endif %}

@@ -1,0 +1,57 @@
+/*
+ * ------------------------------------------------------------
+ * IMPORTANT: The contents of this file are auto-generated.
+ *
+ * This file may be updated by the Shopify admin theme editor
+ * or related systems. Please exercise caution as any changes
+ * made to this file may be overwritten.
+ * ------------------------------------------------------------
+ */
+{
+  "current": {
+    "brand_name": "BLESSHOP",
+    "accent_color": "#b5bdca",
+    "soft_pink": "#191b20",
+    "soft_lavender": "#20242b",
+    "floating_decor": false,
+    "cart_drawer": true,
+    "free_shipping_threshold": "$50+",
+    "motion_effects": true,
+    "sticky_header": true,
+    "predictive_search": true,
+    "quick_view": true,
+    "infinite_scroll": true,
+    "recently_viewed": true,
+    "back_to_top": true,
+    "floating_cart": true,
+    "promo_popup": false,
+    "promo_popup_heading": "A little treat for you",
+    "promo_popup_text": "Join the list for new finds, offers and product drops.",
+    "promo_popup_button": "Shop now",
+    "promo_popup_delay": 6,
+    "age_gate": false,
+    "age_gate_heading": "Before you enter",
+    "age_gate_text": "Please confirm that you meet the required age for this storefront."
+  },
+  "presets": {
+    "Default": {
+      "brand_name": "BLESSHOP",
+      "accent_color": "#ff6578",
+      "soft_pink": "#fde8ec",
+      "soft_lavender": "#eee8ff",
+      "floating_decor": true,
+      "cart_drawer": true,
+      "free_shipping_threshold": "$50+",
+      "motion_effects": true,
+      "sticky_header": true,
+      "predictive_search": true,
+      "quick_view": true,
+      "infinite_scroll": true,
+      "recently_viewed": true,
+      "back_to_top": true,
+      "floating_cart": true,
+      "promo_popup": false,
+      "age_gate": false
+    }
+  }
+}

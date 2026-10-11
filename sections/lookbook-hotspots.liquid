@@ -1,0 +1,48 @@
+<section class="bs-section">
+  <div class="bs-shell">
+    <div class="bs-section-head"><h1>{{ section.settings.heading }}</h1></div>
+    {% if section.settings.text != blank %}<p>{{ section.settings.text }}</p>{% endif %}
+    <div class="bs-lookbook">
+      {% if section.settings.image != blank %}
+        {{ section.settings.image | image_url: width: 2200 | image_tag: loading: 'lazy', widths: '700,1000,1400,1800,2200', sizes: '100vw', alt: section.settings.heading }}
+      {% else %}
+        <div style="min-height:520px;background:linear-gradient(135deg,#ffe9ee,#eee8ff)"></div>
+      {% endif %}
+      {% for block in section.blocks %}
+        {% assign hot_product = block.settings.product %}
+        <button class="bs-hotspot" type="button" data-hotspot style="--x:{{ block.settings.x }}%;--y:{{ block.settings.y }}%" aria-label="Open hotspot {{ forloop.index }}">+</button>
+        <div class="bs-hotspot-card" style="--x:{{ block.settings.x }}%;--y:{{ block.settings.y }}%" {{ block.shopify_attributes }}>
+          {% if hot_product != blank %}
+            <strong>{{ hot_product.title }}</strong>
+            <div>{{ hot_product.price | money }}</div>
+            <a href="{{ hot_product.url }}">View product →</a>
+          {% else %}
+            <strong>{{ block.settings.label }}</strong>
+            <div>{{ block.settings.text }}</div>
+          {% endif %}
+        </div>
+      {% endfor %}
+    </div>
+  </div>
+</section>
+{% schema %}
+{
+  "name":"Lookbook hotspots",
+  "settings":[
+    {"type":"text","id":"heading","label":"Heading","default":"Shop the look"},
+    {"type":"textarea","id":"text","label":"Intro","default":"Tap the hotspots to discover products in the scene."},
+    {"type":"image_picker","id":"image","label":"Lookbook image"}
+  ],
+  "blocks":[
+    {"type":"hotspot","name":"Hotspot","settings":[
+      {"type":"range","id":"x","label":"Horizontal position","min":0,"max":100,"step":1,"unit":"%","default":50},
+      {"type":"range","id":"y","label":"Vertical position","min":0,"max":100,"step":1,"unit":"%","default":50},
+      {"type":"product","id":"product","label":"Product"},
+      {"type":"text","id":"label","label":"Fallback label","default":"Featured find"},
+      {"type":"text","id":"text","label":"Fallback text","default":"Add a product to make this hotspot shoppable."}
+    ]}
+  ],
+  "max_blocks":8,
+  "presets":[{"name":"Lookbook hotspots","blocks":[{"type":"hotspot"},{"type":"hotspot"},{"type":"hotspot"}]}]
+}
+{% endschema %}

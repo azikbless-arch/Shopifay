@@ -1,0 +1,21 @@
+<section class="pg">
+  <div class="pg-wrap">
+    <div class="pg-head"><div><p class="pg-eyebrow">{{ shop.name | upcase | escape }}</p><h1 class="pg-h1">{{ 'general.collections' | t }}</h1></div></div>
+    <div class="bls-grid pgl">
+      {%- for c in collections -%}
+        {%- if c.handle == 'frontpage' -%}{%- continue -%}{%- endif -%}
+        {%- assign pic = c.image | default: c.products.first.featured_image -%}
+        <a class="bls-item pgl__card" href="{{ c.url }}">
+          <span class="bls-item__media bls-shot">{%- if pic != blank -%}{{ pic | image_url: width: 700 | image_tag: loading: 'lazy', alt: '', widths: '300, 500, 700', sizes: '(max-width: 700px) 46vw, 280px' }}{%- endif -%}</span>
+          <span class="bls-item__info">
+            <span class="bls-item__kind">{% if c.all_products_count > 0 %}{{ c.all_products_count }} {{ 'bls.col.count' | t }}{% else %}{{ 'bls.coming_soon' | t }}{% endif %}</span>
+            <span class="bls-item__title">{{ c.title | escape }}</span>
+          </span>
+        </a>
+      {%- endfor -%}
+    </div>
+  </div>
+</section>
+{% schema %}
+{"name": "Glass collections", "settings": []}
+{% endschema %}

@@ -1,0 +1,11 @@
+<article class="pg">
+  <div class="pg-wrap pg-wrap--narrow">
+    <a class="pg-link" href="{{ blog.url }}" style="margin:0 0 18px">&larr; {{ blog.title | escape }}</a>
+    <div class="pg-head"><div><p class="pg-eyebrow">{{ article.published_at | date: '%d.%m.%Y' }}{% if article.author != blank %} &middot; {{ article.author | escape }}{% endif %}</p><h1 class="pg-h1">{{ article.title | escape }}</h1></div></div>
+    {%- if article.image -%}<div class="pg-panel" style="padding:0;overflow:hidden;margin:0 0 20px">{{ article.image | image_url: width: 1400 | image_tag: loading: 'eager', alt: article.image.alt | default: article.title, style: 'width:100%;height:auto;display:block' }}</div>{%- endif -%}
+    <div class="pg-panel"><div class="pg-rte">{{ article.content }}</div></div>
+  </div>
+</article>
+{% schema %}
+{"name": "Glass article", "settings": []}
+{% endschema %}

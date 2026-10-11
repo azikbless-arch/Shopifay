@@ -1,0 +1,332 @@
+{%- liquid
+  assign primary_url = section.settings.button_url | default: routes.all_products_collection_url
+  assign secondary_url = section.settings.second_button_url | default: '#collections'
+  assign img = section.settings.image
+  assign img_m = section.settings.image_mobile | default: img
+  assign dur = section.settings.zoom_seconds | default: 70
+  assign mode = section.settings.bg_mode | default: 'space'
+  assign vid = section.settings.video_url | strip
+  if mode != 'video'
+    assign vid = blank
+  endif
+  assign vid_m = section.settings.video_url_mobile | strip | default: vid
+-%}
+{%- comment -%}First screen. Default background is a drawn space scene (no pictures to load, sharp on every screen):
+  a deep indigo sky, nebula glow, two star layers, a golden ringed planet with a band of glittering dust, a pale moon, a floating glass bubble, dunes with a warm rim, drifting dust motes and a rare shooting star; the camera pulls back very slowly.{%- endcomment -%}
+<section class="bls-hero bls-hero--motion bls-stagehero" id="bls-stagehero">
+  <div class="bls-stage{% if section.settings.flip %} bls-stage--flip{% endif %}" aria-hidden="true" style="--bls-stage-dur:{{ dur }}s;--bls-fx:{{ section.settings.focus_x }}%;--bls-fxm:{{ section.settings.focus_x_mobile }}%">
+    {%- if mode == 'space' -%}
+      <div class="cs-world">
+        <span class="cs-sky"></span>
+        <span class="cs-neb cs-neb--a"></span><span class="cs-neb cs-neb--b"></span><span class="cs-neb cs-neb--c"></span>
+        <canvas class="cs-stars cs-stars--far"></canvas>
+        <canvas class="cs-stars cs-stars--near"></canvas>
+        <span class="cs-shoot"></span>
+        <span class="cs-moon"></span>
+        <span class="cs-planet-wrap">
+          <canvas class="cs-rdust cs-rdust--back"></canvas>
+          <span class="cs-ring cs-ring--back"></span>
+          <span class="cs-planet"></span>
+          <span class="cs-ring cs-ring--front"></span>
+          <canvas class="cs-rdust cs-rdust--front"></canvas>
+        </span>
+        <span class="cs-bubble"></span>
+        <svg class="cs-dunes" viewBox="0 0 1440 420" preserveAspectRatio="none" aria-hidden="true">
+          <defs>
+            <linearGradient id="csFar" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#262E70"/><stop offset="1" stop-color="#0D1030"/></linearGradient>
+            <linearGradient id="csNear" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#171B4A"/><stop offset=".55" stop-color="#080A1E"/><stop offset="1" stop-color="#05060F"/></linearGradient>
+            <linearGradient id="csRim" x1="0" y1="0" x2="1" y2="0"><stop offset="0" stop-color="#FFD9A0" stop-opacity="0"/><stop offset=".55" stop-color="#FFD9A0" stop-opacity=".8"/><stop offset="1" stop-color="#FFD9A0" stop-opacity=".15"/></linearGradient>
+          </defs>
+          <path d="M0 170 C160 120 300 150 460 132 C640 112 760 160 940 138 C1110 118 1260 96 1440 128 L1440 420 L0 420 Z" fill="url(#csFar)"/>
+          <path d="M0 268 C190 214 360 252 540 236 C720 220 860 182 1040 206 C1200 228 1330 246 1440 228 L1440 420 L0 420 Z" fill="url(#csNear)"/>
+          <path d="M0 268 C190 214 360 252 540 236 C720 220 860 182 1040 206 C1200 228 1330 246 1440 228" fill="none" stroke="url(#csRim)" stroke-width="2" vector-effect="non-scaling-stroke"/>
+        </svg>
+        <span class="cs-haze"></span>
+        <canvas class="cs-motes"></canvas>
+      </div>
+    {%- elsif vid != blank -%}
+      <video class="bls-stage__vid" muted playsinline webkit-playsinline preload="auto" disablepictureinpicture disableremoteplayback tabindex="-1" data-rate="{{ section.settings.video_speed | divided_by: 100.0 }}" data-src="{{ vid | escape }}" data-src-m="{{ vid_m | escape }}"></video>
+      {%- if img != blank -%}<img class="bls-stage__img bls-stage__fallback" data-src="{{ img | image_url: width: 1920 }}" alt="">{%- endif -%}
+    {%- elsif img != blank -%}
+      <picture>
+        {%- if section.settings.image_mobile != blank -%}
+          <source media="(max-width: 749px)" srcset="{{ img_m | image_url: width: 800 }} 800w, {{ img_m | image_url: width: 1200 }} 1200w, {{ img_m | image_url: width: 1600 }} 1600w" sizes="100vw">
+        {%- endif -%}
+        <img class="bls-stage__img" src="{{ img | image_url: width: 1920 }}" srcset="{{ img | image_url: width: 960 }} 960w, {{ img | image_url: width: 1440 }} 1440w, {{ img | image_url: width: 1920 }} 1920w, {{ img | image_url: width: 2560 }} 2560w" sizes="(orientation: portrait) 300vh, 100vw" alt="" fetchpriority="high" decoding="async" onload="this.closest('.bls-stage').classList.add('is-in')">
+      </picture>
+    {%- endif -%}
+    {%- if section.settings.life and mode != 'space' -%}
+    <span class="bls-stage__glow"></span>
+    <span class="bls-stage__stars bls-stage__stars--a"></span>
+    <span class="bls-stage__stars bls-stage__stars--b"></span>
+    <span class="bls-stage__dust"></span>
+    {%- endif -%}
+    <span class="bls-stage__shade"></span>
+    <span class="bls-stage__dim"></span>
+  </div>
+  <div class="bls-wrap bls-hero__inner">
+    <div class="bls-hero__copy">
+      {%- if section.settings.eyebrow != blank -%}<p class="bls-eyebrow">{{ section.settings.eyebrow | escape }}</p>{%- endif -%}
+      <h1 class="bls-hero__title">{{ section.settings.heading | default: shop.name | escape }}</h1>
+      {%- if section.settings.text != blank -%}<p class="bls-hero__text">{{ section.settings.text | escape }}</p>{%- endif -%}
+      <div class="bls-hero__cta">
+        {%- if section.settings.button_label != blank -%}
+          <a class="bls-btn bls-btn--gold" href="{{ primary_url }}">
+            {{ section.settings.button_label | escape }}
+            <svg aria-hidden="true" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14"></path><path d="M13 6l6 6-6 6"></path></svg>
+          </a>
+        {%- endif -%}
+        {%- if section.settings.second_button_label != blank -%}
+          <a class="bls-btn bls-btn--glass" href="{{ secondary_url }}">{{ section.settings.second_button_label | escape }}</a>
+        {%- endif -%}
+      </div>
+    </div>
+  </div>
+</section>
+<style>
+.bls-stagehero{position:relative;min-height:100vh;min-height:100svh;background:transparent!important;display:flex;transform:none!important;filter:none!important;contain:none!important;overflow:visible!important}
+.bls-stage{position:fixed;inset:0;z-index:0;overflow:hidden;pointer-events:none;background:#05060B;contain:strict}
+.bls-stage picture,.bls-stage__img{position:absolute;inset:0;display:block;width:100%;height:100%}
+.bls-stage__img{object-fit:cover;object-position:var(--bls-fx,50%) 55%;opacity:0;transform:scale(1.18);transform-origin:50% 60%;will-change:transform,opacity;backface-visibility:hidden;transition:opacity 1.4s ease}
+.bls-stage--flip .bls-stage__img{transform:scale(-1.18,1.18)}
+.bls-stage.is-in .bls-stage__img{opacity:1}
+.bls-stage.no-vid .bls-stage__vid{display:none}
+@media (orientation:portrait),(max-width:749px){.bls-stage__img{object-position:var(--bls-fxm,30%) 58%}}
+.bls-stage__vid{position:absolute;inset:0;display:block;width:100%;height:100%;max-width:none;object-fit:cover;object-position:var(--bls-fx,50%) 50%;opacity:0;transition:opacity 1.2s ease;backface-visibility:hidden}
+.bls-stage.is-in .bls-stage__vid.is-on{opacity:1}
+.bls-stage--flip .bls-stage__vid{transform:scaleX(-1)}
+@media (orientation:portrait),(max-width:749px){.bls-stage__vid{object-position:var(--bls-fxm,45%) 50%}}
+.bls-stage.has-vid:not(.no-vid) .bls-stage__fallback{display:none}
+.bls-stage__glow,.bls-stage__stars,.bls-stage__dust{position:absolute;pointer-events:none;opacity:0;transition:opacity 2s ease 0.6s}
+.bls-stage.is-in .bls-stage__glow,.bls-stage.is-in .bls-stage__stars,.bls-stage.is-in .bls-stage__dust{opacity:1}
+.bls-stage__glow{left:-10%;right:-10%;top:48%;height:30%;background:radial-gradient(ellipse 50% 50% at var(--bls-glow-x,78%) 50%,rgba(255,190,120,.22),rgba(255,150,80,.08) 45%,rgba(255,140,70,0) 72%);mix-blend-mode:screen}
+.bls-stage__stars{left:0;right:0;top:0;height:46%;-webkit-mask-image:linear-gradient(180deg,#000 0%,rgba(0,0,0,.6) 55%,transparent 100%);mask-image:linear-gradient(180deg,#000 0%,rgba(0,0,0,.6) 55%,transparent 100%)}
+.bls-stage__stars--a{background-image:radial-gradient(1.3px 1.3px at 14px 22px,#fff,rgba(255,255,255,0)),radial-gradient(1px 1px at 92px 130px,#fff,rgba(255,255,255,0)),radial-gradient(1.5px 1.5px at 170px 60px,#fff3dc,rgba(255,243,220,0)),radial-gradient(1px 1px at 230px 190px,#fff,rgba(255,255,255,0));background-size:260px 230px}
+.bls-stage__stars--b{background-image:radial-gradient(1px 1px at 50px 80px,#fff,rgba(255,255,255,0)),radial-gradient(1.4px 1.4px at 210px 40px,#ffe2bf,rgba(255,226,191,0)),radial-gradient(1px 1px at 300px 170px,#dfe9ff,rgba(223,233,255,0)),radial-gradient(1.2px 1.2px at 130px 250px,#fff,rgba(255,255,255,0));background-size:340px 290px}
+.bls-stage__dust{left:-30%;width:160%;top:58%;height:34%;background:radial-gradient(ellipse 22% 40% at 18% 55%,rgba(255,214,170,.14),rgba(255,214,170,0) 70%),radial-gradient(ellipse 26% 46% at 52% 45%,rgba(255,196,150,.11),rgba(255,196,150,0) 70%),radial-gradient(ellipse 20% 38% at 84% 60%,rgba(255,220,180,.12),rgba(255,220,180,0) 70%);filter:blur(2px)}
+@media (prefers-reduced-motion:no-preference){
+  .bls-stage.is-in .bls-stage__stars--a{animation:bls-tw-a 6s ease-in-out infinite alternate}
+  .bls-stage.is-in .bls-stage__stars--b{animation:bls-tw-b 9s ease-in-out 1.5s infinite alternate}
+  .bls-stage.is-in .bls-stage__dust{animation:bls-dust 48s ease-in-out infinite alternate}
+  .bls-stage.is-in .bls-stage__glow{animation:bls-glow 14s ease-in-out infinite alternate}
+}
+@keyframes bls-tw-a{from{opacity:.18}to{opacity:.62}}
+@keyframes bls-tw-b{from{opacity:.55}to{opacity:.12}}
+@keyframes bls-dust{from{transform:translate3d(-7%,0,0)}to{transform:translate3d(7%,-2%,0)}}
+@keyframes bls-glow{from{opacity:.7}to{opacity:1}}
+/* drawn space scene */
+.bls-stage{height:100lvh;bottom:auto}
+@supports not (height:100lvh){.bls-stage{height:100vh}}
+.cs-world{position:absolute;inset:0;opacity:0;transition:opacity 1.2s ease;transform-origin:70% 40%;will-change:transform}
+.bls-stage.is-in .cs-world{opacity:1}
+.cs-sky{position:absolute;inset:0;background:radial-gradient(90% 70% at 72% 26%,#232C78 0%,#141A4E 34%,#0A0D2C 62%,#05060F 100%)}
+.cs-neb{position:absolute;border-radius:50%;pointer-events:none;will-change:transform}
+.cs-neb--a{left:-20%;top:4%;width:80%;height:46%;background:radial-gradient(closest-side,rgba(146,98,220,.26),rgba(146,98,220,0))}
+.cs-neb--b{right:-25%;top:30%;width:90%;height:40%;background:radial-gradient(closest-side,rgba(232,140,170,.16),rgba(232,140,170,0))}
+.cs-neb--c{left:10%;top:46%;width:70%;height:30%;background:radial-gradient(closest-side,rgba(80,170,210,.12),rgba(80,170,210,0))}
+.cs-stars{position:absolute;left:0;top:0;width:100%;height:100%;display:block}
+.cs-moon{position:absolute;left:16%;top:17%;width:clamp(10px,2.2vmin,22px);aspect-ratio:1;border-radius:50%;background:radial-gradient(circle at 36% 32%,#FFFFFF,#C9CDE2 60%,#8E93B4);box-shadow:0 0 18px rgba(220,226,255,.45)}
+.cs-planet-wrap{position:absolute;right:-6%;top:9%;width:min(58vmin,560px);aspect-ratio:1}
+.cs-planet{position:absolute;inset:0;border-radius:50%;background:radial-gradient(circle at 32% 28%,#FFF4CF 0%,#F4D58F 16%,#E0B062 40%,#B07A3E 66%,#5A3620 88%,#2A1A14 100%);box-shadow:inset -26px -36px 70px rgba(16,10,40,.62)}
+.cs-planet-wrap::before{content:"";position:absolute;inset:-35%;border-radius:50%;background:radial-gradient(closest-side,rgba(240,190,100,.26) 52%,rgba(240,170,90,.08) 70%,rgba(240,170,90,0) 100%)}
+.cs-planet::before{content:"";position:absolute;inset:0;border-radius:50%;background:repeating-linear-gradient(166deg,rgba(255,250,230,.07) 0 5%,rgba(120,70,30,.10) 5% 9%,rgba(255,240,210,.03) 9% 13%);opacity:.8}
+.cs-planet::after{content:"";position:absolute;inset:0;border-radius:50%;background:radial-gradient(circle at 78% 80%,rgba(10,10,36,.78) 0%,rgba(10,10,36,.35) 38%,rgba(10,10,36,0) 62%)}
+.cs-ring{position:absolute;left:-34%;top:40%;width:168%;height:22%;border-radius:50%;border:2px solid rgba(255,226,170,.6);box-shadow:0 0 0 7px rgba(255,214,150,.10),0 0 0 15px rgba(255,214,150,.05),0 0 24px rgba(255,214,150,.2);transform:rotate(-17deg)}
+.cs-ring--back{clip-path:inset(0 0 50% 0)}
+.cs-ring--front{clip-path:inset(50% 0 0 0)}
+.cs-bubble{position:absolute;left:7%;bottom:34%;width:clamp(56px,15vmin,150px);aspect-ratio:1;border-radius:50%;border:1px solid rgba(255,255,255,.45);background:radial-gradient(22% 16% at 30% 22%,rgba(255,255,255,.75) 0%,rgba(255,255,255,0) 100%),radial-gradient(circle at 70% 72%,rgba(236,203,123,.7) 0,rgba(236,203,123,.7) 3.4%,rgba(236,203,123,0) 5%),radial-gradient(circle at 62% 66%,rgba(243,212,230,.24) 0%,rgba(243,212,230,0) 36%),radial-gradient(circle at 50% 50%,rgba(255,255,255,.03) 52%,rgba(255,255,255,.2) 100%);box-shadow:inset -8px -10px 22px rgba(243,212,230,.16),inset 8px 8px 18px rgba(207,227,255,.16)}
+.cs-dunes{position:absolute;left:0;bottom:0;width:100%;height:34%;display:block}
+/* cosmic dust: a glittering band along the ring (half behind the planet, half in front), loose motes drifting over the scene, a warm haze above the dunes. Drawn once, only moved and faded */
+.cs-rdust{position:absolute;left:-50%;top:30%;width:200%;height:42%;display:block;transform:rotate(-17deg);pointer-events:none}
+.cs-motes{position:absolute;left:-3%;top:-3%;width:106%;height:106%;display:block;pointer-events:none}
+.cs-haze{position:absolute;left:-20%;width:140%;bottom:14%;height:30%;pointer-events:none;background:radial-gradient(ellipse 26% 42% at 22% 60%,rgba(255,206,160,.10),rgba(255,206,160,0) 70%),radial-gradient(ellipse 30% 46% at 62% 52%,rgba(255,190,150,.09),rgba(255,190,150,0) 70%),radial-gradient(ellipse 22% 38% at 90% 62%,rgba(230,200,255,.08),rgba(230,200,255,0) 70%)}
+.cs-shoot{position:absolute;left:12%;top:14%;width:0;height:0;opacity:0}
+.cs-shoot::before{content:"";position:absolute;top:-1px;right:0;width:160px;height:2px;border-radius:2px;background:linear-gradient(90deg,rgba(255,255,255,0),rgba(214,226,255,.5) 62%,#fff)}
+@media (orientation:portrait),(max-width:749px){
+  .cs-planet-wrap{right:-22%;top:10%;width:min(86vw,62vmax)}
+  .cs-moon{left:14%;top:15%}
+  .cs-bubble{left:9%;bottom:37%}
+  .cs-dunes{height:30%}
+}
+@media (prefers-reduced-motion:no-preference){
+  .bls-stage.is-in .cs-world{animation:cs-pull 80s cubic-bezier(.33,0,.25,1) both infinite alternate}
+  .bls-stage.is-in .cs-neb--a{animation:cs-drift 60s ease-in-out infinite alternate}
+  .bls-stage.is-in .cs-neb--b{animation:cs-drift 75s ease-in-out -20s infinite alternate-reverse}
+  .bls-stage.is-in .cs-neb--c{animation:cs-drift 90s ease-in-out -40s infinite alternate}
+  .bls-stage.is-in .cs-stars--near{animation:cs-tw 7s ease-in-out infinite alternate}
+  .bls-stage.is-in .cs-bubble{animation:cs-bob 11s ease-in-out infinite alternate}
+  .bls-stage.is-in .cs-planet-wrap::before{animation:cs-glow 16s ease-in-out infinite alternate}
+  .bls-stage.is-in .cs-shoot{animation:cs-shoot 13s ease-out 4s infinite}
+  .bls-stage.is-in .cs-rdust--front{animation:cs-tw 9s ease-in-out 2s infinite alternate}
+  .bls-stage.is-in .cs-motes{animation:cs-motes 46s ease-in-out infinite alternate}
+  .bls-stage.is-in .cs-haze{animation:cs-drift 70s ease-in-out -10s infinite alternate}
+}
+@keyframes cs-motes{from{transform:translate3d(0,0,0)}to{transform:translate3d(-2.4%,-2.8%,0)}}
+/* eco mode (slow phone, battery saver, data saver): the scene stands still */
+html.bls-lite .bls-stage *,html.bls-lite .bls-stage *::before,html.bls-lite .bls-stage *::after{animation:none!important}
+html.bls-lite .bls-stage .cs-world{opacity:1}
+@keyframes cs-pull{from{transform:scale(1.12)}to{transform:scale(1)}}
+@keyframes cs-drift{from{transform:translate3d(-4%,0,0)}to{transform:translate3d(5%,-3%,0)}}
+@keyframes cs-tw{from{opacity:.35}to{opacity:1}}
+@keyframes cs-bob{from{transform:translate3d(0,0,0) rotate(0deg)}to{transform:translate3d(10px,-18px,0) rotate(6deg)}}
+@keyframes cs-glow{from{opacity:.75}to{opacity:1}}
+@keyframes cs-shoot{0%{opacity:0;transform:rotate(22deg) translateX(0)}2%{opacity:.95}8%{opacity:0;transform:rotate(22deg) translateX(420px)}100%{opacity:0;transform:rotate(22deg) translateX(420px)}}
+.bls-stage__shade{position:absolute;inset:0;background:linear-gradient(180deg,rgba(5,6,11,.42) 0%,rgba(5,6,11,0) 20%,rgba(5,6,11,0) 50%,rgba(5,6,11,.55) 80%,rgba(5,6,11,.82) 100%)}
+.bls-stage__dim{position:absolute;inset:0;background:#05060B;opacity:var(--bls-dim,0)}
+.bls-stagehero .bls-hero__inner{position:relative;z-index:2;flex:1;display:flex;flex-direction:column;align-items:center;justify-content:flex-end;text-align:center;padding-top:96px;padding-bottom:calc(9 * var(--bls-u,8px))}
+.bls-stagehero .bls-hero__copy{max-width:min(560px,92vw);margin-inline:auto}
+.bls-stagehero .bls-eyebrow,.bls-stagehero .bls-hero__title{text-indent:0;text-shadow:0 2px 24px rgba(0,0,0,.45)}
+.bls-stagehero .bls-hero__cta{justify-content:center}
+.bls-stagehero .bls-hero__text{max-width:420px;margin-inline:auto;text-shadow:0 1px 14px rgba(0,0,0,.5)}
+@media (max-width:900px),(orientation:portrait){
+  .bls-stagehero .bls-hero__inner{padding-bottom:calc(112px + env(safe-area-inset-bottom,0px))}
+  .bls-stagehero .bls-hero__text{font-size:14px;max-width:300px;margin-bottom:16px}
+}
+/* the rest of the home page floats over the fixed background */
+body:has(.bls-stagehero) .bls-main>*{position:relative;z-index:1}
+@media (prefers-reduced-motion:no-preference){
+  .bls-stage.is-in .bls-stage__img{animation:bls-pull var(--bls-stage-dur,70s) cubic-bezier(.33,0,.25,1) both infinite alternate}
+  .bls-stage--flip.is-in .bls-stage__img{animation-name:bls-pull-flip}
+}
+@keyframes bls-pull{from{transform:scale(1.18)}to{transform:scale(1.01)}}
+@keyframes bls-pull-flip{from{transform:scale(-1.18,1.18)}to{transform:scale(-1.01,1.01)}}
+</style>
+<script>
+(function(){
+  var st=document.querySelector('#bls-stagehero .bls-stage');if(!st)return;
+  var far=st.querySelector('.cs-stars--far');
+  if(far){
+    var near=st.querySelector('.cs-stars--near'),lastW=0;
+    function paint(c,n,seed,big){
+      var dpr=Math.min(2,window.devicePixelRatio||1),w=st.clientWidth,h=st.clientHeight;
+      c.width=Math.round(w*dpr);c.height=Math.round(h*dpr);
+      var x=c.getContext('2d');x.setTransform(dpr,0,0,dpr,0,0);
+      var r=seed;function rnd(){r=(r*16807)%2147483647;return r/2147483647}
+      var cols=['255,255,255','214,226,255','255,236,206','236,214,255'];
+      for(var i=0;i<n;i++){
+        var px=rnd()*w,py=Math.pow(rnd(),1.35)*h*.78,s=rnd(),rad=big?(.7+s*1.1):(.3+s*.75),a=big?(.6+rnd()*.4):(.25+rnd()*.6);
+        x.beginPath();x.arc(px,py,rad,0,6.283);x.fillStyle='rgba('+cols[(rnd()*4)|0]+','+a.toFixed(2)+')';x.fill();
+        if(big&&s>.82){x.beginPath();x.arc(px,py,rad*3.2,0,6.283);x.fillStyle='rgba(214,226,255,.08)';x.fill()}
+      }
+    }
+    function seeded(s){return function(){s=(s*16807)%2147483647;return s/2147483647}}
+    function gauss(r){return (r()+r()+r()+r()-2)/2}
+    function prep(c){
+      var dpr=Math.min(2,window.devicePixelRatio||1),w=c.clientWidth,h=c.clientHeight;
+      if(!w||!h)return null;
+      c.width=Math.round(w*dpr);c.height=Math.round(h*dpr);
+      var x=c.getContext('2d');if(!x)return null;x.setTransform(dpr,0,0,dpr,0,0);
+      return {x:x,w:w,h:h};
+    }
+    /* dust along the ring: the canvas sits on the ring, so the ring is an ellipse in its middle */
+    function ringDust(c,front){
+      var g=prep(c);if(!g)return;
+      var x=g.x,w=g.w,h=g.h,cx=w/2,cy=h/2,rx=w*.42,ry=h*.2619,r=seeded(front?424242:171717),i,t,k,px,py,s,a;
+      x.globalCompositeOperation='lighter';
+      [[1.0,ry*.34,.05],[1.12,ry*.22,.035],[.9,ry*.18,.03]].forEach(function(b){
+        x.beginPath();x.ellipse(cx,cy,rx*b[0],ry*b[0],0,front?0:Math.PI,front?Math.PI:Math.PI*2);
+        x.lineWidth=b[1];x.strokeStyle='rgba(255,214,160,'+b[2]+')';x.stroke();
+      });
+      var n=Math.round(Math.min(1400,w*1.3));
+      for(i=0;i<n;i++){
+        t=r()*Math.PI;if(!front)t+=Math.PI;
+        k=Math.min(1.17,1+gauss(r)*.07+(r()<.25?.12*r():0));
+        px=cx+Math.cos(t)*rx*k;py=cy+Math.sin(t)*ry*k+gauss(r)*ry*.05;
+        s=r();a=.18+r()*.5;
+        x.beginPath();x.arc(px,py,.35+s*s*1.1,0,6.283);
+        x.fillStyle=(r()<.7?'rgba(255,226,180,':'rgba(255,246,228,')+a.toFixed(2)+')';x.fill();
+        if(s>.93){x.beginPath();x.arc(px,py,2.6+s*2,0,6.283);x.fillStyle='rgba(255,220,170,.07)';x.fill()}
+      }
+    }
+    /* loose dust motes: tiny warm specks, a few soft out-of-focus ones, thicker near the horizon */
+    function motes(c){
+      var g=prep(c);if(!g)return;
+      var x=g.x,w=g.w,h=g.h,r=seeded(99991),n=Math.round(Math.min(260,w*h/5200)),i,px,py,s,a,gr,rad;
+      var cols=['255,224,186','255,240,220','246,214,255','214,228,255'];
+      for(i=0;i<n;i++){
+        px=r()*w;py=(r()<.55?.5+r()*.42:r()*.9)*h;
+        s=r();a=.12+r()*.38;
+        if(s>.94){rad=4+s*9;a*=.35}else{rad=.4+s*1.3}
+        gr=x.createRadialGradient(px,py,0,px,py,rad);
+        var col=cols[(r()*4)|0];
+        gr.addColorStop(0,'rgba('+col+','+a.toFixed(2)+')');gr.addColorStop(1,'rgba('+col+',0)');
+        x.fillStyle=gr;x.fillRect(px-rad,py-rad,rad*2,rad*2);
+      }
+    }
+    function draw(){
+      var w=st.clientWidth;if(Math.abs(w-lastW)<2)return;lastW=w;
+      var area=w*st.clientHeight,lite=document.documentElement.classList.contains('bls-lite');
+      paint(far,Math.min(lite?500:900,Math.round(area/2200)),1234567,false);
+      paint(near,Math.min(160,Math.round(area/14000)),7654321,true);
+      var rb=st.querySelector('.cs-rdust--back'),rf=st.querySelector('.cs-rdust--front'),mo=st.querySelector('.cs-motes');
+      try{if(rb)ringDust(rb,false);if(rf)ringDust(rf,true);if(mo)motes(mo)}catch(_){}
+    }
+    draw();st.classList.add('is-in');
+    var rt=0;addEventListener('resize',function(){clearTimeout(rt);rt=setTimeout(draw,200)});
+  }
+  var a=st.querySelector('.bls-stage__vid');
+  if(a){
+    st.classList.add('has-vid');
+    var mob=matchMedia('(max-width:749px),(orientation:portrait)').matches;
+    var src=(mob&&a.getAttribute('data-src-m'))||a.getAttribute('data-src');
+    var rate=parseFloat(a.getAttribute('data-rate'))||0.5;
+    var conn=navigator.connection||{};
+    var fb=st.querySelector('.bls-stage__fallback');
+    function fallback(){if(st.classList.contains('no-vid'))return;st.classList.add('no-vid');if(fb){fb.onload=function(){st.classList.add('is-in')};fb.src=fb.getAttribute('data-src');if(fb.complete)st.classList.add('is-in')}}
+    if(matchMedia('(prefers-reduced-motion: reduce)').matches||conn.saveData){fallback()}
+    else{
+      a.src=src;a.defaultPlaybackRate=rate;a.playbackRate=rate;
+      var b=a.cloneNode(false);b.removeAttribute('data-src');b.src=src;b.defaultPlaybackRate=rate;b.playbackRate=rate;a.after(b);
+      var cur=a,nxt=b,busy=false;
+      a.classList.add('is-on');
+      a.addEventListener('playing',function(){st.classList.add('is-in')},{once:true});
+      function go(v){v.playbackRate=rate;var p=v.play();if(p&&p.catch)p.catch(function(){})}
+      function swap(){
+        if(busy)return;busy=true;
+        nxt.currentTime=0;go(nxt);nxt.classList.add('is-on');cur.classList.remove('is-on');
+        var old=cur;cur=nxt;nxt=old;
+        setTimeout(function(){old.pause();try{old.currentTime=0}catch(_){}busy=false},1300);
+      }
+      [a,b].forEach(function(v){
+        v.addEventListener('timeupdate',function(){if(v!==cur||!v.duration)return;if((v.duration-v.currentTime)/rate<1.35)swap()});
+        v.addEventListener('ended',function(){if(v===cur)swap()});
+      });
+      go(a);
+      setTimeout(function(){if(!st.classList.contains('is-in'))fallback()},3500);
+      document.addEventListener('visibilitychange',function(){if(document.hidden)cur.pause();else go(cur)});
+    }
+  }else{
+    var im=st.querySelector('img');if(im&&im.complete&&im.naturalWidth)st.classList.add('is-in');
+  }
+  var dim=st.querySelector('.bls-stage__dim'),tick=false;
+  function upd(){tick=false;var v=Math.min(1,Math.max(0,window.scrollY/(window.innerHeight*1.1)));dim.style.setProperty('--bls-dim',(v*.42).toFixed(3))}
+  addEventListener('scroll',function(){if(!tick){tick=true;requestAnimationFrame(upd)}},{passive:true});upd();
+})();
+</script>
+{% schema %}
+{
+  "name": "Space hero",
+  "settings": [
+    {"type": "text", "id": "eyebrow", "label": "Small line above the name", "default": "PET · HOME · FASHION"},
+    {"type": "text", "id": "heading", "label": "Name", "default": "BLESSHOP"},
+    {"type": "textarea", "id": "text", "label": "Text"},
+    {"type": "text", "id": "button_label", "label": "Main button", "default": "Shop all"},
+    {"type": "url", "id": "button_url", "label": "Main button link"},
+    {"type": "text", "id": "second_button_label", "label": "Second button", "default": "Browse collections"},
+    {"type": "url", "id": "second_button_url", "label": "Second button link", "info": "Leave empty to jump to the category cards."},
+    {"type": "header", "content": "Background"},
+    {"type": "select", "id": "bg_mode", "label": "Background", "default": "space", "options": [{"value": "space", "label": "Drawn space scene"}, {"value": "photo", "label": "Photo"}, {"value": "video", "label": "Video"}]},
+    {"type": "text", "id": "video_url", "label": "Background video (MP4 link)", "info": "Used when Background is Video. Content → Files → copy the video link.", "default": "https://cdn.shopify.com/videos/c/vp/081d3c32683d4fd18316b18c936e6050/081d3c32683d4fd18316b18c936e6050.HD-1080p-3.3Mbps-97080123.mp4"},
+    {"type": "text", "id": "video_url_mobile", "label": "Video for phones (MP4 link, optional)"},
+    {"type": "range", "id": "video_speed", "label": "Video speed", "min": 25, "max": 100, "step": 5, "unit": "%", "default": 50},
+    {"type": "image_picker", "id": "image", "label": "Background photo", "info": "Used when Background is Photo, and if the video cannot play. Wide photo, 1920 px or more."},
+    {"type": "image_picker", "id": "image_mobile", "label": "Photo for phones (optional)", "info": "Tall photo, 1440 × 2560 px or more. Without it the wide photo is cropped."},
+    {"type": "checkbox", "id": "flip", "label": "Mirror the photo or video", "default": false},
+    {"type": "checkbox", "id": "life", "label": "Twinkling stars and drifting dust over the photo", "default": true},
+    {"type": "range", "id": "focus_x", "label": "Focus on computers", "min": 0, "max": 100, "step": 1, "unit": "%", "default": 50},
+    {"type": "range", "id": "focus_x_mobile", "label": "Focus on phones", "min": 0, "max": 100, "step": 1, "unit": "%", "default": 45},
+    {"type": "range", "id": "zoom_seconds", "label": "Photo pull-back time", "min": 30, "max": 120, "step": 5, "unit": "s", "default": 70}
+  ],
+  "presets": [{"name": "Space hero"}]
+}
+{% endschema %}

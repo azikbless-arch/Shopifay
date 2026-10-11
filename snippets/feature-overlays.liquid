@@ -1,0 +1,57 @@
+{% if settings.quick_view %}
+<div class="bs-feature-modal" data-quick-view-modal hidden aria-hidden="true">
+  <button class="bs-feature-modal__backdrop" type="button" data-feature-close aria-label="Close"></button>
+  <div class="bs-feature-modal__panel bs-quick-view-panel" role="dialog" aria-modal="true" aria-label="Quick view">
+    <button class="bs-feature-modal__close" type="button" data-feature-close aria-label="Close">×</button>
+    <div data-quick-view-content></div>
+  </div>
+</div>
+{% endif %}
+
+<div class="bs-feature-modal bs-zoom-modal" data-zoom-modal hidden aria-hidden="true">
+  <button class="bs-feature-modal__backdrop" type="button" data-feature-close aria-label="Close"></button>
+  <div class="bs-zoom-modal__panel" role="dialog" aria-modal="true" aria-label="Image zoom">
+    <button class="bs-feature-modal__close" type="button" data-feature-close aria-label="Close">×</button>
+    <img data-zoom-image alt="">
+  </div>
+</div>
+
+{% if settings.promo_popup %}
+<div class="bs-feature-modal bs-promo-modal" data-promo-popup data-delay="{{ settings.promo_popup_delay | times: 1000 }}" hidden aria-hidden="true">
+  <button class="bs-feature-modal__backdrop" type="button" data-feature-close aria-label="Close"></button>
+  <div class="bs-feature-modal__panel bs-promo-modal__panel" role="dialog" aria-modal="true" aria-label="Promotion">
+    <button class="bs-feature-modal__close" type="button" data-feature-close aria-label="Close">×</button>
+    <span class="bs-promo-modal__spark">✦</span>
+    <p class="bs-eyebrow">BLESSHOP EXCLUSIVE</p>
+    <h2>{{ settings.promo_popup_heading }}</h2>
+    <p>{{ settings.promo_popup_text }}</p>
+    {% if settings.promo_popup_link != blank %}<a class="bs-btn bs-btn--primary" href="{{ settings.promo_popup_link }}">{{ settings.promo_popup_button }}</a>{% endif %}
+  </div>
+</div>
+{% endif %}
+
+{% if settings.age_gate %}
+<div class="bs-feature-modal bs-age-gate" data-age-gate hidden aria-hidden="true">
+  <div class="bs-feature-modal__backdrop"></div>
+  <div class="bs-feature-modal__panel bs-age-gate__panel" role="dialog" aria-modal="true" aria-label="Age verification">
+    <span class="bs-age-gate__icon">◇</span>
+    <h2>{{ settings.age_gate_heading }}</h2>
+    <p>{{ settings.age_gate_text }}</p>
+    <div class="bs-age-gate__actions">
+      <button class="bs-btn bs-btn--primary" type="button" data-age-accept>Yes, continue</button>
+      <button class="bs-btn bs-btn--ghost" type="button" data-age-decline>No</button>
+    </div>
+  </div>
+</div>
+{% endif %}
+
+{% if settings.back_to_top %}
+<button class="bs-back-to-top" type="button" data-back-to-top aria-label="Back to top">↑</button>
+{% endif %}
+
+{% if settings.floating_cart %}
+<button class="bs-floating-cart" type="button" data-cart-open aria-label="Open cart">
+  {% render 'icon', name: 'bag' %}
+  <span data-floating-cart-count>{{ cart.item_count }}</span>
+</button>
+{% endif %}

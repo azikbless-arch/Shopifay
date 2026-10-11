@@ -1,0 +1,356 @@
+/*
+ * ------------------------------------------------------------
+ * IMPORTANT: The contents of this file are auto-generated.
+ *
+ * This file may be updated by the Shopify admin theme editor
+ * or related systems. Please exercise caution as any changes
+ * made to this file may be overwritten.
+ * ------------------------------------------------------------
+ */
+{
+  "layout": "bls-home",
+  "sections": {
+    "main": {
+      "type": "bls-collection",
+      "blocks": {
+        "h1": {
+          "type": "category",
+          "settings": {
+            "title": "Lighting",
+            "key": "lighting",
+            "icon": "lamp",
+            "term": "lamp",
+            "only_for": "home"
+          }
+        },
+        "h2": {
+          "type": "category",
+          "settings": {
+            "title": "Decor",
+            "key": "decor",
+            "icon": "decor",
+            "term": "decor",
+            "only_for": "home",
+            "image": "shopify://shop_images/Izobrazhenie_ChatGPT_9_okt._2026_g._21_16_21-6.png",
+            "pos": "50% 45%",
+            "zoom": 1.1
+          }
+        },
+        "h3": {
+          "type": "category",
+          "settings": {
+            "title": "Kitchen",
+            "key": "kitchen",
+            "icon": "kitchen",
+            "term": "kitchen",
+            "only_for": "home"
+          }
+        },
+        "h4": {
+          "type": "category",
+          "settings": {
+            "title": "Bedroom",
+            "key": "bedroom",
+            "icon": "bed",
+            "term": "bed",
+            "only_for": "home"
+          }
+        },
+        "h5": {
+          "type": "category",
+          "settings": {
+            "title": "Bath",
+            "key": "bath",
+            "icon": "bath",
+            "term": "bath",
+            "only_for": "home"
+          }
+        },
+        "h6": {
+          "type": "category",
+          "settings": {
+            "title": "Storage",
+            "key": "storage",
+            "icon": "box",
+            "term": "storage",
+            "only_for": "home"
+          }
+        },
+        "p1": {
+          "type": "category",
+          "settings": {
+            "title": "Beds & comfort",
+            "key": "beds",
+            "icon": "bed",
+            "term": "bed",
+            "only_for": "pet",
+            "image": "shopify://shop_images/Izobrazhenie_ChatGPT_9_okt._2026_g._21_15_37-3.png",
+            "pos": "50% 55%",
+            "zoom": 1
+          }
+        },
+        "p2": {
+          "type": "category",
+          "settings": {
+            "title": "Toys",
+            "key": "toys",
+            "icon": "paw",
+            "term": "toy",
+            "only_for": "pet",
+            "image": "shopify://shop_images/BLESSHOP_Toys.png",
+            "pos": "62% 88%",
+            "zoom": 1.3
+          }
+        },
+        "p3": {
+          "type": "category",
+          "settings": {
+            "title": "Feeding",
+            "key": "feeding",
+            "icon": "kitchen",
+            "term": "bowl, feeder, feeding",
+            "only_for": "pet",
+            "image": "shopify://shop_images/Izobrazhenie_ChatGPT_9_okt._2026_g._21_15_54-4.png",
+            "pos": "50% 62%",
+            "zoom": 1
+          }
+        },
+        "p4": {
+          "type": "category",
+          "settings": {
+            "title": "Walks",
+            "key": "walks",
+            "icon": "spark",
+            "term": "leash, harness, collar",
+            "only_for": "pet",
+            "image": "shopify://shop_images/BLESSHOP_Walks.png",
+            "pos": "50% 77%",
+            "zoom": 1
+          }
+        },
+        "p5": {
+          "type": "category",
+          "settings": {
+            "title": "Grooming",
+            "key": "grooming",
+            "icon": "bath",
+            "term": "brush, groom, comb",
+            "only_for": "pet",
+            "image": "shopify://shop_images/BLESSHOP_Grooming.png",
+            "pos": "52% 50%",
+            "zoom": 1.15
+          }
+        },
+        "p6": {
+          "type": "category",
+          "settings": {
+            "title": "For dogs",
+            "key": "dogs",
+            "icon": "paw",
+            "term": "dog",
+            "only_for": "pet",
+            "image": "shopify://shop_images/Izobrazhenie_ChatGPT_9_okt._2026_g._21_15_15-1.png",
+            "pos": "50% 28%",
+            "zoom": 1
+          }
+        },
+        "p7": {
+          "type": "category",
+          "settings": {
+            "title": "For cats",
+            "key": "cats",
+            "icon": "paw",
+            "term": "cat",
+            "only_for": "pet",
+            "image": "shopify://shop_images/Izobrazhenie_ChatGPT_9_okt._2026_g._21_15_29-2.png",
+            "pos": "58% 30%",
+            "zoom": 1
+          }
+        },
+        "f1": {
+          "type": "category",
+          "settings": {
+            "title": "Dresses",
+            "key": "dresses",
+            "icon": "dress",
+            "term": "dress, gown",
+            "only_for": "fashion"
+          }
+        },
+        "f2": {
+          "type": "category",
+          "settings": {
+            "title": "Tops",
+            "key": "tops",
+            "icon": "shirt",
+            "term": "top, shirt, blouse, tee, sweater, cardigan, pullover",
+            "only_for": "fashion"
+          }
+        },
+        "f3": {
+          "type": "category",
+          "settings": {
+            "title": "Outerwear",
+            "key": "outerwear",
+            "icon": "coat",
+            "term": "coat, jacket, hoodie, parka, blazer, vest",
+            "only_for": "fashion"
+          }
+        },
+        "f4": {
+          "type": "category",
+          "settings": {
+            "title": "Bottoms",
+            "key": "bottoms",
+            "icon": "pants",
+            "term": "pants, jeans, trousers, skirt, shorts, leggings",
+            "only_for": "fashion"
+          }
+        },
+        "f5": {
+          "type": "category",
+          "settings": {
+            "title": "Shoes",
+            "key": "shoes",
+            "icon": "shoe",
+            "term": "shoe, sneaker, boot, sandal, heel, loafer",
+            "only_for": "fashion"
+          }
+        },
+        "f6": {
+          "type": "category",
+          "settings": {
+            "title": "Bags",
+            "key": "bags",
+            "icon": "bag",
+            "term": "bag, backpack, purse, wallet, tote, clutch",
+            "only_for": "fashion"
+          }
+        },
+        "f7": {
+          "type": "category",
+          "settings": {
+            "title": "Accessories",
+            "key": "accessories",
+            "icon": "spark",
+            "term": "hat, cap, scarf, belt, glove, jewelry, necklace, earring, bracelet, sunglasses, watch",
+            "only_for": "fashion"
+          }
+        },
+        "k1": {
+          "type": "category",
+          "settings": {
+            "title": "Toys",
+            "key": "kids_toys",
+            "icon": "blocks",
+            "term": "toy, lego, doll, car, building, figure",
+            "only_for": "kids"
+          }
+        },
+        "k2": {
+          "type": "category",
+          "settings": {
+            "title": "Plush",
+            "key": "plush",
+            "icon": "bear",
+            "term": "plush, teddy, stuffed, soft toy",
+            "only_for": "kids"
+          }
+        },
+        "k3": {
+          "type": "category",
+          "settings": {
+            "title": "Baby",
+            "key": "baby",
+            "icon": "baby",
+            "term": "baby, infant, newborn, bottle, pacifier, stroller",
+            "only_for": "kids"
+          }
+        },
+        "k4": {
+          "type": "category",
+          "settings": {
+            "title": "Learning",
+            "key": "learning",
+            "icon": "book",
+            "term": "book, learning, educational, montessori, puzzle, flash card",
+            "only_for": "kids"
+          }
+        },
+        "k5": {
+          "type": "category",
+          "settings": {
+            "title": "Outdoor play",
+            "key": "outdoor_play",
+            "icon": "ball",
+            "term": "ball, outdoor, sand, bubble, scooter, swim, kite",
+            "only_for": "kids"
+          }
+        },
+        "k6": {
+          "type": "category",
+          "settings": {
+            "title": "Kids' clothes",
+            "key": "kids_clothes",
+            "icon": "shirt",
+            "term": "clothes, clothing, pajama, onesie, romper, t-shirt, dress, jacket",
+            "only_for": "kids"
+          }
+        },
+        "k7": {
+          "type": "category",
+          "settings": {
+            "title": "Kids' room",
+            "key": "kids_room",
+            "icon": "bed",
+            "term": "night light, lamp, bedding, blanket, pillow, rug, room",
+            "only_for": "kids"
+          }
+        }
+      },
+      "block_order": [
+        "h1",
+        "h2",
+        "h3",
+        "h4",
+        "h5",
+        "h6",
+        "p1",
+        "p2",
+        "p3",
+        "p4",
+        "p5",
+        "p6",
+        "p7",
+        "f1",
+        "f2",
+        "f3",
+        "f4",
+        "f5",
+        "f6",
+        "f7",
+        "k1",
+        "k2",
+        "k3",
+        "k4",
+        "k5",
+        "k6",
+        "k7"
+      ],
+      "settings": {
+        "space_image": "shopify://shop_images/Panorama_zvyozdnogo_Mlechnogo_Puti.png",
+        "bright_handle": "",
+        "bright_image": "shopify://shop_images/b008e2b7-00d4-4606-9c3b-61662eddf521.png",
+        "pet_handle": "pet",
+        "pet_image": "shopify://shop_images/koshka1dc337fe-cc43-4ede-9184-f46d5f1fe155.png",
+        "fashion_image": "shopify://shop_images/BLESSHOP-Fashion-Rose-Gold-Cosmos-Background.webp",
+        "all_label": "All",
+        "per_page": 24,
+        "blend": true
+      }
+    }
+  },
+  "order": [
+    "main"
+  ]
+}

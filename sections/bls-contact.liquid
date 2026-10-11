@@ -1,0 +1,30 @@
+{%- assign ttl = page.title -%}
+{%- if ttl == blank -%}{%- assign ttl = 'bls.contact' | t -%}{%- endif -%}
+<section class="pg">
+  <div class="pg-wrap pg-wrap--narrow">
+    <div class="pg-head"><div><p class="pg-eyebrow">{{ shop.name | upcase | escape }}</p><h1 class="pg-h1">{{ ttl | escape }}</h1></div></div>
+    {%- if page.content != blank -%}<div class="pg-rte" style="margin:0 0 20px">{{ page.content }}</div>{%- endif -%}
+    <div class="pg-panel">
+      {%- form 'contact', class: 'pgf' -%}
+        {%- if form.posted_successfully? -%}<p class="pg-msg pg-msg--ok" role="status">{{ 'contact.success' | t }}</p>{%- endif -%}
+        {%- if form.errors -%}<div class="pg-msg pg-msg--err" role="alert">{{ form.errors | default_errors }}</div>{%- endif -%}
+        <div class="pgf__two">
+          <div><label class="pg-label" for="CfName">{{ 'pg.contact.name' | t }}</label><input class="pg-in" id="CfName" type="text" name="contact[name]" value="{{ form.name }}" autocomplete="name"></div>
+          <div><label class="pg-label" for="CfMail">{{ 'pg.contact.email' | t }}</label><input class="pg-in" id="CfMail" type="email" name="contact[email]" value="{{ form.email }}" autocomplete="email" required></div>
+        </div>
+        <div><label class="pg-label" for="CfPhone">{{ 'pg.contact.phone' | t }}</label><input class="pg-in" id="CfPhone" type="tel" name="contact[phone]" value="{{ form.phone }}" autocomplete="tel"></div>
+        <div><label class="pg-label" for="CfBody">{{ 'pg.contact.message' | t }}</label><textarea class="pg-in" id="CfBody" name="contact[body]" rows="5" required>{{ form.body }}</textarea></div>
+        <button class="pg-btn" type="submit">{{ 'contact.send' | t }}</button>
+      {%- endform -%}
+    </div>
+  </div>
+</section>
+<style>
+.pgf{display:flex;flex-direction:column;gap:16px}
+.pgf__two{display:grid;grid-template-columns:1fr 1fr;gap:16px}
+.pgf .pg-btn{align-self:flex-start}
+@media (max-width:700px){.pgf__two{grid-template-columns:1fr}.pgf .pg-btn{align-self:stretch}}
+</style>
+{% schema %}
+{"name": "Glass contact", "settings": []}
+{% endschema %}

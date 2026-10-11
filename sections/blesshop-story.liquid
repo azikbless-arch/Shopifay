@@ -1,0 +1,33 @@
+{% assign bs_story_collection = section.settings.collection %}
+{% if bs_story_collection == blank %}{% assign bs_story_collection = collections['all'] %}{% endif %}
+{% assign bs_story_product = bs_story_collection.products.first %}
+{% if bs_story_product != blank %}
+<section class="bs-v4-story bs-section" data-bs-v4-story aria-label="{{ section.settings.heading | escape }}">
+  <div class="bs-shell">
+    <div class="bs-v4-heading"><span class="bs-v4-eyebrow">BLESSHOP · THE STORY</span><h2>{{ section.settings.heading | escape }}</h2><p>{{ section.settings.intro | escape }}</p></div>
+    <div class="bs-v4-story__grid">
+      <div class="bs-v4-story__visual">
+        <div class="bs-v4-story__orb" aria-hidden="true"></div>
+        <a href="{{ bs_story_product.url }}" aria-label="Explore {{ bs_story_product.title | escape }}">
+          {% if bs_story_product.featured_image %}
+            {{ bs_story_product.featured_image | image_url: width: 1000 | image_tag: loading: 'lazy', decoding: 'async', widths: '320,500,700,1000', sizes: '(max-width: 749px) 88vw, 45vw', alt: bs_story_product.title }}
+          {% else %}<span class="bs-v4-story__star" aria-hidden="true">✦</span>{% endif %}
+        </a>
+        <span class="bs-v4-story__halo" aria-hidden="true"></span>
+      </div>
+      <div class="bs-v4-story__chapters">
+        <div class="bs-v4-story__chapter"><span class="bs-v4-chapter-number">01 / DISCOVER</span><h3>{{ bs_story_product.title | escape }}</h3><p>{{ bs_story_product.description | strip_html | truncate: 170 | escape }}</p></div>
+        <div class="bs-v4-story__chapter"><span class="bs-v4-chapter-number">02 / EXPLORE</span><h3>A closer look</h3><p>Browse the real product photos, descriptions and available options.</p></div>
+        <div class="bs-v4-story__chapter"><span class="bs-v4-chapter-number">03 / YOURS TO EXPLORE</span><h3>Find your favorite</h3>
+          <div class="bs-v4-story__actions"><a class="bs-v4-button" href="{{ bs_story_product.url }}">VIEW THE PRODUCT ↗</a>{% if settings.quick_view %}<button class="bs-v4-ghost" type="button" data-quick-view data-product-url="{{ bs_story_product.url | escape }}">Quick view</button>{% endif %}</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+{% elsif request.design_mode %}
+<section class="bs-section"><div class="bs-shell"><p>Shop the Story: add a product to your store to show this section.</p></div></section>
+{% endif %}
+{% schema %}
+{"name":"Shop the Story","settings":[{"type":"text","id":"heading","label":"Heading","default":"Everyday finds, beautifully told"},{"type":"textarea","id":"intro","label":"Intro","default":"A closer look at the details behind our current favorite."},{"type":"collection","id":"collection","label":"Featured collection"}],"presets":[{"name":"Shop the Story"}]}
+{% endschema %}

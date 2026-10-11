@@ -1,0 +1,46 @@
+{%- comment -%}Free, light swiping for every home row: no snapping (it made the row catch and stop), the finger's speed carries the row on, and a mouse drag also glides on after release.{%- endcomment -%}
+<style>
+.gl-block .gl-rail{scroll-snap-type:none;scroll-behavior:auto;-webkit-overflow-scrolling:touch;overscroll-behavior-x:contain;will-change:scroll-position}
+.gl-block .gl-rail>*{scroll-snap-align:none;-webkit-tap-highlight-color:transparent}
+.gl-block .gl-rail.is-drag{scroll-snap-type:none}
+.gl-block .gl-cat,.gl-block .gl-prod,.gl-block .gl-end,.gl-block .gl-info{transform:translateZ(0);backface-visibility:hidden}
+@media (hover:none){.gl-block .gl-cat__media>img{transition:none}}
+</style>
+<script>
+(function(){
+  if(window.BlsGlide)return;
+  window.BlsGlide=1;
+  var rail=null,down=false,lx=0,lt=0,v=0,raf=0;
+  function stop(){if(raf){cancelAnimationFrame(raf);raf=0;}}
+  document.addEventListener('pointerdown',function(e){
+    if(e.pointerType!=='mouse'||e.button!==0)return;
+    var r=e.target.closest&&e.target.closest('[data-gl-rail]');
+    if(!r)return;
+    stop();rail=r;down=true;lx=e.clientX;lt=performance.now();v=0;
+  },true);
+  window.addEventListener('pointermove',function(e){
+    if(!down||!rail)return;
+    var n=performance.now(),dt=n-lt;
+    if(dt>0){v=0.8*v+0.2*((lx-e.clientX)/dt);}
+    lx=e.clientX;lt=n;
+  });
+  function release(){
+    if(!down)return;
+    down=false;
+    var r=rail;rail=null;
+    if(!r||performance.now()-lt>90||Math.abs(v)<0.25)return;
+    var last=performance.now();
+    function step(now){
+      var dt=Math.min(40,now-last);last=now;
+      var before=r.scrollLeft;
+      r.scrollLeft=before+v*dt;
+      v*=Math.pow(0.0025,dt/1000);
+      if(Math.abs(v)>0.03&&r.scrollLeft!==before)raf=requestAnimationFrame(step);else raf=0;
+    }
+    raf=requestAnimationFrame(step);
+  }
+  window.addEventListener('pointerup',release);
+  window.addEventListener('pointercancel',release);
+  window.addEventListener('wheel',stop,{passive:true});
+})();
+</script>

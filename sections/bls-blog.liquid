@@ -1,0 +1,28 @@
+<section class="pg">
+  <div class="pg-wrap">
+    <div class="pg-head"><div><p class="pg-eyebrow">{{ shop.name | upcase | escape }}</p><h1 class="pg-h1">{{ blog.title | escape }}</h1></div></div>
+    {%- paginate blog.articles by 12 -%}
+      {%- if blog.articles.size == 0 -%}
+        <div class="pg-panel pg-empty"><p>{{ 'pg.blog.none' | t }}</p><a class="pg-btn" href="{{ routes.root_url }}">{{ 'pg.back_home' | t }}</a></div>
+      {%- else -%}
+        <div class="bls-grid pgb">
+          {%- for article in blog.articles -%}
+            <a class="bls-item pgb__card" href="{{ article.url }}">
+              <span class="bls-item__media">{%- if article.image -%}{{ article.image | image_url: width: 700 | image_tag: loading: 'lazy', alt: article.image.alt | default: article.title, widths: '300, 500, 700', sizes: '(max-width: 700px) 46vw, 280px' }}{%- endif -%}</span>
+              <span class="bls-item__info">
+                <span class="bls-item__kind">{{ article.published_at | date: '%d.%m.%Y' }}</span>
+                <span class="bls-item__title">{{ article.title | escape }}</span>
+                <span class="pgs__excerpt">{{ article.excerpt_or_content | strip_html | truncate: 90 }}</span>
+              </span>
+            </a>
+          {%- endfor -%}
+        </div>
+        {%- render 'bls-pagination', paginate: paginate -%}
+      {%- endif -%}
+    {%- endpaginate -%}
+  </div>
+</section>
+<style>.pgb .bls-item__media{background:linear-gradient(135deg,rgba(227,180,88,.25),rgba(120,140,200,.2))}.pgs__excerpt{font-size:13px;color:var(--bls-muted,#B7BECF);line-height:1.5}.pgb__card{padding-bottom:18px}</style>
+{% schema %}
+{"name": "Glass blog", "settings": []}
+{% endschema %}

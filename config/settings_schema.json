@@ -1,0 +1,33 @@
+[
+  {
+    "name": "Theme settings",
+    "settings": [
+      {"type":"text","id":"brand_name","label":"Brand name","default":"BLESSHOP"},
+      {"type":"color","id":"accent_color","label":"Accent color","default":"#ff6578"},
+      {"type":"color","id":"soft_pink","label":"Soft pink","default":"#fde8ec"},
+      {"type":"color","id":"soft_lavender","label":"Soft lavender","default":"#eee8ff"},
+      {"type":"checkbox","id":"motion_effects","label":"Enable premium motion effects","default":true},
+      {"type":"checkbox","id":"floating_decor","label":"Show floating scroll decorations","default":true},
+      {"type":"checkbox","id":"cart_drawer","label":"Enable cart drawer","default":true},
+      {"type":"checkbox","id":"sticky_header","label":"Sticky header","default":true},
+      {"type":"checkbox","id":"predictive_search","label":"Predictive search","default":true},
+      {"type":"checkbox","id":"quick_view","label":"Quick view on product cards","default":true},
+      {"type":"checkbox","id":"infinite_scroll","label":"Infinite collection scroll","default":true},
+      {"type":"checkbox","id":"recently_viewed","label":"Recently viewed products","default":true},
+      {"type":"checkbox","id":"back_to_top","label":"Back to top button","default":true},
+      {"type":"checkbox","id":"floating_cart","label":"Floating cart button","default":true},
+      {"type":"text","id":"free_shipping_threshold","label":"Free shipping threshold text","default":"$50+"},
+      {"type":"header","content":"Promotion popup"},
+      {"type":"checkbox","id":"promo_popup","label":"Enable promotion popup","default":false},
+      {"type":"text","id":"promo_popup_heading","label":"Popup heading","default":"A little treat for you"},
+      {"type":"textarea","id":"promo_popup_text","label":"Popup text","default":"Join the list for new finds, offers and product drops."},
+      {"type":"text","id":"promo_popup_button","label":"Popup button label","default":"Shop now"},
+      {"type":"url","id":"promo_popup_link","label":"Popup button link"},
+      {"type":"range","id":"promo_popup_delay","label":"Popup delay","min":1,"max":20,"step":1,"unit":"s","default":6},
+      {"type":"header","content":"Age verification"},
+      {"type":"checkbox","id":"age_gate","label":"Enable age verification","default":false},
+      {"type":"text","id":"age_gate_heading","label":"Age gate heading","default":"Before you enter"},
+      {"type":"textarea","id":"age_gate_text","label":"Age gate text","default":"Please confirm that you meet the required age for this storefront."}
+    ]
+  }
+]

@@ -1,0 +1,75 @@
+<footer class="bs-footer bs-footer--v22" data-bs-premium-footer>
+  <div class="bs-shell">
+    <div class="bs-v22-footer-showcase" data-bs-footer-reveal>
+      <div class="bs-v22-footer-showcase__copy">
+        <span class="bs-v22-footer-eyebrow">A LITTLE MORE WONDER · BLESSHOP</span>
+        <h2>Good things.<span> Brighter days.</span></h2>
+        <p>Discover thoughtful finds and fresh inspiration for your everyday moments.</p>
+        <div class="bs-v22-footer-orbit" aria-hidden="true"><span></span><span></span><span></span></div>
+      </div>
+      <div class="bs-v22-footer-signup">
+        <span class="bs-v22-footer-eyebrow">STAY IN THE LOOP</span>
+        <h3>Something lovely, in your inbox.</h3>
+        <p>Be first to hear about new finds and what’s coming to BLESSHOP.</p>
+        {% form 'customer', id: 'BsFooterNewsletter', class: 'bs-newsletter bs-v22-newsletter' %}
+          <input type="hidden" name="contact[tags]" value="newsletter">
+          <label for="BsFooterEmail-{{ section.id }}" class="bs-v22-footer-input-label">Email address</label>
+          <div class="bs-v22-footer-field">
+            <input id="BsFooterEmail-{{ section.id }}" type="email" name="contact[email]" value="{{ form.email }}" autocomplete="email" placeholder="Your email address" required {% if form.errors %}aria-invalid="true"{% endif %}>
+            <button type="submit" aria-label="Subscribe to BLESSHOP updates">JOIN <span aria-hidden="true">↗</span></button>
+          </div>
+          {% if form.posted_successfully? %}
+            <p class="bs-v22-footer-feedback bs-v22-footer-feedback--success" role="status">Thank you! You’re on the list.</p>
+          {% endif %}
+          {% if form.errors %}
+            <div class="bs-v22-footer-feedback bs-v22-footer-feedback--error" role="alert">{{ form.errors | default_errors }}</div>
+          {% endif %}
+        {% endform %}
+        <small>Occasional updates. Unsubscribe anytime.</small>
+      </div>
+    </div>
+
+    <div class="bs-footer__grid bs-v22-footer-grid" data-bs-footer-reveal>
+      <div class="bs-footer__brand">
+        <a class="bs-logo bs-logo--light" href="{{ routes.root_url }}" aria-label="BLESSHOP home">
+          <span class="bs-logo__mark" aria-hidden="true">♡</span>
+          <span>{{ settings.brand_name | default: shop.name | upcase }}</span>
+        </a>
+        <p>{{ section.settings.text }}</p>
+        <span class="bs-v22-footer-brand-mark">CURATED FOR A BRIGHTER EVERYDAY</span>
+      </div>
+      <div class="bs-v22-footer-links">
+        <h3>Shop</h3>
+        <a href="{{ routes.all_products_collection_url }}">Shop All</a>
+        <a href="{{ routes.collections_url }}">Collections</a>
+        <a href="{{ routes.search_url }}">Search</a>
+      </div>
+      <div class="bs-v22-footer-links">
+        <h3>Support</h3>
+        <a href="{{ routes.cart_url }}">Cart</a>
+        <a href="/pages/contact">Contact</a>
+        <a href="/policies/refund-policy">Returns</a>
+      </div>
+      <div class="bs-v22-footer-links">
+        <h3>About</h3>
+        <a href="/pages/about-us">Our Story</a>
+        <a href="/policies/privacy-policy">Privacy</a>
+        <a href="/policies/terms-of-service">Terms</a>
+      </div>
+    </div>
+
+    <div class="bs-footer__bottom bs-v22-footer-bottom" data-bs-footer-reveal>
+      <span>© {{ 'now' | date: '%Y' }} {{ shop.name }}. All rights reserved.</span>
+      <span>Made for brighter everyday shopping ♡</span>
+      <button type="button" class="bs-v22-footer-top" data-bs-footer-top aria-label="Back to top">BACK TO TOP <span aria-hidden="true">↑</span></button>
+    </div>
+  </div>
+</footer>
+{% schema %}
+{
+  "name":"BLESSHOP footer",
+  "settings":[
+    {"type":"textarea","id":"text","label":"Brand text","default":"Good things for a brighter everyday. Curated finds across home, pets, travel, beauty, gadgets and more."}
+  ]
+}
+{% endschema %}

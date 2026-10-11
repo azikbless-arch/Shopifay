@@ -1,0 +1,204 @@
+
+.bs-body.template-index .bs-pastel-hero.bs-liquid-universe{
+  --bs-lu-x:68%;
+  --bs-lu-y:48%;
+  background:
+    radial-gradient(ellipse 54% 65% at 79% 43%,rgba(105,195,232,.32),transparent 74%),
+    radial-gradient(ellipse 45% 48% at 64% 75%,rgba(63,179,226,.19),transparent 80%),
+    radial-gradient(ellipse 44% 64% at 12% 40%,rgba(255,255,255,.94),transparent 80%),
+    linear-gradient(135deg,#f9fcff 0%,#e8f7ff 40%,#c9e9f6 74%,#b8e3f4 100%);
+  isolation:isolate;
+}
+.bs-body.template-index .bs-pastel-hero.bs-liquid-universe::after{
+  content:"";position:absolute;z-index:1;left:0;right:0;bottom:-1px;height:150px;
+  pointer-events:none;
+  background:linear-gradient(0deg,#fbf9f6,rgba(248,251,253,.88) 27%,transparent 100%);
+}
+.bs-body.template-index .bs-liquid-universe .bs-pastel-hero__bg{
+  z-index:0;
+  background:radial-gradient(circle at 72% 51%,rgba(35,154,207,.12),transparent 59%);
+}
+.bs-body.template-index .bs-liquid-universe .bs-pastel-hero__bg::after{
+  opacity:.10;
+}
+.bs-body.template-index .bs-liquid-universe .bs-pastel-hero__inner{
+  position:relative;z-index:2;isolation:isolate;
+}
+.bs-body.template-index .bs-liquid-universe .bs-pastel-copy{
+  position:relative;z-index:8;
+}
+.bs-body.template-index .bs-liquid-universe .bs-pastel-actions{
+  position:relative;z-index:9;
+}
+.bs-body.template-index .bs-liquid-universe .bs-pastel-art{
+  z-index:3;pointer-events:none;
+}
+.bs-body.template-index .bs-liquid-universe .bs-pastel-bottom{
+  z-index:9;
+}
+.bs-body.template-index .bs-liquid-universe .bs-pastel-copy h1{
+  background:linear-gradient(120deg,#496a86 5%,#7ca5bf 48%,#9ecbdc 82%);
+  -webkit-background-clip:text;background-clip:text;
+  color:transparent;
+  text-shadow:0 12px 44px rgba(91,154,191,.14);
+}
+.bs-body.template-index .bs-liquid-universe .bs-pastel-description{color:#4c738b}
+.bs-body.template-index .bs-liquid-universe .bs-pastel-orb.bs-v24-orb{
+  filter:drop-shadow(0 30px 36px rgba(38,128,184,.22));
+}
+.bs-body.template-index .bs-liquid-universe .bs-v24-orb-float{
+  animation:bsV24Float 8s ease-in-out infinite;
+}
+.bs-body.template-index .bs-liquid-universe .bs-v24-orb-float .bs-lu-canvas{
+  position:absolute;inset:0;width:100%;height:100%;
+  pointer-events:none;display:block;z-index:4;background:transparent;
+  border-radius:50%;
+  filter:drop-shadow(0 0 14px rgba(38,174,226,.11));
+}
+.bs-body.template-index .bs-liquid-universe .bs-pastel-orb__label{
+  z-index:8;pointer-events:none;
+  text-shadow:0 1px 6px rgba(255,255,255,.83),0 0 15px rgba(203,244,255,.72);
+}
+.bs-body.template-index .bs-liquid-universe .bs-pastel-orb__label small,
+.bs-body.template-index .bs-liquid-universe .bs-pastel-orb__label strong,
+.bs-body.template-index .bs-liquid-universe .bs-pastel-orb__label span{
+  color:#174c71;
+  text-shadow:0 1px 4px rgba(237,252,255,.93),0 0 12px rgba(222,250,255,.59);
+}
+.bs-body.template-index .bs-liquid-universe .bs-pastel-orb__label strong{
+  font-weight:400;letter-spacing:.12em;
+}
+.bs-body.template-index .bs-liquid-universe .bs-pastel-orb.bs-v24-orb::before,
+.bs-body.template-index .bs-liquid-universe .bs-pastel-orb.bs-v24-orb::after{
+  opacity:0;
+}
+.bs-body.template-index .bs-liquid-universe .bs-lu-orbit{
+  position:absolute;z-index:7;pointer-events:none;
+  border-radius:50%;border:1.8px solid rgba(204,247,255,.74);
+  box-shadow:inset 0 0 11px rgba(169,231,248,.26),0 0 17px rgba(79,198,244,.38);
+  transform-style:preserve-3d;
+  animation:bsLuOrbit 16s linear infinite;
+}
+.bs-body.template-index .bs-liquid-universe .bs-lu-orbit--one{
+  inset:-17%;
+  transform:rotate(-28deg) rotateX(65deg);
+}
+.bs-body.template-index .bs-liquid-universe .bs-lu-orbit--two{
+  inset:-24%;border-color:rgba(83,176,217,.38);border-width:1px;
+  transform:rotate(35deg) rotateX(77deg);
+  animation-duration:23s;animation-direction:reverse;
+}
+.bs-body.template-index .bs-liquid-universe .bs-lu-drop{
+  position:absolute;display:block;
+  width:12px;height:12px;border-radius:50%;
+  background:radial-gradient(circle at 31% 24%,#fff 0 12%,rgba(208,250,255,.97) 20%,rgba(53,179,229,.93) 66%,rgba(8,94,162,.96) 100%);
+  box-shadow:inset -2px -2px 5px rgba(5,89,142,.38),0 0 12px rgba(109,216,255,.6);
+}
+.bs-body.template-index .bs-liquid-universe .bs-lu-drop--a{left:15%;top:14%}
+.bs-body.template-index .bs-liquid-universe .bs-lu-drop--b{right:10%;bottom:23%;width:8px;height:8px}
+.bs-body.template-index .bs-liquid-universe .bs-lu-orbit--two .bs-lu-drop--a{width:9px;height:9px}
+.bs-body.template-index .bs-liquid-universe .bs-lu-atmosphere{
+  position:absolute;inset:0;overflow:hidden;z-index:1;pointer-events:none;
+  background:
+    radial-gradient(circle 200px at var(--bs-lu-x,68%) var(--bs-lu-y,48%),rgba(234,254,255,.32),transparent 90%);
+}
+.bs-body.template-index .bs-liquid-universe .bs-lu-atmosphere::before{
+  content:"";position:absolute;
+  inset:7% -10% 5% 38%;
+  opacity:.63;
+  background:
+    radial-gradient(ellipse 35% 15% at 50% 47%,rgba(255,255,255,.78),transparent),
+    repeating-radial-gradient(ellipse at 58% 43%,transparent 0 32px,rgba(255,255,255,.14) 34px 36px,transparent 39px 67px);
+  transform:rotate(-17deg);
+  animation:bsLuTide 17s ease-in-out infinite alternate;
+}
+.bs-body.template-index .bs-liquid-universe .bs-lu-atmosphere::after{
+  content:"";position:absolute;right:1%;top:3%;width:61%;height:94%;
+  background:radial-gradient(ellipse at 55% 52%,rgba(8,122,187,.20),transparent 65%);
+  filter:blur(32px);
+  animation:bsLuBreathe 12s ease-in-out infinite alternate;
+}
+.bs-body.template-index .bs-liquid-universe .bs-lu-light{
+  position:absolute;top:-22%;width:18%;height:135%;
+  background:linear-gradient(90deg,transparent,rgba(255,255,255,.23),transparent);
+  transform:rotate(24deg);transform-origin:50% 0;
+  filter:blur(19px);opacity:.65;
+  animation:bsLuLight 15s ease-in-out infinite alternate;
+}
+.bs-body.template-index .bs-liquid-universe .bs-lu-light--one{left:56%}
+.bs-body.template-index .bs-liquid-universe .bs-lu-light--two{left:79%;opacity:.32;animation-delay:-6s}
+.bs-body.template-index .bs-liquid-universe .bs-lu-caustics{
+  position:absolute;inset:0;opacity:.18;
+  background:
+    repeating-radial-gradient(ellipse at 77% 64%,transparent 0 38px,rgba(251,255,255,.55) 40px 42px,transparent 47px 88px);
+  transform:rotate(-14deg) scale(1.15);
+  animation:bsLuTide 22s ease-in-out infinite alternate-reverse;
+}
+.bs-body.template-index .bs-liquid-universe .bs-lu-ripple{
+  position:absolute;z-index:3;pointer-events:none;
+  width:22px;height:22px;margin:-11px 0 0 -11px;
+  border:2px solid rgba(53,173,225,.49);
+  border-radius:50%;
+  animation:bsLuRipple .95s ease-out forwards;
+}
+.bs-body.template-index .bs-liquid-universe.bs-lu-arriving .bs-v24-orb-float{
+  animation:bsLuIntro 1.35s ease-out 1 both;
+}
+.bs-body.template-index .bs-liquid-universe.is-paused .bs-lu-orbit,
+.bs-body.template-index .bs-liquid-universe.is-paused .bs-lu-atmosphere::before,
+.bs-body.template-index .bs-liquid-universe.is-paused .bs-lu-atmosphere::after,
+.bs-body.template-index .bs-liquid-universe.is-paused .bs-lu-light,
+.bs-body.template-index .bs-liquid-universe.is-paused .bs-lu-caustics{
+  animation-play-state:paused!important;
+}
+@keyframes bsLuOrbit{to{rotate:360deg}}
+@keyframes bsLuTide{from{translate:-1% -1%;scale:1}to{translate:2% 3%;scale:1.07}}
+@keyframes bsLuBreathe{from{opacity:.30;scale:1}to{opacity:.73;scale:1.09}}
+@keyframes bsLuLight{from{opacity:.25;translate:-18px 0}to{opacity:.70;translate:25px 0}}
+@keyframes bsLuRipple{to{width:220px;height:220px;margin:-110px 0 0 -110px;opacity:0}}
+@keyframes bsLuIntro{0%{opacity:.3;transform:translateY(28px) scale(.89)}65%{opacity:1;transform:translateY(-9px) scale(1.035)}100%{opacity:1;transform:translateY(0) scale(1)}}
+@media(max-width:900px){
+  .bs-body.template-index .bs-liquid-universe .bs-pastel-art{opacity:.94}
+  .bs-body.template-index .bs-liquid-universe .bs-lu-atmosphere::after{filter:blur(12px);opacity:.4}
+  .bs-body.template-index .bs-liquid-universe .bs-lu-light{filter:blur(11px)}
+  .bs-body.template-index .bs-liquid-universe .bs-lu-orbit{border-width:1px}
+}
+@media(max-width:600px){
+  .bs-body.template-index .bs-pastel-hero.bs-liquid-universe{
+    background:radial-gradient(ellipse 83% 54% at 92% 77%,rgba(78,173,226,.31),transparent 80%),linear-gradient(145deg,#f9fcff,#e7f6fd 70%,#d7eefb);
+  }
+  .bs-body.template-index .bs-liquid-universe .bs-pastel-copy{z-index:8}
+  .bs-body.template-index .bs-liquid-universe .bs-pastel-art{z-index:2;opacity:.78}
+  .bs-body.template-index .bs-liquid-universe .bs-pastel-actions{z-index:12}
+  .bs-body.template-index .bs-liquid-universe .bs-pastel-bottom{z-index:12}
+  .bs-body.template-index .bs-liquid-universe .bs-lu-atmosphere::before,
+  .bs-body.template-index .bs-liquid-universe .bs-lu-light,
+  .bs-body.template-index .bs-liquid-universe .bs-lu-caustics{display:none}
+  .bs-body.template-index .bs-liquid-universe .bs-lu-atmosphere::after{filter:none;opacity:.25}
+  .bs-body.template-index .bs-liquid-universe .bs-v24-orb-float{animation:none!important}
+  .bs-body.template-index .bs-liquid-universe .bs-lu-drop{width:8px;height:8px}
+  .bs-body.template-index .bs-liquid-universe .bs-lu-orbit--two{opacity:.52}
+  .bs-body.template-index .bs-liquid-universe .bs-pastel-orb__label strong{font-size:clamp(17px,5vw,25px)}
+}
+@media(prefers-reduced-motion:reduce){
+  .bs-body.template-index .bs-liquid-universe .bs-lu-orbit,
+  .bs-body.template-index .bs-liquid-universe .bs-lu-atmosphere::before,
+  .bs-body.template-index .bs-liquid-universe .bs-lu-atmosphere::after,
+  .bs-body.template-index .bs-liquid-universe .bs-lu-light,
+  .bs-body.template-index .bs-liquid-universe .bs-lu-caustics,
+  .bs-body.template-index .bs-liquid-universe .bs-v24-orb-float{
+    animation:none!important;
+  }
+}
+
+/* bs-lu-photoreal-v3: ocean contrast for transparent water */
+.bs-body.template-index .bs-pastel-hero.bs-liquid-universe{
+  background:radial-gradient(ellipse 43% 64% at 81% 48%,rgba(5,43,78,.81),transparent 83%),radial-gradient(ellipse 43% 51% at 86% 80%,rgba(41,154,201,.29),transparent 80%),radial-gradient(ellipse 48% 55% at 11% 39%,rgba(255,255,255,.95),transparent 81%),linear-gradient(130deg,#f9fcff 0%,#e9f7ff 38%,#c9e9f6 76%,#b9e2f3 100%);
+}
+.bs-body.template-index .bs-liquid-universe .bs-pastel-orb.bs-v24-orb{filter:drop-shadow(0 20px 28px rgba(4,51,86,.18))}
+.bs-body.template-index .bs-liquid-universe .bs-v24-orb-float .bs-lu-canvas{filter:drop-shadow(0 0 12px rgba(198,250,255,.12))}
+@media(max-width:600px){
+  .bs-body.template-index .bs-pastel-hero.bs-liquid-universe{
+    background:radial-gradient(ellipse 68% 45% at 88% 73%,rgba(7,60,103,.64),transparent 84%),linear-gradient(145deg,#f9fcff,#eaf8ff 60%,#d1eaf6)
+  }
+}

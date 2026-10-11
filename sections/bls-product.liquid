@@ -1,0 +1,226 @@
+{%- liquid
+  assign current = product.selected_or_first_available_variant
+  assign multi = false
+  unless product.has_only_default_variant
+    assign multi = true
+  endunless
+  assign on_sale = false
+  if current.compare_at_price > current.price
+    assign on_sale = true
+  endif
+  assign first_media = current.featured_media | default: product.featured_media
+  assign src = collection
+  if src == blank
+    assign src = product.collections.first
+  endif
+  if src == blank
+    assign src = collections.all
+  endif
+  assign total = 1
+  assign next_img = blank
+  for p in src.products limit: 12
+    unless p.id == product.id
+      assign total = total | plus: 1
+      if next_img == blank and p.featured_image != blank
+        assign next_img = p.featured_image
+      endif
+    endunless
+  endfor
+  assign next_img = next_img | default: product.featured_image
+  assign ptype = product.type | default: src.title
+  assign plain = product.description | strip_html | strip
+  assign sentences = plain | split: '. '
+  assign nimg = 0
+  assign first_idx = 0
+  for m in product.media
+    if m.media_type == 'image'
+      if m.id == first_media.id
+        assign first_idx = nimg
+      endif
+      assign nimg = nimg | plus: 1
+    endif
+  endfor
+-%}
+<section class="pg px" data-pgp data-product-id="{{ product.id }}">
+<div class="pg-wrap px-wrap">
+<div class="pg-panel px-panel">
+<header class="px-top">
+<div class="px-no" aria-hidden="true"><span data-px-no>01</span></div>
+<div class="px-specs">
+<div class="px-sp">
+<span>{{ product.title | truncate: 34 | escape }}</span>
+{%- if product.vendor != blank -%}<span>By {{ product.vendor | escape }}</span>{%- endif -%}
+<span class="px-gap"></span>
+{%- if sentences.size > 0 -%}
+<span class="px-lb">Details</span>
+{%- for s in sentences limit: 3 -%}<span>{{ s | truncate: 38 | escape }}</span>{%- endfor -%}
+{%- endif -%}
+</div>
+<div class="px-sp">
+{%- if multi -%}
+<span class="px-lb">Options</span>
+{%- for option in product.options_with_values limit: 3 -%}<span>{{ option.name | escape }}: {{ option.values | join: ', ' | truncate: 30 | escape }}</span>{%- endfor -%}
+<span class="px-gap"></span>
+{%- endif -%}
+<span class="px-lb">Service</span>
+<span>{{ 'pg.product.returns' | t }}</span>
+<span>{{ 'pg.product.secure' | t }}</span>
+</div>
+</div>
+<div class="px-act">
+<a class="px-cartp" href="{{ routes.cart_url }}" data-cart-open aria-label="{{ 'bls.cart' | t }}">
+<span class="px-cartp__t">{{ 'bls.cart' | t }}</span>
+<span class="px-cartp__i"><svg aria-hidden="true" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M5 8h14l-1 12H6L5 8z"></path><path d="M9 8V6a3 3 0 0 1 6 0v2"></path></svg><b data-cd-count>{{ cart.item_count }}</b></span>
+</a>
+</div>
+</header>
+
+<div class="px-body">
+<div class="px-left">
+<div class="px-rail">
+<div class="px-rail__scroll" data-px-rscroll>
+<a class="px-sl is-cur{% if section.settings.blend %} bls-shot{% endif %}" href="{{ product.url }}" aria-current="page" aria-label="{{ product.title | escape }}">
+{%- if product.featured_image != blank -%}{{ product.featured_image | image_url: width: 600 | image_tag: loading: 'eager', alt: '', widths: '300, 450, 600', sizes: '(max-width: 700px) 30vw, 280px' }}{%- endif -%}
+<span class="px-sl__n"><em>{{ ptype | escape }}</em><b>{{ product.title | truncate: 46 | escape }}</b></span>
+<span class="px-sl__p">{{ product.price | money }}</span>
+<span class="px-sl__go is-on" aria-hidden="true"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12l5 5 9-10"></path></svg></span>
+</a>
+{%- for p in src.products limit: 12 -%}
+{%- unless p.id == product.id -%}
+<a class="px-sl{% if section.settings.blend %} bls-shot{% endif %}" href="{{ p.url }}" aria-label="{{ p.title | escape }}">
+{%- if p.featured_image != blank -%}{{ p.featured_image | image_url: width: 600 | image_tag: loading: 'lazy', alt: '', widths: '300, 450, 600', sizes: '(max-width: 700px) 30vw, 280px' }}{%- endif -%}
+<span class="px-sl__n"><em>{{ p.type | default: src.title | escape }}</em><b>{{ p.title | truncate: 46 | escape }}</b></span>
+<span class="px-sl__p">{{ p.price | money }}</span>
+<span class="px-sl__go" aria-hidden="true"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M7 17L17 7"></path><path d="M8 7h9v9"></path></svg></span>
+</a>
+{%- endunless -%}
+{%- endfor -%}
+</div>
+</div>
+<div class="px-ctl">
+<button type="button" class="px-rb" data-px-rprev aria-label="Previous product"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 15l6-6 6 6"></path></svg></button>
+<span class="px-ctl__n" data-px-rcount data-total="{{ total }}">01 / {% if total < 10 %}0{% endif %}{{ total }}</span>
+<button type="button" class="px-rb" data-px-rnext aria-label="Next product"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 9l6 6 6-6"></path></svg></button>
+</div>
+</div>
+
+<div class="px-stage{% if section.settings.blend %} bls-shot{% endif %}" data-px-stage data-first="{{ first_idx }}">
+<div class="px-track" data-px-track>
+{%- for m in product.media -%}
+{%- if m.media_type == 'image' -%}
+<div class="px-s" data-media-id="{{ m.id }}">
+{{ m | image_url: width: 1400 | image_tag: loading: 'eager', fetchpriority: 'high', alt: m.alt | default: product.title, widths: '600, 900, 1200, 1400', sizes: '(max-width: 900px) 70vw, 760px' }}
+</div>
+{%- endif -%}
+{%- endfor -%}
+{%- if nimg == 0 -%}<div class="px-s"><div class="px-noimg">{{ shop.name | escape }}</div></div>{%- endif -%}
+</div>
+<div class="px-cap">
+<span class="px-cap__t">{{ ptype | escape }}</span>
+<h1>{{ product.title | escape }}</h1>
+</div>
+<div class="px-prog" data-px-prog><i data-px-pbar></i></div>
+<span class="px-cnt" data-px-cnt>1/{{ nimg }}</span>
+{%- if on_sale -%}<span class="pg-sale px-sale" data-pgp-sale>-{{ current.compare_at_price | minus: current.price | times: 100 | divided_by: current.compare_at_price }}%</span>{%- endif -%}
+<button type="button" class="px-ar px-ar--l" data-px-gprev aria-label="Previous photo"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M15 6l-6 6 6 6"></path></svg></button>
+<button type="button" class="px-ar px-ar--r" data-px-gnext aria-label="Next photo"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 6l6 6-6 6"></path></svg></button>
+<div class="px-pill">
+<span class="px-pill__v">
+<small data-px-vt{% if multi == false %} hidden{% endif %}>{{ current.public_title | escape }}</small>
+<span class="px-pill__p"><b data-pgp-now>{{ current.price | money }}</b><s data-pgp-was{% unless on_sale %} hidden{% endunless %}>{{ current.compare_at_price | money }}</s></span>
+</span>
+<i class="px-dot" aria-hidden="true"></i>
+</div>
+<button class="px-add" type="submit" form="PgpForm" name="add" data-pgp-add2{% unless current.available %} disabled{% endunless %}>
+<span data-pgp-addtext2>{% if current.available %}{{ 'pg.add' | t }}{% else %}{{ 'product.sold_out' | t }}{% endif %}</span>
+<i><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 5v14"></path><path d="M5 12h14"></path></svg></i>
+</button>
+</div>
+</div>
+
+<div class="px-buyw">
+{%- form 'product', product, class: 'px-buy', novalidate: 'novalidate', id: 'PgpForm' -%}
+<input type="hidden" name="id" value="{{ current.id }}" data-pgp-id>
+{%- if multi -%}
+<div class="px-opts">
+{%- for option in product.options_with_values -%}
+<fieldset class="pgp__opt" data-pgp-opt data-pos="{{ forloop.index }}">
+<legend class="pg-label">{{ option.name | escape }}</legend>
+<div class="pgp__vals">
+{%- for value in option.values -%}
+<label class="pgp__val">
+<input type="radio" name="pgp-opt-{{ forloop.parentloop.index }}" value="{{ value | escape }}"{% if option.selected_value == value %} checked{% endif %}>
+<span>{{ value | escape }}</span>
+</label>
+{%- endfor -%}
+</div>
+</fieldset>
+{%- endfor -%}
+</div>
+{%- endif -%}
+<div class="px-row">
+<div class="pg-qty" data-pgp-qty>
+<button type="button" data-pgp-minus aria-label="{{ 'pg.cart.minus' | t }}">&minus;</button>
+<input type="number" name="quantity" value="1" min="1" inputmode="numeric" aria-label="{{ 'product.quantity' | t }}">
+<button type="button" data-pgp-plus aria-label="{{ 'pg.cart.plus' | t }}">+</button>
+</div>
+<button class="pg-btn pgp__add" type="submit" name="add" data-pgp-add{% unless current.available %} disabled{% endunless %}>
+<span data-pgp-addtext>{% if current.available %}{{ 'product.add_to_cart' | t }}{% else %}{{ 'product.sold_out' | t }}{% endif %}</span>
+</button>
+</div>
+{%- if section.settings.show_dynamic_checkout -%}<div class="pgp__dyn">{{ form | payment_button }}</div>{%- endif -%}
+{%- endform -%}
+</div>
+</div>
+
+<a class="px-more pg-panel" href="{{ src.url | default: routes.all_products_collection_url }}">
+<span class="px-more__img">{%- if next_img != blank -%}{{ next_img | image_url: width: 240 | image_tag: loading: 'lazy', alt: '', width: 96, height: 96 }}{%- endif -%}</span>
+<span class="px-more__t">{{ section.settings.bar_title | escape }}</span>
+<span class="px-more__s"><b>{{ section.settings.bar_note | escape }}</b>{% if product.vendor != blank %}By {{ product.vendor | escape }}{% endif %}</span>
+<span class="px-more__s"><b>{{ src.title | escape }}</b>{{ section.settings.bar_note_2 | escape }}</span>
+<span class="px-more__go" aria-hidden="true"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M7 17L17 7"></path><path d="M8 7h9v9"></path></svg></span>
+</a>
+
+{%- if product.description != blank -%}
+<div class="pg-panel pgp__desc">
+<h2 class="pgp__h2">{{ 'product.description' | t }}</h2>
+<div class="pg-rte">{{ product.description }}</div>
+</div>
+{%- endif -%}
+<ul class="pgp__trust pg-panel">
+<li><svg aria-hidden="true" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M3 7h11v9H3z"></path><path d="M14 10h4l3 3v3h-7"></path><circle cx="7" cy="17.5" r="1.6"></circle><circle cx="17" cy="17.5" r="1.6"></circle></svg><span>{{ 'pg.product.ship' | t }}</span></li>
+<li><svg aria-hidden="true" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M4 12a8 8 0 1 0 3-6.2"></path><path d="M4 4v4h4"></path></svg><span>{{ 'pg.product.returns' | t }}</span></li>
+<li><svg aria-hidden="true" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3l7 3v5c0 5-3.2 8.4-7 10-3.8-1.6-7-5-7-10V6z"></path><path d="M9 12l2 2 4-4"></path></svg><span>{{ 'pg.product.secure' | t }}</span></li>
+</ul>
+
+<div class="pgp__related" data-pgp-related data-url="{{ routes.product_recommendations_url }}?section_id={{ section.id }}&product_id={{ product.id }}&limit=8&intent=related">
+{%- if recommendations.performed and recommendations.products_count > 0 -%}
+<div class="pg-head" style="margin-top:46px"><div><p class="pg-eyebrow">{{ 'pg.product.more' | t }}</p><h2 class="pg-h1" style="font-size:clamp(24px,3vw,34px)">{{ 'product.recommendations' | t }}</h2></div></div>
+<div class="bls-grid">
+{%- for rec in recommendations.products limit: 8 -%}{%- render 'bls-card', product: rec, blend: true, eager: false -%}{%- endfor -%}
+</div>
+{%- endif -%}
+</div>
+</div>
+<div class="pgp__bar" data-pgp-bar>
+<div class="pgp__barinfo"><b>{{ product.title | escape }}</b><span data-pgp-barprice>{{ current.price | money }}</span></div>
+<button class="pg-btn" type="button" data-pgp-barbtn{% unless current.available %} disabled{% endunless %}>{% if current.available %}{{ 'product.add_to_cart' | t }}{% else %}{{ 'product.sold_out' | t }}{% endif %}</button>
+</div>
+<script type="application/json" data-pgp-variants>{{ product.variants | json }}</script>
+</section>
+{%- render 'bls-px-style' -%}
+{%- render 'bls-px-js' -%}
+{% schema %}
+{
+  "name": "Glass product",
+  "settings": [
+    {"type": "checkbox", "id": "blend", "label": "Blend white photo backgrounds into a soft studio backdrop", "default": true},
+    {"type": "checkbox", "id": "show_vendor", "label": "Show the brand above the title", "default": false},
+    {"type": "checkbox", "id": "show_dynamic_checkout", "label": "Show the quick checkout buttons (Shop Pay, Apple Pay)", "default": true},
+    {"type": "header", "content": "Bottom strip"},
+    {"type": "text", "id": "bar_title", "label": "Big text", "default": "New · Cosmic set"},
+    {"type": "text", "id": "bar_note", "label": "Small text 1", "default": "Hot drop"},
+    {"type": "text", "id": "bar_note_2", "label": "Small text 2", "default": "Collection"}
+  ]
+}
+{% endschema %}

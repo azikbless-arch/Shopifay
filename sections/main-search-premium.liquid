@@ -1,0 +1,12 @@
+<section class="bs-section bs-search-page">
+  <div class="bs-shell">
+    <div class="bs-search-hero"><p class="bs-eyebrow">FIND YOUR NEXT FAVORITE</p><h1>Search BLESSHOP</h1><form class="bs-search bs-search--page" action="{{ routes.search_url }}" method="get"><span>{% render 'icon', name: 'search' %}</span><input type="search" name="q" value="{{ search.terms | escape }}" placeholder="Search products..."><button type="submit">Search</button></form></div>
+    {% if search.performed %}
+      {% paginate search.results by 24 %}
+        <div class="bs-product-grid bs-product-grid--collection">{% for item in search.results %}{% if item.object_type == 'product' %}{% render 'product-card', product: item %}{% endif %}{% endfor %}</div>
+        {% if paginate.pages > 1 %}<nav class="bs-pagination">{{ paginate | default_pagination }}</nav>{% endif %}
+      {% endpaginate %}
+    {% endif %}
+  </div>
+</section>
+{% schema %}{"name":"Premium search","settings":[],"presets":[{"name":"Premium search"}]}{% endschema %}

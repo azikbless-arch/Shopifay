@@ -1,0 +1,28 @@
+<article class="bs-section">
+  <div class="bs-shell bs-article-page">
+    <nav class="bs-breadcrumb" aria-label="Breadcrumb"><a href="{{ routes.root_url }}">Home</a><span>›</span><a href="{{ blog.url }}">{{ blog.title }}</a><span>›</span><span>{{ article.title }}</span></nav>
+    <p class="bs-eyebrow">{{ article.published_at | date: '%b %d, %Y' }}{% if article.author != blank %} · {{ article.author }}{% endif %}</p>
+    <h1>{{ article.title }}</h1>
+    {% if article.image %}<div class="bs-article-page__hero">{{ article.image | image_url: width: 1800 | image_tag: loading: 'eager', widths: '700,1000,1400,1800', sizes: '100vw', alt: article.title }}</div>{% endif %}
+    <div class="rte">{{ article.content }}</div>
+    {% if blog.comments_enabled? %}
+      <div class="bs-product-tabs" style="margin-top:36px">
+        <details><summary>Comments ({{ article.comments_count }})</summary>
+          <div>
+            {% for comment in article.comments %}
+              <p><strong>{{ comment.author }}</strong><br>{{ comment.content }}</p>
+            {% endfor %}
+            {% form 'new_comment', article %}
+              {{ form.errors | default_errors }}
+              <input type="text" name="comment[author]" placeholder="Name" required>
+              <input type="email" name="comment[email]" placeholder="Email" required>
+              <textarea name="comment[body]" placeholder="Comment" required></textarea>
+              <button class="bs-btn bs-btn--primary" type="submit">Post comment</button>
+            {% endform %}
+          </div>
+        </details>
+      </div>
+    {% endif %}
+  </div>
+</article>
+{% schema %}{"name":"Premium article","settings":[],"presets":[{"name":"Premium article"}]}{% endschema %}

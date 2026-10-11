@@ -1,0 +1,42 @@
+<section class="bs-section">
+  <style>
+    .bs-quick-order{max-width:980px}.bs-quick-order__table{border:1px solid var(--bs-border);border-radius:18px;overflow:hidden;background:#fff}.bs-quick-order__row{display:grid;grid-template-columns:76px 1fr 120px 110px;gap:14px;align-items:center;padding:12px 16px;border-bottom:1px solid var(--bs-border)}.bs-quick-order__row:last-child{border-bottom:0}.bs-quick-order__row img{width:76px;height:76px;object-fit:cover;border-radius:12px}.bs-quick-order__row strong,.bs-quick-order__row small{display:block}.bs-quick-order__row small{color:#858690;margin-top:4px}.bs-quick-order__row input[type=number]{width:90px;border:1px solid var(--bs-border);border-radius:10px;padding:10px}@media(max-width:700px){.bs-quick-order__row{grid-template-columns:60px 1fr 80px}.bs-quick-order__price{display:none}.bs-quick-order__row img{width:60px;height:60px}}
+  </style>
+  <div class="bs-shell bs-quick-order">
+    <div class="bs-section-head"><h1>{{ section.settings.heading }}</h1></div>
+    {% if section.settings.text != blank %}<p>{{ section.settings.text }}</p>{% endif %}
+    {% assign qo_collection = section.settings.collection %}
+    {% if qo_collection != blank %}
+      <form data-quick-order-form>
+        <div class="bs-quick-order__table">
+          {% for product in qo_collection.products limit: 20 %}
+            {% assign variant = product.selected_or_first_available_variant %}
+            <div class="bs-quick-order__row" data-quick-order-row>
+              <div>{% if product.featured_image %}{{ product.featured_image | image_url: width: 180 | image_tag: loading: 'lazy', alt: product.title }}{% endif %}</div>
+              <div><strong>{{ product.title }}</strong><small>{{ variant.title }}</small></div>
+              <div class="bs-quick-order__price">{{ variant.price | money }}</div>
+              <div>
+                <input type="hidden" data-quick-order-id value="{{ variant.id }}">
+                <input type="number" data-quick-order-qty min="0" value="0" {% unless variant.available %}disabled{% endunless %} aria-label="Quantity for {{ product.title | escape }}">
+              </div>
+            </div>
+          {% endfor %}
+        </div>
+        <button class="bs-btn bs-btn--primary" type="submit" style="margin-top:16px">Add selected items to cart</button>
+      </form>
+    {% else %}
+      <div class="bs-empty-page"><p>Choose a collection in the theme editor to build a quick order list.</p></div>
+    {% endif %}
+  </div>
+</section>
+{% schema %}
+{
+  "name":"Quick order list",
+  "settings":[
+    {"type":"text","id":"heading","label":"Heading","default":"Quick order"},
+    {"type":"textarea","id":"text","label":"Intro","default":"Add several products to your cart in one step."},
+    {"type":"collection","id":"collection","label":"Collection"}
+  ],
+  "presets":[{"name":"Quick order list"}]
+}
+{% endschema %}

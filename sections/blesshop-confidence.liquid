@@ -1,0 +1,27 @@
+<section class="bs-section bs-v4-trust">
+  <div class="bs-shell">
+    <div class="bs-v4-heading"><span class="bs-v4-eyebrow">SHOP WITH CLARITY</span><h2>{{ section.settings.heading | escape }}</h2><p>{{ section.settings.intro | escape }}</p></div>
+    <div class="bs-v4-trust__grid">
+      <div class="bs-v4-trust__answers">
+        <details><summary>How do I find delivery information?</summary><p>Check the delivery options, costs, and available estimates during checkout. For questions, contact our support team.</p></details>
+        <details><summary>What if I need to return something?</summary><p>Please review our current published refund policy before placing an order. Return eligibility depends on that policy.</p></details>
+        <details><summary>Where can I ask a question about a product?</summary><p>Contact BLESSHOP before ordering if you need more product details or assistance.</p></details>
+      </div>
+      <aside class="bs-v4-trust__aside">
+        <span class="bs-v4-trust__emblem" aria-hidden="true">✧</span><h3>Answers before checkout.</h3>
+        <p>Explore the store's published policies and contact us whenever you need help.</p>
+        <div class="bs-v4-trust__links">
+          {% for policy in shop.policies %}{% if policy != blank and policy.url != blank %}
+            <a href="{{ policy.url }}">{{ policy.title | escape }} ↗</a>
+          {% endif %}{% endfor %}
+          <a href="/pages/contact">Contact support ↗</a>
+          {% assign bs_faq_page = pages['faq'] %}
+          {% if bs_faq_page != blank %}<a href="{{ bs_faq_page.url }}">Frequently asked questions ↗</a>{% endif %}
+        </div>
+      </aside>
+    </div>
+  </div>
+</section>
+{% schema %}
+{"name":"Shopping confidence","settings":[{"type":"text","id":"heading","label":"Heading","default":"Shop with confidence"},{"type":"textarea","id":"intro","label":"Intro","default":"Clear information to help you make a confident decision."}],"presets":[{"name":"Shopping confidence"}]}
+{% endschema %}

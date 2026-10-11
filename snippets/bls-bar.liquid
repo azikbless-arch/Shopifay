@@ -1,0 +1,45 @@
+{%- comment -%}Slim top bar: a thin, nearly clear glass pill that turns denser once the page scrolls, slides away right after a scroll down starts and returns on a scroll up. On phones the name sits in the middle, search and the cart on the right. The blur is only on while the bar is dense, so the moving first screen behind the clear bar is never re-blurred every frame.{%- endcomment -%}
+<style>
+.bls-header{top:max(8px,env(safe-area-inset-top));transition:transform .26s cubic-bezier(.3,.8,.2,1);will-change:transform}
+.bls-header.is-hidden{transform:translate3d(0,calc(-100% - 24px),0)}
+.bls-header .bls-bar{position:relative;height:48px;padding:0 5px 0 5px;gap:8px;background:rgba(14,16,24,.22);border-color:rgba(255,255,255,.13);box-shadow:inset 0 1px 0 rgba(255,255,255,.16);-webkit-backdrop-filter:none;backdrop-filter:none;transition:background-color .35s ease,box-shadow .35s ease,border-color .35s ease}
+.bls-header.is-solid .bls-bar{background:rgba(14,16,24,.62);border-color:rgba(255,255,255,.18);box-shadow:inset 0 1px 0 rgba(255,255,255,.2),0 8px 22px rgba(0,0,0,.28);-webkit-backdrop-filter:blur(12px) saturate(150%);backdrop-filter:blur(12px) saturate(150%)}
+.bls-header .bls-round{width:38px;height:38px;min-width:38px}
+.bls-header .bls-actions{display:flex;align-items:center;gap:6px;margin-left:auto}
+.bls-header .bls-lang{margin:0;display:flex}
+.bls-header .bls-langbtn{font-family:var(--bls-body,'Manrope',sans-serif);font-size:11px;font-weight:700;letter-spacing:.06em;color:#fff;border:0;cursor:pointer;padding:0}
+.bls-header .bls-searchlink{display:none}
+.bls-header .bls-cart-count{top:-3px;right:-3px}
+@media (max-width:900px){
+  .bls-header .bls-bar{padding:0 5px}
+  .bls-header .bls-logo{position:absolute;left:50%;top:50%;transform:translate(-50%,-50%);font-size:13px;letter-spacing:.28em;white-space:nowrap}
+  .bls-header .bls-searchlink{display:inline-flex}
+  .bls-header .bls-search{display:none}
+}
+@media (min-width:901px){.bls-header .bls-bar{padding:0 6px 0 22px}}
+@media (prefers-reduced-motion:reduce){.bls-header,.bls-header .bls-bar{transition:none}}
+</style>
+<script>
+(function(){
+  if(window.BlsBar)return;
+  window.BlsBar=1;
+  var h=document.querySelector('.bls-header');
+  if(!h)return;
+  var last=window.pageYOffset||0,acc=0,tick=false;
+  function run(){
+    tick=false;
+    var y=Math.max(0,window.pageYOffset||0),d=y-last,open=h.querySelector('details[open]');
+    last=y;
+    h.classList.toggle('is-solid',y>24);
+    if(open||y<24){acc=0;h.classList.remove('is-hidden');return;}
+    if(d===0)return;
+    if((d>0)!==(acc>0))acc=0;
+    acc+=d;
+    if(acc>14)h.classList.add('is-hidden');
+    else if(acc<-10)h.classList.remove('is-hidden');
+  }
+  window.addEventListener('scroll',function(){if(!tick){tick=true;requestAnimationFrame(run);}},{passive:true});
+  h.addEventListener('focusin',function(){h.classList.remove('is-hidden');});
+  run();
+})();
+</script>

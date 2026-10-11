@@ -1,0 +1,52 @@
+/* BLESSHOP Premium v1.8 — Pearl Glass Cart Quantity controls */
+.bs-body .bs-cart-drawer .bs-cart-qty {
+  display:inline-flex;align-items:center;
+  gap:0;min-height:34px;margin-top:12px;
+  border:1px solid rgba(169,208,236,.75);
+  border-radius:12px;
+  overflow:hidden;
+  background:linear-gradient(120deg,rgba(248,253,255,.86),rgba(229,245,254,.58));
+  box-shadow:inset 0 1px rgba(255,255,255,.97),0 5px 15px rgba(102,153,195,.10);
+}
+.bs-body .bs-cart-drawer .bs-cart-qty button {
+  width:36px;height:34px;display:grid;place-items:center;
+  padding:0;border:0;background:transparent;
+  color:#5b83a2;font:500 21px/1 "Helvetica Neue",Arial,sans-serif;
+  cursor:pointer;user-select:none;-webkit-tap-highlight-color:transparent;
+  transition:background .2s ease,color .2s ease,box-shadow .2s ease;
+}
+.bs-body .bs-cart-drawer .bs-cart-qty button:first-child {border-right:1px solid rgba(191,219,240,.44)}
+.bs-body .bs-cart-drawer .bs-cart-qty button:last-child {border-left:1px solid rgba(191,219,240,.44)}
+.bs-body .bs-cart-drawer .bs-cart-qty [data-cart-line-quantity]{
+  display:grid;place-items:center;
+  min-width:39px;padding:0 7px;
+  color:#476f90;font-size:13px;font-weight:650;font-variant-numeric:tabular-nums;
+}
+@media(hover:hover) and (pointer:fine) {
+  .bs-body .bs-cart-drawer .bs-cart-qty button:hover:not(:disabled) {
+    background:rgba(210,238,254,.7);
+    color:#326b99;box-shadow:inset 0 0 12px rgba(255,255,255,.65);
+  }
+}
+.bs-body .bs-cart-drawer .bs-cart-qty button:active:not(:disabled){background:rgba(187,222,248,.9)}
+.bs-body .bs-cart-drawer .bs-cart-qty button:focus-visible{
+  outline:2px solid #6baddc;outline-offset:-3px;border-radius:6px;position:relative;z-index:1;
+}
+.bs-body .bs-cart-drawer .bs-cart-qty button:disabled{cursor:wait;opacity:.5}
+.bs-body .bs-cart-drawer[aria-busy="true"] .bs-cart-qty{pointer-events:none;opacity:.63}
+.bs-body .bs-cart-drawer[aria-busy="true"] .bs-cart-checkout{pointer-events:none;opacity:.58}
+.bs-body .bs-cart-drawer .bs-cart-update-status {
+  margin:6px 2px 0;
+  min-height:15px;
+  color:#6383a1;font-size:11px;line-height:1.4;
+}
+.bs-body .bs-cart-drawer .bs-cart-update-status[data-cart-update-error="true"]{color:#aa5c66}
+.bs-body .bs-cart-drawer .bs-cart-line__meta span[data-cart-line-quantity]{display:grid;margin:0}
+@media(max-width:600px){
+  .bs-body .bs-cart-drawer .bs-cart-qty{margin-top:10px;min-height:36px}
+  .bs-body .bs-cart-drawer .bs-cart-qty button{width:37px;height:36px}
+  .bs-body .bs-cart-drawer .bs-cart-qty [data-cart-line-quantity]{min-width:39px}
+}
+@media(prefers-reduced-motion:reduce){
+  .bs-body .bs-cart-drawer .bs-cart-qty button{transition:none!important}
+}

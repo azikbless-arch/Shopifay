@@ -1,0 +1,16 @@
+<section class="bs-section bs-reviews">
+  <div class="bs-shell">
+    <div class="bs-section-head"><h2>{{ section.settings.heading }}</h2></div>
+    <div class="bs-review-grid">
+      {% for block in section.blocks %}<blockquote class="bs-review" {{ block.shopify_attributes }}><div class="bs-review__stars">★★★★★</div><p>“{{ block.settings.quote }}”</p><footer>{{ block.settings.name }}</footer></blockquote>{% endfor %}
+    </div>
+  </div>
+</section>
+{% schema %}
+{
+  "name":"Editorial reviews",
+  "settings":[{"type":"text","id":"heading","label":"Heading","default":"Customer Notes"}],
+  "blocks":[{"type":"review","name":"Review","settings":[{"type":"text","id":"name","label":"Name","default":"Customer"},{"type":"textarea","id":"quote","label":"Quote","default":"Add a real customer review here from your store."}]}],
+  "presets":[{"name":"Editorial reviews","blocks":[{"type":"review","settings":{"name":"Add customer name","quote":"Replace this with a verified review when you have one."}},{"type":"review","settings":{"name":"Add customer name","quote":"Use this section for real feedback from buyers."}}]}]
+}
+{% endschema %}

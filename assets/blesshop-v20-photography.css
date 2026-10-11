@@ -1,0 +1,184 @@
+/* BLESSHOP Premium v2.0 | Photo System for category imagery and future product galleries.
+   Deliberately does not style or modify .bs-product-card or product-card.liquid. */
+
+/* Category photographs: consistent editorial lighting without touching existing
+   scroll-parallax transform, hover parallax or category link behaviour. */
+.bs-body.template-index .bs-categories .bs-category-card__image {
+  isolation:isolate;
+  background:linear-gradient(150deg,#f8fbfe,#eaf1f8 75%,#f7f0fa);
+  box-shadow:inset 0 1px 0 rgba(255,255,255,.96);
+}
+.bs-body.template-index .bs-categories .bs-category-card__image img {
+  display:block;
+  object-fit:cover;
+  object-position:center;
+  image-rendering:auto;
+  filter:saturate(.94) contrast(1.01) brightness(1.035);
+  backface-visibility:hidden;
+}
+.bs-body.template-index .bs-categories .bs-category-card__image::before {
+  content:"";
+  position:absolute;
+  inset:0;
+  z-index:2;
+  pointer-events:none;
+  background:linear-gradient(135deg,rgba(255,255,255,.16),transparent 41%,rgba(194,223,245,.1) 100%);
+}
+.bs-body.template-index .bs-categories .bs-cat-cream .bs-category-card__image {
+  background:linear-gradient(145deg,#fdfaf5,#f0e9e0);
+}
+.bs-body.template-index .bs-categories .bs-cat-blush .bs-category-card__image {
+  background:linear-gradient(145deg,#fffafd,#f4eaf1);
+}
+.bs-body.template-index .bs-categories .bs-cat-lavender .bs-category-card__image {
+  background:linear-gradient(145deg,#f5f6fe,#e8edf8);
+}
+
+/* Editorial banners inside collection pages, retaining original six images. */
+.bs-body.template-collection .bs-living-collection-photo {
+  isolation:isolate;
+  background:linear-gradient(135deg,rgba(253,253,255,.96),rgba(231,242,252,.75));
+  box-shadow:inset 0 1px rgba(255,255,255,.98),0 19px 51px rgba(110,151,191,.16),0 0 0 1px rgba(255,255,255,.55);
+}
+.bs-body.template-collection .bs-living-collection-photo img {
+  object-fit:cover;
+  object-position:center;
+  image-rendering:auto;
+  filter:saturate(.94) contrast(1.025) brightness(1.025);
+}
+.bs-body.template-collection .bs-living-collection-hero--home .bs-living-collection-photo img{object-position:52% 51%}
+.bs-body.template-collection .bs-living-collection-hero--pets .bs-living-collection-photo img{object-position:50% 49%}
+.bs-body.template-collection .bs-living-collection-hero--car .bs-living-collection-photo img{object-position:51% 50%}
+.bs-body.template-collection .bs-living-collection-hero--beauty .bs-living-collection-photo img{object-position:50% 52%}
+.bs-body.template-collection .bs-living-collection-hero--travel .bs-living-collection-photo img{object-position:49% 50%}
+.bs-body.template-collection .bs-living-collection-hero--gadgets .bs-living-collection-photo img{object-position:51% 52%}
+.bs-body.template-collection .bs-living-collection-photo::after {
+  content:"";
+  position:absolute;
+  inset:0;
+  z-index:2;
+  pointer-events:none;
+  background:linear-gradient(125deg,rgba(255,255,255,.29),transparent 38%,rgba(215,231,249,.14));
+  box-shadow:inset 0 1px rgba(255,255,255,.65),inset 0 0 0 1px rgba(255,255,255,.19);
+}
+
+/* Product-detail photo stage — future-ready for products, no product cards.
+   Deliberately uses 'contain' by default so products aren't cropped. */
+.bs-body.template-product .bs-product-gallery {
+  --bs-photo-frame:rgba(255,255,255,.79);
+  --bs-photo-bg:linear-gradient(140deg,#fafcff 6%,#f0f6fb 51%,#f7f1fc);
+}
+.bs-body.template-product .bs-product-gallery .bs-product-main-media {
+  aspect-ratio:1 / 1;
+  background:var(--bs-photo-bg);
+  box-shadow:inset 0 1px rgba(255,255,255,.98),0 24px 56px rgba(107,148,184,.17);
+}
+.bs-body.template-product .bs-product-gallery .bs-product-main-media > .bs-product-main-image {
+  display:block;
+  width:100%;height:100%;
+  object-fit:contain;
+  object-position:center;
+  padding:clamp(12px,3.7vw,37px);
+  box-sizing:border-box;
+  filter:saturate(1.015) contrast(1.015);
+}
+.bs-body.template-product .bs-product-gallery.bs-photo-fit--cover .bs-product-main-media > .bs-product-main-image {
+  object-fit:cover;
+  padding:0;
+}
+.bs-body.template-product .bs-product-gallery .bs-product-main-media .bs-v20-photo-count {
+  position:absolute;
+  z-index:5;
+  left:17px;bottom:16px;
+  display:inline-flex;align-items:center;gap:7px;
+  border:1px solid rgba(255,255,255,.83);
+  border-radius:999px;
+  padding:8px 12px;
+  pointer-events:none;
+  background:rgba(249,253,255,.75);
+  color:#66839c;
+  backdrop-filter:blur(15px);
+  -webkit-backdrop-filter:blur(15px);
+  box-shadow:inset 0 1px rgba(255,255,255,.95),0 7px 18px rgba(104,150,189,.13);
+  font-size:10px;font-weight:600;
+  letter-spacing:.1em;
+  font-variant-numeric:tabular-nums;
+}
+.bs-body.template-product .bs-product-gallery .bs-product-main-media .bs-v20-photo-hint {
+  position:absolute;
+  z-index:5;
+  right:15px;bottom:16px;
+  padding:8px 11px;
+  pointer-events:none;
+  border-radius:999px;
+  background:rgba(249,253,255,.71);
+  color:#7393ae;
+  border:1px solid rgba(255,255,255,.82);
+  backdrop-filter:blur(13px);
+  -webkit-backdrop-filter:blur(13px);
+  font-size:9px;letter-spacing:.095em;
+}
+.bs-body.template-product .bs-product-gallery .bs-product-thumbs {
+  gap:11px;
+  padding:4px 3px 13px;
+}
+.bs-body.template-product .bs-product-gallery .bs-product-thumb {
+  position:relative;
+  aspect-ratio:1/1;
+  border-radius:14px;
+  background:var(--bs-photo-frame);
+  overflow:hidden;
+}
+.bs-body.template-product .bs-product-gallery .bs-product-thumb img {
+  display:block;
+  width:100%;height:100%;
+  object-fit:contain;
+  padding:5px;
+  background:transparent;
+  transition:transform .32s ease,filter .32s ease;
+}
+.bs-body.template-product .bs-product-gallery.bs-photo-fit--cover .bs-product-thumb img {
+  object-fit:cover;
+  padding:0;
+}
+@media(hover:hover) and (pointer:fine) {
+  .bs-body.template-product .bs-product-gallery .bs-product-thumb:hover img {
+    transform:scale(1.075);
+    filter:brightness(1.02) saturate(1.06);
+  }
+}
+.bs-body.template-product .bs-product-gallery .bs-product-thumb.is-active {
+  border-color:rgba(102,162,206,.94);
+  box-shadow:0 0 0 3px rgba(192,225,247,.64),0 12px 26px rgba(93,148,193,.14);
+}
+.bs-body.template-product .bs-product-gallery .bs-gallery-nav {
+  z-index:6;
+  box-shadow:inset 0 1px rgba(255,255,255,.96),0 9px 27px rgba(95,144,186,.17);
+}
+.bs-body.template-product .bs-product-gallery .bs-product-main-media > .bs-product-main-image.bs-pdp-image-changing {
+  animation:bsV20PremiumPhotoSwap .42s cubic-bezier(.18,.75,.2,1) both;
+}
+@keyframes bsV20PremiumPhotoSwap{
+  from{opacity:.55;filter:blur(5px) saturate(.96);transform:scale(.985)}
+  to{opacity:1;filter:blur(0) saturate(1.015);transform:scale(1)}
+}
+@media(max-width:749px) {
+  .bs-body.template-product .bs-product-gallery .bs-product-main-media>.bs-product-main-image {
+    padding:clamp(12px,4.5vw,24px);
+  }
+  .bs-body.template-product .bs-product-gallery .bs-product-thumb {
+    width:65px;height:65px;
+  }
+  .bs-body.template-product .bs-product-gallery .bs-product-main-media .bs-v20-photo-count {
+    left:10px;bottom:10px;padding:7px 10px;
+  }
+  .bs-body.template-product .bs-product-gallery .bs-product-main-media .bs-v20-photo-hint {
+    right:10px;bottom:10px;padding:7px 9px;font-size:8px;
+  }
+}
+@media(prefers-reduced-motion:reduce) {
+  .bs-body.template-product .bs-product-gallery .bs-product-main-media > .bs-product-main-image.bs-pdp-image-changing,
+  .bs-body.template-product .bs-product-gallery .bs-product-thumb img {
+    animation:none!important;transition:none!important;
+  }
+}

@@ -1,0 +1,15 @@
+{% if settings.recently_viewed %}
+<section class="bs-section bs-recently-viewed">
+  <div class="bs-shell">
+    <div class="bs-section-head bs-section-head--compact"><h2>{{ section.settings.heading }}</h2></div>
+    <div class="bs-product-grid bs-product-grid--home" data-recently-viewed-grid data-current-handle="{{ product.handle }}"></div>
+  </div>
+</section>
+{% endif %}
+{% schema %}
+{
+  "name":"Recently viewed",
+  "settings":[{"type":"text","id":"heading","label":"Heading","default":"Recently viewed"}],
+  "presets":[{"name":"Recently viewed"}]
+}
+{% endschema %}

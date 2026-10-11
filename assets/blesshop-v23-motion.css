@@ -1,0 +1,91 @@
+/* BLESSHOP Premium v2.3 — Signature Motion | cohesive editorial timing.
+   Does not restyle product cards, catalog logic, cart, or checkout. */
+:root{--bs-signature-ease:cubic-bezier(.2,.82,.2,1);--bs-signature-fast:240ms;--bs-signature-base:460ms;--bs-signature-slow:720ms}
+.bs-body.template-index .bs-pastel-copy .bs-pastel-eyebrow,
+.bs-body.template-index .bs-pastel-copy h1,
+.bs-body.template-index .bs-pastel-copy .bs-pastel-description,
+.bs-body.template-index .bs-pastel-copy .bs-pastel-actions{
+  animation:bs-v23-hero-enter 790ms var(--bs-signature-ease) both;
+}
+.bs-body.template-index .bs-pastel-copy .bs-pastel-eyebrow{animation-delay:70ms}
+.bs-body.template-index .bs-pastel-copy h1{animation-delay:160ms}
+.bs-body.template-index .bs-pastel-copy .bs-pastel-description{animation-delay:255ms}
+.bs-body.template-index .bs-pastel-copy .bs-pastel-actions{animation-delay:340ms}
+.bs-body.template-index .bs-pastel-art{animation:bs-v23-art-enter 1050ms var(--bs-signature-ease) 160ms both}
+@keyframes bs-v23-hero-enter{from{opacity:0;transform:translate3d(0,19px,0);filter:blur(5px)}to{opacity:1;transform:translate3d(0,0,0);filter:blur(0)}}
+@keyframes bs-v23-art-enter{from{opacity:0;translate:0 24px}to{opacity:1;translate:0 0}}
+/* Keep category image and orb parallax transforms under the ownership of v13 and space.js. */
+.bs-body.template-index .bs-pastel-blob{animation-duration:15s!important}
+.bs-body.template-index .bs-pastel-ring{animation-duration:35s!important}
+.bs-body.template-index .bs-pastel-orb{animation-duration:8.5s!important}
+.bs-body.template-index .bs-pastel-hero.is-paused .bs-pastel-art,
+.bs-body.template-index .bs-pastel-hero.is-paused .bs-pastel-orb,
+.bs-body.template-index .bs-pastel-hero.is-paused .bs-pastel-ring,
+.bs-body.template-index .bs-pastel-hero.is-paused .bs-pastel-blob,
+.bs-body.template-index .bs-pastel-hero.is-paused .bs-pastel-spark{animation-play-state:paused!important}
+/* One coherent scroll-reveal curve; avoids stacked translateY effects on the same category. */
+.bs-body.template-index .bs-main>.shopify-section.bs-soft-reveal:not(:first-child){
+  transition:opacity var(--bs-signature-slow) var(--bs-signature-ease),transform var(--bs-signature-slow) var(--bs-signature-ease)!important;
+}
+.bs-body.template-index .bs-category-card.bs-soft-reveal{
+  transition-duration:var(--bs-signature-slow),var(--bs-signature-slow),160ms,350ms,350ms!important;
+}
+.bs-body.template-index .bs-categories .bs-section-head,
+.bs-body.template-index .bs-trust-strip .bs-section-head,
+.bs-body.template-index .bs-main .bs-section-head:not(.bs-section-head--products){
+  transition:opacity 680ms var(--bs-signature-ease),translate 680ms var(--bs-signature-ease);
+}
+.bs-body.template-index .bs-v23-head-pending{opacity:0;translate:0 14px}
+.bs-body.template-index .bs-v23-head-visible{opacity:1;translate:0 0}
+.bs-body.template-index .bs-pastel-btn,
+.bs-body.template-index .bs-section-head>a,
+.bs-body.template-index .bs-pastel-motion{
+  transition:transform var(--bs-signature-base) var(--bs-signature-ease),box-shadow var(--bs-signature-base) ease,background-color var(--bs-signature-base) ease,border-color var(--bs-signature-base) ease!important;
+}
+.bs-body.template-index .bs-pastel-btn:focus-visible,
+.bs-body.template-index .bs-section-head>a:focus-visible{
+  outline:2px solid #75aad1;outline-offset:4px;
+}
+.bs-body.template-index .bs-pastel-btn{position:relative;overflow:hidden}
+.bs-body.template-index .bs-pastel-btn::after{
+  content:"";pointer-events:none;position:absolute;inset:-35% -65%;
+  background:linear-gradient(110deg,transparent 37%,rgba(255,255,255,.42) 48%,transparent 61%);
+  transform:translateX(-105%);
+  transition:transform 760ms var(--bs-signature-ease);
+}
+@media(hover:hover) and (pointer:fine){
+ .bs-body.template-index .bs-pastel-btn:hover::after{transform:translateX(105%)}
+}
+/* Keep the v15 product and v19 collection navigation layers working, only tune opacity. */
+.bs-body .bs-v19-collection-veil{transition-duration:285ms!important}
+@media(max-width:900px){
+ .bs-body.template-index .bs-pastel-orb{animation-duration:12s!important}
+ .bs-body.template-index .bs-pastel-blob{animation:none!important}
+ .bs-body.template-index .bs-pastel-ring{animation:none!important}
+ .bs-body.template-index .bs-pastel-art{animation-duration:700ms}
+ .bs-body.template-index .bs-pastel-copy .bs-pastel-eyebrow,
+ .bs-body.template-index .bs-pastel-copy h1,
+ .bs-body.template-index .bs-pastel-copy .bs-pastel-description,
+ .bs-body.template-index .bs-pastel-copy .bs-pastel-actions{animation-duration:600ms}
+ .bs-body.template-index .bs-category-card__image{animation:none!important}
+}
+@media(max-width:600px){
+ .bs-body.template-index .bs-pastel-blob{filter:blur(10px)}
+ .bs-body.template-index .bs-pastel-spark{animation:none!important}
+ .bs-body.template-index .bs-pastel-orb{animation:none!important}
+ .bs-body.template-index .bs-pastel-art{animation:none!important}
+ .bs-body.template-index .bs-category-card.bs-soft-reveal{transition-delay:0ms!important}
+}
+@media(prefers-reduced-motion:reduce){
+ html:has(.bs-body){scroll-behavior:auto!important}
+ .bs-body.template-index .bs-pastel-copy .bs-pastel-eyebrow,
+ .bs-body.template-index .bs-pastel-copy h1,
+ .bs-body.template-index .bs-pastel-copy .bs-pastel-description,
+ .bs-body.template-index .bs-pastel-copy .bs-pastel-actions,
+ .bs-body.template-index .bs-pastel-art{animation:none!important;filter:none!important;opacity:1!important;transform:none!important;translate:none!important}
+ .bs-body.template-index .bs-v23-head-pending{opacity:1!important;translate:none!important}
+ .bs-body.template-index .bs-pastel-btn::after{display:none!important}
+ .bs-body.template-index .bs-pastel-btn,
+ .bs-body.template-index .bs-pastel-motion,
+ .bs-body.template-index .bs-section-head>a{transition:none!important}
+}

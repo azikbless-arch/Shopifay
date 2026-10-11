@@ -1,0 +1,48 @@
+{% if settings.cart_drawer %}
+  <div class="bs-cart-overlay" data-cart-overlay hidden></div>
+  <aside class="bs-cart-drawer" data-cart-drawer aria-hidden="true" aria-label="Shopping cart">
+    <div class="bs-cart-drawer__head">
+      <div>
+        <span class="bs-eyebrow">Your bag</span>
+        <h2>Cart <span data-cart-count>({{ cart.item_count }})</span></h2>
+      </div>
+      <button class="bs-icon-btn" type="button" data-cart-close aria-label="Close cart">×</button>
+    </div>
+    <div class="bs-cart-drawer__items" data-cart-items>
+      {% if cart.item_count == 0 %}
+        <div class="bs-empty-cart"><span>♡</span><p>Your cart is waiting for something lovely.</p></div>
+      {% else %}
+        {% for item in cart.items %}
+          <div class="bs-cart-line" data-cart-line-key="{{ item.key | escape }}">
+            {% if item.image %}{{ item.image | image_url: width: 180 | image_tag: loading: 'lazy', alt: item.product.title }}{% endif %}
+            <div class="bs-cart-line__meta">
+              <strong>{{ item.product.title }}</strong>
+              <small>{{ item.variant.title }}</small>
+              <span>{{ item.final_line_price | money }}</span>
+              <div class="bs-cart-qty" role="group" aria-label="Quantity of {{ item.product.title | escape }}">
+                <button type="button" data-cart-qty-minus aria-label="Decrease quantity of {{ item.product.title | escape }}" title="Decrease quantity (remove at one)">−</button>
+                <span data-cart-line-quantity aria-live="polite">{{ item.quantity }}</span>
+                <button type="button" data-cart-qty-plus aria-label="Increase quantity of {{ item.product.title | escape }}" title="Increase quantity">+</button>
+              </div>
+            </div>
+          </div>
+        {% endfor %}
+      {% endif %}
+    </div>
+    <div class="bs-cart-drawer__foot">
+      <div class="bs-cart-subtotal"><span>Subtotal</span><strong data-cart-total>{{ cart.total_price | money }}</strong></div>
+      <div class="bs-cart-note">
+        <label for="CartNoteDrawer">Order note</label>
+        <textarea id="CartNoteDrawer" data-cart-note placeholder="Add a note for your order">{{ cart.note }}</textarea>
+      </div>
+      <p class="bs-cart-update-status" data-cart-update-status role="status" aria-live="polite" aria-atomic="true"></p>
+      <form class="bs-cart-checkout-form" action="{{ routes.cart_url }}" method="post">
+        <button class="bs-btn bs-btn--primary bs-btn--wide bs-cart-checkout" type="submit" name="checkout" data-cart-checkout>
+          SECURE CHECKOUT <span aria-hidden="true">↗</span>
+        </button>
+      </form>
+      <p class="bs-cart-fineprint">Shipping and taxes calculated at checkout.</p>
+      <button class="bs-cart-continue" type="button" data-cart-close>Continue shopping</button>
+    </div>
+  </aside>
+{% endif %}

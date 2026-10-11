@@ -1,0 +1,64 @@
+/* BLESSHOP Premium v1.5.1 | product-page navigation transition */
+/* The overlay is only created for a normal click on a product link. */
+.bs-v15-transition-layer {
+  position:fixed;
+  inset:0;
+  z-index:9998;
+  opacity:0;
+  pointer-events:none;
+  background:
+    radial-gradient(ellipse at 70% 36%,rgba(207,232,251,.60),transparent 50%),
+    radial-gradient(ellipse at 25% 70%,rgba(238,220,245,.36),transparent 57%),
+    linear-gradient(115deg,rgba(255,255,255,.05),rgba(248,251,255,.85));
+  backdrop-filter:blur(0);
+  -webkit-backdrop-filter:blur(0);
+  transition:opacity .23s cubic-bezier(.18,.7,.2,1),backdrop-filter .23s ease;
+}
+.bs-body.bs-v15-product-leaving .bs-v15-transition-layer{
+  opacity:1;
+  backdrop-filter:blur(4px);
+  -webkit-backdrop-filter:blur(4px);
+}
+.bs-body .bs-product-card.bs-v15-selected{
+  position:relative;
+  z-index:2;
+  transform:translateY(-8px) scale(1.025)!important;
+  box-shadow:0 0 25px rgba(134,198,243,.5),0 25px 55px rgba(101,147,190,.19)!important;
+}
+.bs-body .bs-product-card.bs-v15-selected .bs-product-card__media img{
+  transform:scale(1.085)!important;
+}
+.bs-body.template-product .bs-product-page .bs-product-gallery{
+  animation:bsV15GalleryEnter .76s cubic-bezier(.18,.8,.2,1) both;
+}
+.bs-body.template-product .bs-product-page .bs-product-info{
+  animation:bsV15InfoEnter .75s cubic-bezier(.18,.8,.2,1) .09s both;
+}
+.bs-body.template-product .bs-product-page .bs-breadcrumb{
+  animation:bsV15InfoEnter .58s cubic-bezier(.18,.8,.2,1) both;
+}
+.bs-body.template-product .bs-product-page .bs-product-main-media{
+  border-radius:23px;
+  overflow:hidden;
+  box-shadow:0 22px 58px rgba(114,157,195,.14);
+}
+@keyframes bsV15GalleryEnter{
+  from{opacity:0;transform:translate3d(-16px,22px,0) scale(.975);filter:blur(7px)}
+  to{opacity:1;transform:translate3d(0,0,0) scale(1);filter:blur(0)}
+}
+@keyframes bsV15InfoEnter{
+  from{opacity:0;transform:translate3d(0,20px,0);filter:blur(5px)}
+  to{opacity:1;transform:translate3d(0,0,0);filter:blur(0)}
+}
+@media(max-width:749px){
+  .bs-body.template-product .bs-product-page .bs-product-main-media{border-radius:17px}
+}
+@media(prefers-reduced-motion:reduce){
+  .bs-v15-transition-layer{display:none!important;transition:none!important}
+  .bs-body .bs-product-card.bs-v15-selected{transform:none!important}
+  .bs-body.template-product .bs-product-page .bs-product-gallery,
+  .bs-body.template-product .bs-product-page .bs-product-info,
+  .bs-body.template-product .bs-product-page .bs-breadcrumb{
+    animation:none!important;opacity:1!important;filter:none!important;transform:none!important;
+  }
+}

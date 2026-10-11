@@ -1,0 +1,28 @@
+<section class="bs-section bs-promos">
+  <div class="bs-shell bs-promo-grid">
+    <a class="bs-promo bs-promo--pink" href="{{ section.settings.link_1 | default: routes.all_products_collection_url }}">
+      <div><h3>{{ section.settings.heading_1 }}</h3><p>{{ section.settings.text_1 }}</p><span class="bs-mini-btn">{{ section.settings.button_1 }} →</span></div>
+      <div class="bs-promo-art"><span>🎁</span><span>🛍</span><i>✦</i></div>
+    </a>
+    <a class="bs-promo bs-promo--lavender" href="{{ section.settings.link_2 | default: routes.all_products_collection_url }}">
+      <div><h3>{{ section.settings.heading_2 }}</h3><p>{{ section.settings.text_2 }}</p><span class="bs-mini-btn">{{ section.settings.button_2 }} →</span></div>
+      <div class="bs-promo-art bs-promo-art--drawer"><span>▤</span><i>✧</i></div>
+    </a>
+  </div>
+</section>
+{% schema %}
+{
+  "name": "Promo banners",
+  "settings": [
+    {"type":"text","id":"heading_1","label":"Left heading","default":"Deals Under $25"},
+    {"type":"text","id":"text_1","label":"Left text","default":"Amazing finds. Happier days."},
+    {"type":"text","id":"button_1","label":"Left button","default":"Shop Deals"},
+    {"type":"url","id":"link_1","label":"Left link"},
+    {"type":"text","id":"heading_2","label":"Right heading","default":"Problem Solvers"},
+    {"type":"text","id":"text_2","label":"Right text","default":"Real solutions for everyday life."},
+    {"type":"text","id":"button_2","label":"Right button","default":"Shop Now"},
+    {"type":"url","id":"link_2","label":"Right link"}
+  ],
+  "presets": [{"name":"Promo banners"}]
+}
+{% endschema %}

@@ -1,0 +1,37 @@
+/* BLESSHOP v2.6 | Comfortable tap targets for mobile and desktop.
+   Additive overrides only: sizes, touch behaviour and input font size. Loaded last. */
+
+.bs-body button,.bs-body a,.bs-body summary,.bs-body [role="button"],
+.bs-body input,.bs-body select,.bs-body textarea{touch-action:manipulation}
+
+/* Product page: option chips, quantity, share and zoom */
+.bs-body .bs-variant-chip{min-height:44px;padding-left:16px;padding-right:16px;display:inline-flex;align-items:center;justify-content:center}
+.bs-body .bs-qty button{min-width:44px;min-height:44px}
+.bs-body .bs-qty input{min-height:44px;font-size:16px}
+.bs-body.template-product .bs-v3-share-btn{min-height:44px}
+.bs-body.template-product .bs-product-page .bs-v3-zoom-button{min-height:44px}
+
+/* Cart drawer */
+.bs-body .bs-cart-drawer .bs-cart-qty{min-height:44px}
+.bs-body .bs-cart-drawer .bs-cart-qty button{width:44px;height:44px}
+.bs-body .bs-cart-drawer__head [data-cart-close]{width:44px;height:44px}
+.bs-body .bs-cart-continue{min-height:44px;font-size:13px;padding:12px 16px}
+.bs-body .bs-cart-checkout{min-height:56px;font-size:13px}
+
+@media(max-width:749px){
+  /* Sticky buy bar on product page */
+  .bs-body.template-product .bs-v3-mobile-buy>button{min-height:48px;font-size:13px;padding:0 16px}
+  .bs-body.template-product .bs-v3-mobile-buy__details>span{font-size:12px}
+  /* 16px stops iOS from zooming the page when a field is focused */
+  .bs-body .bs-cart-note textarea{font-size:16px}
+}
+
+@media(max-width:900px){
+  /* Mobile header and menu */
+  .bs-body .bs-mobile-menu-btn{width:44px;height:44px;min-width:44px}
+  .bs-body .bs-nav,.bs-body.template-index .bs-nav{grid-template-columns:44px minmax(0,1fr) auto}
+  .bs-body .bs-mobile-menu__search input{font-size:16px}
+  .bs-body .bs-mobile-menu__search button{width:44px;height:44px}
+  .bs-body .bs-mobile-menu__entry-top>button{width:44px;height:44px}
+  .bs-body .bs-mobile-menu__close{width:44px;height:44px}
+}

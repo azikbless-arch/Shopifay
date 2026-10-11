@@ -1,0 +1,141 @@
+{% liquid
+  assign bs_collection_identity = collection.handle | append: ' ' | append: collection.title | downcase
+  assign bs_collection_theme = 'default'
+  assign bs_collection_photo = ''
+  if bs_collection_identity contains 'home' or bs_collection_identity contains 'living'
+    assign bs_collection_theme = 'home'
+    assign bs_collection_photo = 'https://cdn.shopify.com/s/files/1/0743/7434/8844/files/blesshop-premium-v13-category-home.jpg?v=1791445300'
+  elsif bs_collection_identity contains 'pet' or bs_collection_identity contains 'animal'
+    assign bs_collection_theme = 'pets'
+    assign bs_collection_photo = 'https://cdn.shopify.com/s/files/1/0743/7434/8844/files/blesshop-premium-v13-category-pets.jpg?v=1791445306'
+  elsif bs_collection_identity contains 'car' or bs_collection_identity contains 'auto'
+    assign bs_collection_theme = 'car'
+    assign bs_collection_photo = 'https://cdn.shopify.com/s/files/1/0743/7434/8844/files/blesshop-premium-v13-category-car.jpg?v=1791445321'
+  elsif bs_collection_identity contains 'beauty' or bs_collection_identity contains 'cosmetic'
+    assign bs_collection_theme = 'beauty'
+    assign bs_collection_photo = 'https://cdn.shopify.com/s/files/1/0743/7434/8844/files/blesshop-premium-v13-category-beauty.jpg?v=1791445326'
+  elsif bs_collection_identity contains 'travel' or bs_collection_identity contains 'journey'
+    assign bs_collection_theme = 'travel'
+    assign bs_collection_photo = 'https://cdn.shopify.com/s/files/1/0743/7434/8844/files/blesshop-premium-v13-category-travel.jpg?v=1791445334'
+  elsif bs_collection_identity contains 'gadget' or bs_collection_identity contains 'tech'
+    assign bs_collection_theme = 'gadgets'
+    assign bs_collection_photo = 'https://cdn.shopify.com/s/files/1/0743/7434/8844/files/blesshop-premium-v13-category-gadgets.jpg?v=1791445342'
+  endif
+  if bs_collection_photo == blank and collection.image != blank
+    assign bs_collection_photo = collection.image | image_url: width: 1400
+  endif
+%}
+<section class="bs-section bs-collection-page">
+  <div class="bs-shell">
+    <nav class="bs-breadcrumb" aria-label="Breadcrumb"><a href="{{ routes.root_url }}">Home</a><span>›</span><a href="{{ routes.collections_url }}">Collections</a><span>›</span><span>{{ collection.title }}</span></nav>
+
+    {% render 'bls-collection-theater-v25', collection: collection, tone: bs_collection_theme %}
+
+    <div class="bs-collection-hero bs-living-collection-hero bs-living-collection-hero--{{ bs_collection_theme }}" data-bs-living-hero>
+      <div class="bs-living-collection-copy">
+        <p class="bs-eyebrow">CURATED COLLECTION · BLESSHOP</p>
+        <h1>{{ collection.title }}</h1>
+        {% if collection.description != blank %}<div class="rte">{{ collection.description }}</div>{% endif %}
+        <span class="bs-living-collection-decoration" aria-hidden="true">DISCOVER YOUR EVERYDAY EDIT <span>↗</span></span>
+      </div>
+      {% if bs_collection_photo != blank %}
+        <div class="bs-living-collection-photo" aria-hidden="true">
+          <img src="{{ bs_collection_photo }}" alt="" loading="eager" fetchpriority="high" width="960" height="720">
+        </div>
+      {% else %}
+        <span class="bs-living-collection-abstract" aria-hidden="true"></span>
+      {% endif %}
+    </div>
+
+    {% if section.settings.collection_menu != blank %}
+      <nav class="bs-collection-nav" aria-label="Collection navigation">
+        {% for link in section.settings.collection_menu.links %}<a href="{{ link.url }}">{{ link.title }}</a>{% endfor %}
+      </nav>
+    {% endif %}
+
+    {% paginate collection.products by 24 %}
+      <div class="bs-collection-tools" id="bs-v25-all-products">
+        <form class="bs-filters" action="{{ collection.url }}" method="get">
+          <strong>Filter products</strong>
+          {% for filter in collection.filters %}
+            <details class="bs-filter-group" open>
+              <summary>{{ filter.label }}</summary>
+              <div class="bs-filter-values">
+                {% case filter.type %}
+                  {% when 'list' %}
+                    {% for value in filter.values %}
+                      {% assign label_down = filter.label | downcase %}
+                      <label class="bs-filter-value{% if label_down contains 'color' or label_down contains 'colour' %} is-color{% endif %}">
+                        <input type="checkbox" name="{{ value.param_name }}" value="{{ value.value }}" {% if value.active %}checked{% endif %} {% if value.count == 0 and value.active == false %}disabled{% endif %}>
+                        <span>
+                          {% if value.swatch != blank %}
+                            {% if value.swatch.image != blank %}
+                              <i class="bs-filter-swatch bs-filter-swatch--image" style="background-image:url('{{ value.swatch.image | image_url: width: 40 }}')"></i>
+                            {% elsif value.swatch.color != blank %}
+                              <i class="bs-filter-swatch" style="background:{{ value.swatch.color }}"></i>
+                            {% endif %}
+                          {% endif %}
+                          {{ value.label }} ({{ value.count }})
+                        </span>
+                      </label>
+                    {% endfor %}
+                  {% when 'price_range' %}
+                    <label class="bs-filter-value">Min <input type="number" name="{{ filter.min_value.param_name }}" value="{% if filter.min_value.value %}{{ filter.min_value.value | money_without_currency | replace: ',', '' }}{% endif %}" min="0" placeholder="0"></label>
+                    <label class="bs-filter-value">Max <input type="number" name="{{ filter.max_value.param_name }}" value="{% if filter.max_value.value %}{{ filter.max_value.value | money_without_currency | replace: ',', '' }}{% endif %}" min="0" placeholder="{{ filter.range_max | money_without_currency | replace: ',', '' }}"></label>
+                {% endcase %}
+              </div>
+            </details>
+          {% endfor %}
+          <div class="bs-filter-actions">
+            <button type="submit">Apply</button>
+            <a href="{{ collection.url }}">Clear</a>
+          </div>
+        </form>
+
+        <div>
+          <div class="bs-sortbar">
+            <span class="bs-sortbar__count">{{ collection.products_count }} products</span>
+            <form action="{{ collection.url }}" method="get">
+              {% for filter in collection.filters %}
+                {% for value in filter.active_values %}
+                  <input type="hidden" name="{{ value.param_name }}" value="{{ value.value }}">
+                {% endfor %}
+                {% if filter.type == 'price_range' %}
+                  {% if filter.min_value.value %}<input type="hidden" name="{{ filter.min_value.param_name }}" value="{{ filter.min_value.value | money_without_currency | replace: ',', '' }}">{% endif %}
+                  {% if filter.max_value.value %}<input type="hidden" name="{{ filter.max_value.param_name }}" value="{{ filter.max_value.value | money_without_currency | replace: ',', '' }}">{% endif %}
+                {% endif %}
+              {% endfor %}
+              <select name="sort_by" onchange="this.form.submit()" aria-label="Sort products">
+                {% assign sort_by = collection.sort_by | default: collection.default_sort_by %}
+                {% for option in collection.sort_options %}<option value="{{ option.value }}" {% if option.value == sort_by %}selected{% endif %}>{{ option.name }}</option>{% endfor %}
+              </select>
+            </form>
+          </div>
+
+          <div class="bs-product-grid bs-product-grid--collection">
+            {% for product in collection.products %}
+              {% render 'product-card', product: product %}
+            {% else %}
+              <p>No products found.</p>
+            {% endfor %}
+          </div>
+
+          {% if settings.infinite_scroll and paginate.next %}
+            <div class="bs-infinite-sentinel" data-infinite-sentinel data-next-url="{{ paginate.next.url }}"></div>
+          {% elsif paginate.pages > 1 %}
+            <nav class="bs-pagination">{{ paginate | default_pagination }}</nav>
+          {% endif %}
+        </div>
+      </div>
+    {% endpaginate %}
+  </div>
+</section>
+{% schema %}
+{
+  "name":"Premium collection",
+  "settings":[
+    {"type":"link_list","id":"collection_menu","label":"Collection navigation menu"}
+  ],
+  "presets":[{"name":"Premium collection"}]
+}
+{% endschema %}

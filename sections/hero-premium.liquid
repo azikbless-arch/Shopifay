@@ -1,0 +1,41 @@
+<section class="bs-hero-wrap">
+  <div class="bs-shell">
+    <div class="bs-hero">
+      <div class="bs-hero__copy bs-motion-item" data-reveal>
+        <p class="bs-eyebrow">{{ section.settings.eyebrow }}</p>
+        <h1>{{ section.settings.heading }}</h1>
+        <p class="bs-hero__text">{{ section.settings.text }}</p>
+        <a class="bs-btn bs-btn--primary" href="{{ section.settings.button_link | default: routes.all_products_collection_url }}">{{ section.settings.button_label }} <span>→</span></a>
+      </div>
+      <div class="bs-hero__visual bs-motion-item" data-reveal data-parallax-hero>
+        {% if section.settings.image != blank %}
+          {{ section.settings.image | image_url: width: 1600 | image_tag: loading: 'eager', widths: '600,900,1200,1600', sizes: '(max-width: 749px) 100vw, 55vw', alt: section.settings.heading }}
+        {% else %}
+          <img class="bs-hero__asset-image" src="{{ 'blesshop-hero.jpg' | asset_url }}" alt="BLESSHOP premium everyday lifestyle" width="1600" height="900" loading="eager">
+        {% endif %}
+        <div class="bs-handnote">{{ section.settings.handnote | newline_to_br }}</div>
+        <span class="bs-hero-spark bs-hero-spark--1">✦</span><span class="bs-hero-spark bs-hero-spark--2">✧</span>
+      </div>
+      <div class="bs-hero__trust bs-motion-item" data-reveal>
+        <div>{% render 'icon', name: 'truck' %}<span><strong>Free Shipping</strong><small>on Orders {{ settings.free_shipping_threshold }}</small></span></div>
+        <div>{% render 'icon', name: 'box' %}<span><strong>30-Day Returns</strong><small>Hassle Free</small></span></div>
+        <div>{% render 'icon', name: 'shield' %}<span><strong>Secure Payment</strong><small>Safe & Encrypted</small></span></div>
+      </div>
+    </div>
+  </div>
+</section>
+{% schema %}
+{
+  "name": "Premium hero",
+  "settings": [
+    {"type":"text","id":"eyebrow","label":"Eyebrow","default":"GOOD THINGS FOR A BRIGHTER EVERYDAY"},
+    {"type":"textarea","id":"heading","label":"Heading","default":"Smart finds for everyday life ♡"},
+    {"type":"textarea","id":"text","label":"Text","default":"Discover useful, affordable and delightful products for you, your home and everything you love."},
+    {"type":"text","id":"button_label","label":"Button label","default":"Shop Now"},
+    {"type":"url","id":"button_link","label":"Button link"},
+    {"type":"image_picker","id":"image","label":"Hero image"},
+    {"type":"textarea","id":"handnote","label":"Handwritten note","default":"Small Finds\nBig Happier Days ♡"}
+  ],
+  "presets": [{"name":"Premium hero"}]
+}
+{% endschema %}

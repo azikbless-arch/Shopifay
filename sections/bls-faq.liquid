@@ -1,0 +1,38 @@
+{%- assign ttl = page.title -%}
+{%- if ttl == blank -%}{%- assign ttl = 'bls.faq' | t -%}{%- endif -%}
+<section class="pg">
+  <div class="pg-wrap pg-wrap--narrow">
+    <div class="pg-head"><div><p class="pg-eyebrow">{{ 'bls.help' | t }}</p><h1 class="pg-h1">{{ ttl | escape }}</h1></div></div>
+    <div class="pgq">
+      {%- for block in section.blocks -%}
+        <details class="pg-panel pgq__item" {{ block.shopify_attributes }}>
+          <summary>{{ block.settings.question | escape }}<span aria-hidden="true"></span></summary>
+          <div class="pg-rte pgq__a">{{ block.settings.answer }}</div>
+        </details>
+      {%- endfor -%}
+      {%- if section.blocks.size == 0 and page.content != blank -%}<div class="pg-panel"><div class="pg-rte">{{ page.content }}</div></div>{%- endif -%}
+    </div>
+  </div>
+</section>
+<style>
+.pgq{display:flex;flex-direction:column;gap:10px}
+.pgq__item{padding:0}
+.pgq__item summary{display:flex;align-items:center;justify-content:space-between;gap:16px;padding:18px 22px;font-size:16px;font-weight:600;cursor:pointer;list-style:none}
+.pgq__item summary::-webkit-details-marker{display:none}
+.pgq__item summary span{flex:none;width:12px;height:12px;border-right:2px solid var(--bls-gold,#E3B458);border-bottom:2px solid var(--bls-gold,#E3B458);transform:rotate(45deg) translateY(-3px);transition:transform .25s ease}
+.pgq__item[open] summary span{transform:rotate(-135deg) translateY(-3px)}
+.pgq__a{padding:0 22px 20px}
+</style>
+{% schema %}
+{
+  "name": "Glass FAQ",
+  "settings": [],
+  "blocks": [
+    {"type": "item", "name": "Question", "settings": [
+      {"type": "text", "id": "question", "label": "Question"},
+      {"type": "richtext", "id": "answer", "label": "Answer"}
+    ]}
+  ],
+  "presets": [{"name": "Glass FAQ"}]
+}
+{% endschema %}

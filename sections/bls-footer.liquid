@@ -1,0 +1,55 @@
+<footer class="bls-footer">
+  <div class="bls-wrap">
+    <div class="bls-panel bls-panel--smoke bls-footer__panel">
+      <div class="bls-footer__top">
+        <div class="bls-footer__brand">
+          <div class="bls-logo">
+            <span class="bls-logo__dot" aria-hidden="true"></span>
+            {{ settings.brand_name | default: shop.name | upcase | escape }}
+          </div>
+          {%- if section.settings.tagline != blank -%}<p class="bls-footer__tagline">{{ section.settings.tagline | escape }}</p>{%- endif -%}
+        </div>
+        <nav class="bls-footer__col" aria-label="{{ 'bls.shop' | t }}">
+          <span class="bls-footer__col-title">{{ 'bls.shop' | t }}</span>
+          <a href="{{ routes.all_products_collection_url }}">{{ 'bls.shop_all' | t }}</a>
+          {%- assign shown = 0 -%}
+          {%- for collection in collections -%}
+            {%- if shown >= 4 -%}{%- break -%}{%- endif -%}
+            {%- if collection.handle == 'frontpage' or collection.all_products_count == 0 -%}{%- continue -%}{%- endif -%}
+            <a href="{{ collection.url }}">{{ collection.title | escape }}</a>
+            {%- assign shown = shown | plus: 1 -%}
+          {%- endfor -%}
+        </nav>
+        <nav class="bls-footer__col" aria-label="{{ 'bls.help' | t }}">
+          <span class="bls-footer__col-title">{{ 'bls.help' | t }}</span>
+          {%- if section.settings.menu != blank and section.settings.menu.links.size > 0 -%}
+            {%- for link in section.settings.menu.links -%}
+              <a href="{{ link.url }}">{{ link.title | escape }}</a>
+            {%- endfor -%}
+          {%- else -%}
+            {%- if pages.contact.title != blank -%}<a href="{{ pages.contact.url }}">{{ 'bls.contact' | t }}</a>{%- endif -%}
+            {%- if pages.faq.title != blank -%}<a href="{{ pages.faq.url }}">{{ 'bls.faq' | t }}</a>{%- endif -%}
+            <a href="{{ routes.search_url }}">{{ 'bls.search' | t }}</a>
+            {%- for policy in shop.policies -%}
+              <a href="{{ policy.url }}">{{ policy.title | escape }}</a>
+            {%- endfor -%}
+          {%- endif -%}
+        </nav>
+      </div>
+      <div class="bls-footer__bottom">
+        <span>&copy; {{ 'now' | date: '%Y' }} {{ shop.name | escape }}</span>
+        {%- render 'bls-lang', lang_id: 'BlsLangFooter' -%}
+      </div>
+    </div>
+  </div>
+</footer>
+<style>.bls-footer__bottom{display:flex;flex-wrap:wrap;align-items:center;justify-content:space-between;gap:12px}</style>
+{% schema %}
+{
+  "name": "Glass footer",
+  "settings": [
+    {"type": "text", "id": "tagline", "label": "Line under the logo", "default": "Beautiful finds for a more comfortable life."},
+    {"type": "link_list", "id": "menu", "label": "Help menu", "info": "Leave empty to list Contact, FAQ, Search and store policies."}
+  ]
+}
+{% endschema %}

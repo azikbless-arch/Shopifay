@@ -1,0 +1,242 @@
+{%- if section.blocks.size > 0 -%}
+<section class="bls-block bls-mn" id="collections" data-multinav aria-labelledby="MultiNavTitle-{{ section.id }}">
+  <div class="bls-wrap">
+    <div class="bls-panel bls-panel--frost bls-reveal">
+      <div class="bls-panel__head">
+        <div class="bls-panel__title">
+          <p class="bls-label">{{ section.settings.label | escape }}</p>
+          <h2 class="bls-h2" id="MultiNavTitle-{{ section.id }}">{{ section.settings.heading | escape }}</h2>
+        </div>
+        <p class="bls-spec">{{ section.settings.note | escape }}</p>
+      </div>
+      <nav class="bls-mn-screens" aria-label="{{ 'multinav.screens' | t | escape }}">
+        <a href="#MainContent">{{ 'general.home' | t }} ↑</a>
+        <a href="#shop">{{ 'multinav.latest' | t }} ↓</a>
+      </nav>
+      <nav class="bls-mn-pills" aria-label="{{ 'general.categories' | t | escape }}">
+        {%- for block in section.blocks -%}
+          <a class="bls-mn-pill" href="#MultiNav-{{ section.id }}-{{ block.id }}" data-mn-select="{{ forloop.index0 }}" aria-controls="MultiMenu-{{ section.id }}-{{ block.id }}">{{ block.settings.title | default: block.settings.collection.title | escape }}</a>
+        {%- endfor -%}
+      </nav>
+      <p class="bls-mn-hint">{{ 'multinav.hint' | t }} <span class="bls-mn-hint-vertical">{{ 'multinav.vertical_hint' | t }}</span></p>
+      <div class="bls-mn-track" tabindex="0" aria-label="{{ 'multinav.carousel' | t | escape }}">
+        {%- assign arts = 'crescent,horizon,surface,moon' | split: ',' -%}
+        {%- for block in section.blocks -%}
+          {%- liquid
+            assign c = block.settings.collection
+            assign title = block.settings.title | default: c.title
+            assign img = block.settings.image
+            assign art = block.settings.art
+            assign shot = false
+            if img == blank and art == 'auto' and c != blank
+              assign img = c.image
+              if img == blank
+                assign img = c.products.first.featured_image
+                assign shot = true
+              endif
+            endif
+            if art == 'auto'
+              assign spot = forloop.index0 | modulo: 4
+              assign art = arts[spot]
+            endif
+          -%}
+          <article class="bls-mn-slide" id="MultiNav-{{ section.id }}-{{ block.id }}" aria-labelledby="MultiNavName-{{ section.id }}-{{ block.id }}" {{ block.shopify_attributes }}>
+            <div class="bls-mn-surface">
+              <div class="bls-tile">
+            <span class="bls-tile__media{% if img != blank and shot and section.settings.blend %} bls-shot{% endif %}" aria-hidden="true">
+              {%- if img != blank -%}
+                {{ img | image_url: width: 1400 | image_tag: loading: 'lazy', alt: '', widths: '360, 600, 900, 1400', sizes: '(max-width: 700px) 100vw, 820px' }}
+              {%- elsif art == 'window' -%}
+                {%- render 'bls-window' -%}
+              {%- else -%}
+                <span class="bls-artbox bls-artbox--{{ art }}"><canvas class="bls-art" data-bls-art="{{ art }}"></canvas></span>
+              {%- endif -%}
+            </span>
+            <span class="bls-tile__top">
+              <span class="bls-tile__name" id="MultiNavName-{{ section.id }}-{{ block.id }}">{{ title | escape }}</span>
+              {%- if block.settings.subtitle != blank -%}<span class="bls-tile__sub">{{ block.settings.subtitle | escape }}</span>{%- endif -%}
+            </span>
+            <span class="bls-tile__idx" aria-hidden="true">{{ forloop.index | prepend: '0' | slice: -2, 2 }}</span>
+            <button type="button" class="bls-mn-open" data-mn-open="{{ forloop.index0 }}" aria-controls="MultiMenu-{{ section.id }}-{{ block.id }}" aria-expanded="false" aria-label="{{ 'multinav.open_menu' | t: category: title | escape }}">
+              <span>{{ 'multinav.explore' | t: category: title | escape }} <span aria-hidden="true">↗</span></span>
+            </button>
+
+              </div>
+              <details class="bls-mn-menu" id="MultiMenu-{{ section.id }}-{{ block.id }}">
+                <summary>{{ 'multinav.explore' | t: category: title | escape }} <span aria-hidden="true">＋</span></summary>
+                <div class="bls-mn-links">
+                  {%- if c != blank -%}
+                    <a href="{{ c.url }}">{{ 'multinav.view' | t: category: title | escape }} <span aria-hidden="true">↗</span></a>
+                    {%- if c.all_products_count == 0 -%}<p class="bls-mn-empty">{{ 'multinav.empty' | t }}</p>{%- endif -%}
+                  {%- else -%}
+                    <p class="bls-mn-empty">{{ section.settings.soon_label | escape }}</p>
+                  {%- endif -%}
+                  <a href="{{ routes.all_products_collection_url }}">{{ 'general.shop_all' | t | escape }} <span aria-hidden="true">↗</span></a>
+                  {%- assign bs_mn_child_count = 0 -%}
+                  {%- for child in block.settings.subcollections -%}
+                    {%- if child != blank and child.id != c.id -%}
+                      {%- assign bs_mn_child_count = bs_mn_child_count | plus: 1 -%}
+                      <a href="{{ child.url }}">{{ child.title | escape }} <span aria-hidden="true">↗</span></a>
+                    {%- endif -%}
+                  {%- endfor -%}
+                  {%- assign bs_mn_identity = c.handle | default: title | downcase -%}
+                  {%- if bs_mn_child_count == 0 and bs_mn_identity contains 'kid' -%}
+                    <p class="bls-mn-coming-title">{{ 'multinav.kids_soon' | t }}</p>
+                    <span class="bls-mn-coming">{{ 'multinav.toys' | t }} <small>{{ 'multinav.coming_soon' | t }}</small></span>
+                    <span class="bls-mn-coming">{{ 'multinav.baby_care' | t }} <small>{{ 'multinav.coming_soon' | t }}</small></span>
+                    <span class="bls-mn-coming">{{ 'multinav.school' | t }} <small>{{ 'multinav.coming_soon' | t }}</small></span>
+                    <span class="bls-mn-coming">{{ 'multinav.kids_fashion' | t }} <small>{{ 'multinav.coming_soon' | t }}</small></span>
+                    <span class="bls-mn-coming">{{ 'multinav.room_decor' | t }} <small>{{ 'multinav.coming_soon' | t }}</small></span>
+                  {%- endif -%}
+                </div>
+              </details>
+            </div>
+          </article>
+        {%- endfor -%}
+      </div>
+      <div class="bls-mn-controls" hidden>
+        <button type="button" data-mn-prev aria-label="{{ 'multinav.previous' | t | escape }}">←</button>
+        <span data-mn-status aria-live="polite" aria-atomic="true"></span>
+        <button type="button" data-mn-next aria-label="{{ 'multinav.next' | t | escape }}">→</button>
+      </div>
+    </div>
+  </div>
+</section>
+{%- endif -%}
+{% schema %}
+{
+  "name": "MultiNav Experience v3.0",
+  "max_blocks": 6,
+  "settings": [
+    {
+      "type": "text",
+      "id": "label",
+      "label": "Small label",
+      "default": "Collections"
+    },
+    {
+      "type": "text",
+      "id": "heading",
+      "label": "Heading",
+      "default": "Shop by category"
+    },
+    {
+      "type": "text",
+      "id": "note",
+      "label": "Small note",
+      "default": "Pet, home, fashion and kids. New finds are added over time."
+    },
+    {
+      "type": "text",
+      "id": "link_label",
+      "label": "Button to all products",
+      "default": "Shop all"
+    },
+    {
+      "type": "text",
+      "id": "card_label",
+      "label": "Card button",
+      "default": "Shop now"
+    },
+    {
+      "type": "text",
+      "id": "soon_label",
+      "label": "Label for a category without products",
+      "default": "Coming soon"
+    },
+    {
+      "type": "checkbox",
+      "id": "blend",
+      "label": "Blend white product photo backgrounds into the card",
+      "default": true
+    }
+  ],
+  "blocks": [
+    {
+      "type": "category",
+      "name": "Category",
+      "settings": [
+        {
+          "type": "collection",
+          "id": "collection",
+          "label": "Collection"
+        },
+        {
+          "type": "text",
+          "id": "title",
+          "label": "Name",
+          "info": "Leave empty to use the collection name."
+        },
+        {
+          "type": "text",
+          "id": "subtitle",
+          "label": "Short line under the name"
+        },
+        {
+          "type": "image_picker",
+          "id": "image",
+          "label": "Your own picture"
+        },
+        {
+          "type": "select",
+          "id": "art",
+          "label": "Picture",
+          "info": "Automatic shows the collection picture or its first product photo, and a drawing until there is one. Pick a drawing to always show it.",
+          "default": "auto",
+          "options": [
+            {
+              "value": "auto",
+              "label": "Automatic"
+            },
+            {
+              "value": "window",
+              "label": "Window with a golden planet"
+            },
+            {
+              "value": "crescent",
+              "label": "Crescent moon"
+            },
+            {
+              "value": "moon",
+              "label": "Moon"
+            },
+            {
+              "value": "surface",
+              "label": "Craters close up"
+            },
+            {
+              "value": "horizon",
+              "label": "Lunar horizon"
+            }
+          ]
+        },
+        {
+          "type": "collection_list",
+          "id": "subcollections",
+          "label": "MultiMenu collections",
+          "limit": 8
+        }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "Glass categories",
+      "blocks": [
+        {
+          "type": "category"
+        },
+        {
+          "type": "category"
+        },
+        {
+          "type": "category"
+        },
+        {
+          "type": "category"
+        }
+      ]
+    }
+  ]
+}
+{% endschema %}

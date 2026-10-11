@@ -1,0 +1,36 @@
+<section class="bs-section">
+  <div class="bs-shell">
+    <div class="bs-contact-layout">
+      <div class="bs-contact-card">
+        <p class="bs-eyebrow">CONTACT BLESSHOP</p>
+        <h1>{{ section.settings.heading }}</h1>
+        <p>{{ section.settings.text }}</p>
+        {% if section.settings.email != blank %}<p><strong>Email</strong><br>{{ section.settings.email }}</p>{% endif %}
+        {% if section.settings.hours != blank %}<p><strong>Support hours</strong><br>{{ section.settings.hours }}</p>{% endif %}
+      </div>
+      <div>
+        {% form 'contact', class: 'bs-contact-form' %}
+          {% if form.posted_successfully? %}<div class="full">Thanks — your message has been sent.</div>{% endif %}
+          {{ form.errors | default_errors }}
+          <input type="text" name="contact[name]" placeholder="Name" value="{{ form.name }}">
+          <input type="email" name="contact[email]" placeholder="Email" value="{{ form.email }}" required>
+          <input class="full" type="text" name="contact[order_number]" placeholder="Order number (optional)">
+          <textarea class="full" name="contact[body]" placeholder="How can we help?" required>{{ form.body }}</textarea>
+          <button class="bs-btn bs-btn--primary full" type="submit">Send message</button>
+        {% endform %}
+      </div>
+    </div>
+  </div>
+</section>
+{% schema %}
+{
+  "name":"Contact form",
+  "settings":[
+    {"type":"text","id":"heading","label":"Heading","default":"We’re here to help"},
+    {"type":"textarea","id":"text","label":"Text","default":"Questions about a product or order? Send us a message and we’ll get back to you."},
+    {"type":"text","id":"email","label":"Support email"},
+    {"type":"text","id":"hours","label":"Support hours","default":"Monday–Friday"}
+  ],
+  "presets":[{"name":"Contact form"}]
+}
+{% endschema %}

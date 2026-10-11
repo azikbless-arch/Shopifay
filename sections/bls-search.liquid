@@ -1,0 +1,46 @@
+<section class="pg">
+  <div class="pg-wrap">
+    <div class="pg-head">
+      <div><p class="pg-eyebrow">{{ 'pg.search.eyebrow' | t }}</p><h1 class="pg-h1">{{ 'general.search' | t }}</h1></div>
+    </div>
+    <form class="pgs" action="{{ routes.search_url }}" method="get" role="search">
+      <input type="hidden" name="type" value="product,article,page">
+      <input class="pg-in" type="search" name="q" value="{{ search.terms | escape }}" placeholder="{{ 'pg.search.placeholder' | t }}" aria-label="{{ 'general.search' | t }}" autocomplete="off">
+      <button class="pg-btn" type="submit">{{ 'general.search' | t }}</button>
+    </form>
+    {%- if search.performed -%}
+      {%- paginate search.results by 24 -%}
+        <p class="pgs__count">{{ 'pg.search.results' | t: num: search.results_count, terms: search.terms }}</p>
+        {%- if search.results_count > 0 -%}
+          <div class="bls-grid pgs__grid">
+            {%- for item in search.results -%}
+              {%- if item.object_type == 'product' -%}
+                {%- render 'bls-card', product: item, blend: true, eager: false -%}
+              {%- else -%}
+                <a class="bls-item pgs__text" href="{{ item.url }}">
+                  <span class="bls-item__kind">{% if item.object_type == 'article' %}{{ 'pg.blog.title' | t }}{% else %}{{ 'pg.search.page' | t }}{% endif %}</span>
+                  <span class="bls-item__title">{{ item.title | escape }}</span>
+                  <span class="pgs__excerpt">{{ item.content | strip_html | truncate: 110 }}</span>
+                </a>
+              {%- endif -%}
+            {%- endfor -%}
+          </div>
+          {%- render 'bls-pagination', paginate: paginate -%}
+        {%- else -%}
+          <div class="pg-panel pg-empty"><p>{{ 'pg.search.none' | t }}</p><a class="pg-btn" href="{{ routes.all_products_collection_url }}">{{ 'bls.shop_all' | t }}</a></div>
+        {%- endif -%}
+      {%- endpaginate -%}
+    {%- endif -%}
+  </div>
+</section>
+<style>
+.pgs{display:flex;gap:10px;max-width:640px;margin:0 0 22px}
+.pgs .pg-in{flex:1 1 auto;min-width:0;border-radius:999px;padding-left:22px}
+.pgs__count{margin:0 0 16px;color:var(--bls-muted,#B7BECF);font-size:14px}
+.pgs__text{padding:18px;gap:8px;justify-content:flex-start}
+.pgs__excerpt{font-size:13px;color:var(--bls-muted,#B7BECF);line-height:1.5}
+@media (max-width:700px){.pgs{flex-direction:column}.pgs .pg-btn{width:100%}}
+</style>
+{% schema %}
+{"name": "Glass search", "settings": []}
+{% endschema %}

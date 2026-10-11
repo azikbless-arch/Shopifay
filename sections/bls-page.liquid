@@ -1,0 +1,9 @@
+<section class="pg">
+  <div class="pg-wrap pg-wrap--narrow">
+    <div class="pg-head"><div><p class="pg-eyebrow">{{ shop.name | upcase | escape }}</p><h1 class="pg-h1">{{ page.title | escape }}</h1></div></div>
+    <div class="pg-panel"><div class="pg-rte">{{ page.content }}</div></div>
+  </div>
+</section>
+{% schema %}
+{"name": "Glass page", "settings": []}
+{% endschema %}

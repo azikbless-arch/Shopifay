@@ -1,0 +1,16 @@
+<section class="pg">
+  <div class="pg-wrap pg-wrap--narrow">
+    <div class="pg-panel pg-empty">
+      <p class="pg-eyebrow" style="margin:0">404</p>
+      <h1 class="pg-h1">{{ 'pg.e404.title' | t }}</h1>
+      <p>{{ 'pg.e404.text' | t }}</p>
+      <div style="display:flex;flex-wrap:wrap;gap:10px;justify-content:center">
+        <a class="pg-btn" href="{{ routes.root_url }}">{{ 'pg.back_home' | t }}</a>
+        <a class="pg-btn pg-btn--ghost" href="{{ routes.all_products_collection_url }}">{{ 'bls.shop_all' | t }}</a>
+      </div>
+    </div>
+  </div>
+</section>
+{% schema %}
+{"name": "Glass 404", "settings": []}
+{% endschema %}

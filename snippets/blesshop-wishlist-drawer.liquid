@@ -1,0 +1,9 @@
+<button class="bs-v4-wishlist-launch" type="button" data-bs-v4-wishlist-open aria-haspopup="dialog" aria-controls="BsWishlistDrawer" aria-label="Open saved products">
+  <span aria-hidden="true">♡</span><span class="bs-v4-wishlist-count" data-bs-v4-wishlist-count>0</span>
+</button>
+<div class="bs-v4-wishlist-overlay" data-bs-v4-wishlist-overlay hidden></div>
+<aside class="bs-v4-wishlist-drawer" id="BsWishlistDrawer" data-bs-v4-wishlist-drawer role="dialog" aria-modal="true" aria-labelledby="BsWishlistHeading" aria-hidden="true" hidden>
+  <div class="bs-v4-wishlist-head"><div><span>BLESSHOP FAVORITES</span><h2 id="BsWishlistHeading">Your saved finds</h2></div><button type="button" data-bs-v4-wishlist-close aria-label="Close saved products">×</button></div>
+  <div class="bs-v4-wishlist-list" data-bs-v4-wishlist-items></div>
+  <div class="bs-v4-wishlist-foot"><a href="{{ routes.all_products_collection_url }}">CONTINUE EXPLORING ↗</a></div>
+</aside>

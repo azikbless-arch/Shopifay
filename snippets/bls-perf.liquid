@@ -1,0 +1,36 @@
+{%- comment -%}Smoother scrolling on phones: the first-screen text and shade follow the scroll on the compositor (no per-frame script), the touch parallax is off, and on touch screens the heavy glass effects (blur behind every card, masked rims, big soft shadows, page snapping) are replaced by cheap look-alikes.{%- endcomment -%}
+<style>
+@supports (animation-timeline:scroll()){
+  @keyframes bls-copy-out{0%{transform:translate3d(0,0,0);opacity:1}27%{opacity:1}73%{opacity:0}100%{transform:translate3d(0,36px,0);opacity:0}}
+  @keyframes bls-shade-in{from{opacity:0}to{opacity:1}}
+  body.bls .bls-hero--motion .bls-hero__copy{transform:none;opacity:1;animation:bls-copy-out linear both;animation-timeline:scroll(root block);animation-range:0px 80vh}
+  body.bls .bls-scene__shade::after{opacity:0;animation:bls-shade-in linear both;animation-timeline:scroll(root block);animation-range:0px 80vh}
+}
+.cl-bg{contain:layout paint}
+@media (hover:none){
+  body.bls .bls-hero--motion [data-depth]{translate:none!important;will-change:auto}
+}
+@media (hover:none) and (pointer:coarse){
+  /* no blur behind cards: a blurred card over a moving page is redrawn every frame */
+  body .gl-glass,body .gl-pane{-webkit-backdrop-filter:none!important;backdrop-filter:none!important}
+  .gl-glass:not(.cl__dock){background-color:rgba(20,23,34,.7)}
+  body .cl__dock{background-color:rgba(20,23,34,.86)}
+  body[data-skin="home"] .gl-glass:not(.cl__dock){background-color:rgba(255,247,236,.62)}
+  body[data-skin="home"] .cl__dock{background-color:rgba(255,247,236,.88)}
+  body[data-skin="pet"] .gl-glass:not(.cl__dock),body[data-skin="pet"] .gl-pane{background-color:rgba(52,25,8,.62)}
+  body[data-skin="pet"] .cl__dock{background-color:rgba(46,22,6,.88)}
+  /* the thin bright rim was drawn with a mask on every card; a plain border looks the same and costs nothing */
+  body .gl-glass::after,body .gl-pane::after,body .gl-cat::after{-webkit-mask:none!important;mask:none!important;background:none!important;padding:0!important;border:1px solid rgba(255,255,255,.26)!important;box-sizing:border-box}
+  body[data-skin="home"] .gl-glass::after,body[data-skin="home"] .gl-pane::after{border-color:rgba(255,255,255,.7)!important}
+  /* smaller soft shadows */
+  body .gl-glass,body .gl-pane{box-shadow:inset 0 1px 0 rgba(255,255,255,.3),0 6px 14px rgba(0,0,0,.22)!important}
+  body[data-skin="home"] .gl-glass,body[data-skin="home"] .gl-pane{box-shadow:inset 0 1px 0 rgba(255,255,255,.8),0 6px 14px rgba(96,66,38,.16)!important}
+  body .gl-prod{box-shadow:0 6px 14px rgba(0,0,0,.22)!important}
+  /* the two bars that stay on screen blur less */
+  .bls-bar,.ab-bar{-webkit-backdrop-filter:blur(12px)!important;backdrop-filter:blur(12px)!important}
+  /* the collection page scrolls freely, no snapping to sections */
+  html:has(.cl){scroll-snap-type:none!important}
+  .cl__page{scroll-snap-align:none!important}
+}
+</style>
+

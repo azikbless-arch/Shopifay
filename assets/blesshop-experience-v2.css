@@ -1,0 +1,50 @@
+/* BLESSHOP Premium Experience v2.0 — new product spotlight + focus polish.
+   No changes to existing product/category imagery, buttons or cart handlers. */
+.bs-body.template-index .bs-v2-spotlight{position:relative;isolation:isolate;overflow:hidden;margin:20px 0 36px;padding:22px 26px 26px;border:1px solid rgba(202,223,243,.8);border-radius:30px;background:linear-gradient(125deg,rgba(255,255,255,.78),rgba(235,244,255,.56) 47%,rgba(246,231,250,.46) 100%);-webkit-backdrop-filter:blur(19px);backdrop-filter:blur(19px);box-shadow:inset 0 1px rgba(255,255,255,.94),0 19px 46px rgba(107,142,178,.1)}
+.bs-body.template-index .bs-v2-spotlight::before{content:"";position:absolute;inset:-50% -20%;pointer-events:none;z-index:-1;background:radial-gradient(ellipse at 75% 40%,rgba(204,230,255,.44),transparent 42%),radial-gradient(ellipse at 18% 70%,rgba(255,213,237,.32),transparent 42%)}
+.bs-v2-spotlight__heading{display:flex;align-items:center;justify-content:space-between;gap:16px}
+.bs-v2-spotlight__eyebrow,.bs-v2-spotlight__kicker{font-family:"Helvetica Neue",Arial,sans-serif;font-weight:600;letter-spacing:.19em;color:#7592af;font-size:10px}
+.bs-v2-spotlight__spark{font-size:16px;color:#8bb5dc;margin-right:8px}
+.bs-v2-spotlight__controls{display:flex;align-items:center;gap:10px}
+.bs-v2-spotlight__controls span{font-size:11px;letter-spacing:.14em;color:#7998b4;margin-right:6px}
+.bs-v2-spotlight__controls button{width:36px;height:36px;border-radius:50%;border:1px solid rgba(160,191,217,.55);background:rgba(255,255,255,.67);color:#567fa0;font-size:18px;cursor:pointer;transition:background .22s,transform .22s}
+.bs-v2-spotlight__controls button:hover{background:#f1faff;transform:translateY(-2px)}
+.bs-v2-spotlight__slide{display:grid;grid-template-columns:minmax(0,.96fr) minmax(0,1.04fr);gap:clamp(18px,4vw,54px);align-items:center;min-height:360px;animation:bsV2SlideEnter .55s ease both}
+.bs-v2-spotlight__slide[hidden]{display:none!important}
+.bs-v2-spotlight__visual{position:relative;display:grid;place-items:center;min-height:310px}
+.bs-v2-spotlight__visual::before{content:"";position:absolute;width:78%;aspect-ratio:1;border-radius:50%;background:radial-gradient(circle at 32% 25%,rgba(255,255,255,.85),rgba(208,232,252,.56) 55%,rgba(239,222,250,.27));filter:blur(4px);box-shadow:0 22px 65px rgba(122,173,204,.12)}
+.bs-v2-spotlight__visual>a{position:relative;width:100%;max-width:420px;min-height:300px;display:grid;place-items:center;text-decoration:none}
+.bs-v2-spotlight__visual img{display:block;position:relative;width:min(100%,355px);height:285px;object-fit:contain;filter:drop-shadow(0 16px 18px rgba(65,96,121,.14));animation:bsV2ProductFloat 8s ease-in-out infinite alternate}
+.bs-v2-spotlight__placeholder{font-size:72px;color:#adc8e1}
+.bs-v2-spotlight__number{position:absolute;bottom:14px;left:8%;font-size:10px;letter-spacing:.2em;color:#86a2b9}
+.bs-v2-spotlight__copy{padding:20px 20px 20px 0}
+.bs-v2-spotlight__copy h3{margin:15px 0;font:400 clamp(26px,3vw,43px)/1.14 "Helvetica Neue",Arial,sans-serif;letter-spacing:-.035em;color:#3f6484;max-width:550px}
+.bs-v2-spotlight__copy h3 a{text-decoration:none;color:inherit}
+.bs-v2-spotlight__description{max-width:480px;font-size:14px;line-height:1.75;color:#788e9e;margin:0 0 20px}
+.bs-v2-spotlight__price{display:flex;align-items:baseline;gap:12px;margin:0 0 24px}
+.bs-v2-spotlight__price strong{font-size:24px;color:#476d90;font-weight:650}
+.bs-v2-spotlight__price s{font-size:14px;color:#96a4b1}
+.bs-v2-spotlight__actions{display:flex;align-items:center;flex-wrap:wrap;gap:11px}
+.bs-v2-spotlight__primary,.bs-v2-spotlight__secondary{display:inline-flex;align-items:center;justify-content:center;gap:12px;min-height:44px;padding:12px 21px;border-radius:999px;border:1px solid rgba(157,194,220,.72);font:600 11px/1.2 "Helvetica Neue",Arial,sans-serif;letter-spacing:.095em;text-decoration:none;cursor:pointer}
+.bs-v2-spotlight__primary{background:linear-gradient(130deg,rgba(110,158,198,.94),rgba(156,184,213,.95));color:white;box-shadow:0 12px 28px rgba(107,158,198,.18)}
+.bs-v2-spotlight__secondary{background:rgba(255,255,255,.46);color:#577d9f}
+.bs-v2-spotlight__primary:hover,.bs-v2-spotlight__secondary:hover{filter:brightness(1.07);box-shadow:0 11px 23px rgba(102,147,182,.17)}
+.bs-v2-spotlight__dots{display:flex;justify-content:center;gap:9px}
+.bs-v2-spotlight__dots button{width:27px;height:27px;border:0;border-radius:50%;background:transparent;display:grid;place-items:center;cursor:pointer}
+.bs-v2-spotlight__dots button::before{content:"";width:7px;height:7px;border-radius:99px;background:#bbcadb;transition:width .25s,background .25s}
+.bs-v2-spotlight__dots button[aria-pressed="true"]::before{width:22px;background:#76a6ce}
+.bs-body .bs-feature-modal[data-quick-view-modal]:not([hidden]) .bs-quick-view-panel{animation:bsV2ModalOpen .28s cubic-bezier(.2,.8,.2,1)}
+.bs-body .bs-category-card:focus-visible{outline:3px solid rgba(79,146,200,.8);outline-offset:4px}
+.bs-body .bs-v2-spotlight :is(a,button):focus-visible,.bs-body .bs-feature-modal[data-quick-view-modal] :is(a,button,select):focus-visible{outline:3px solid #558fbe;outline-offset:3px}
+.bs-body .bs-mobile-bottom [data-bs-v2-mobile-search][aria-current="page"]{color:#427eae;background:rgba(226,241,252,.75)}
+@keyframes bsV2SlideEnter{from{opacity:.4;transform:translateY(9px)}to{opacity:1;transform:translateY(0)}}
+@keyframes bsV2ProductFloat{from{transform:translateY(4px)}to{transform:translateY(-8px)}}
+@keyframes bsV2ModalOpen{from{opacity:.4;transform:translateY(12px) scale(.985)}to{opacity:1;transform:translateY(0) scale(1)}}
+@media(max-width:800px){.bs-body.template-index .bs-v2-spotlight{padding:18px 18px 20px}.bs-v2-spotlight__slide{gap:12px;grid-template-columns:1fr;min-height:0}.bs-v2-spotlight__visual,.bs-v2-spotlight__visual>a{min-height:230px}.bs-v2-spotlight__visual img{height:215px}.bs-v2-spotlight__copy{padding:4px 8px 20px;text-align:center}.bs-v2-spotlight__copy h3{margin:10px auto;font-size:27px}.bs-v2-spotlight__description{margin:0 auto 14px;font-size:13px}.bs-v2-spotlight__price,.bs-v2-spotlight__actions{justify-content:center}.bs-v2-spotlight__number{bottom:5px}}
+@media(max-width:400px){.bs-v2-spotlight__eyebrow{font-size:9px;letter-spacing:.12em}.bs-v2-spotlight__controls{gap:5px}.bs-v2-spotlight__controls button{width:31px;height:31px}.bs-v2-spotlight__primary,.bs-v2-spotlight__secondary{padding:11px 16px;font-size:10px}}
+@media(prefers-reduced-motion:reduce){.bs-v2-spotlight__slide,.bs-v2-spotlight__visual img,.bs-body .bs-feature-modal[data-quick-view-modal]:not([hidden]) .bs-quick-view-panel{animation:none!important}.bs-v2-spotlight__controls button,.bs-v2-spotlight__dots button::before{transition:none!important}}
+
+/* Five destinations: maintain a single balanced row at mobile widths. */
+@media(max-width:900px){.bs-body .bs-mobile-bottom{grid-template-columns:repeat(5,minmax(0,1fr))}.bs-body .bs-mobile-bottom a,.bs-body .bs-mobile-bottom button{min-width:0;white-space:nowrap}}
+@media(max-width:360px){.bs-body .bs-mobile-bottom a,.bs-body .bs-mobile-bottom button{font-size:8px}}
+/* five-item */

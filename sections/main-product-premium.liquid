@@ -1,0 +1,203 @@
+<section class="bs-product-page bs-section">
+  <div class="bs-shell">
+    <nav class="bs-breadcrumb" aria-label="Breadcrumb">
+      <a href="{{ routes.root_url }}">Home</a><span>›</span>
+      {% if product.collections.first %}<a href="{{ product.collections.first.url }}">{{ product.collections.first.title }}</a><span>›</span>{% endif %}
+      <span>{{ product.title }}</span>
+    </nav>
+
+    <div class="bs-product-layout">
+      <div class="bs-product-gallery bs-photo-fit--{{ section.settings.gallery_image_fit | default: 'contain' }}" data-gallery>
+        <div class="bs-product-main-media">
+          {% assign first_media = product.selected_or_first_available_variant.featured_media | default: product.featured_media %}
+          {% if first_media %}
+            {{ first_media.preview_image | image_url: width: 2400 | image_tag: loading: 'eager', fetchpriority: 'high', decoding: 'async', widths: '480,720,1000,1400,1800,2400', sizes: '(max-width: 749px) 100vw, 48vw', alt: product.title, class: 'bs-product-main-image' }}
+          {% else %}
+            <div class="bs-placeholder">♡</div>
+          {% endif %}
+          {% render 'product-badges', product: product %}
+          <button class="bs-wishlist bs-wishlist--product" type="button" data-bs-v4-wishlist-toggle data-bs-v4-wishlist-url="{{ product.url | escape }}" data-bs-v4-wishlist-title="{{ product.title | escape }}" data-bs-v4-wishlist-image="{% if product.featured_image %}{{ product.featured_image | image_url: width: 520 }}{% endif %}" data-bs-v4-wishlist-price="{{ product.price | money | escape }}" aria-label="Add {{ product.title | escape }} to favorites" aria-pressed="false">♡</button>
+          {% if first_media %}
+            {% if product.media.size > 1 %}
+              <span class="bs-v20-photo-count" aria-label="Image position" data-bs-photo-counter>
+                <span data-bs-photo-current>1</span>
+                <span aria-hidden="true">/</span>
+                <span data-bs-photo-total>{{ product.media.size | at_most: 8 }}</span>
+              </span>
+            {% endif %}
+            <button class="bs-v20-photo-hint bs-v3-zoom-button" type="button" data-bs-v3-zoom aria-label="Enlarge product photo">ZOOM ↗</button>
+          {% endif %}
+        </div>
+
+        {% if product.media.size > 1 %}
+          <div class="bs-product-thumbs">
+            {% for media in product.media limit: 8 %}
+              <button class="bs-product-thumb{% if media.id == first_media.id %} is-active{% endif %}" type="button" data-gallery-thumb data-bs-v3-media-id="{{ media.id }}" data-image="{{ media.preview_image | image_url: width: 1800 }}" aria-label="View media {{ forloop.index }}" aria-pressed="{% if media.id == first_media.id %}true{% else %}false{% endif %}">
+                {{ media.preview_image | image_url: width: 180 | image_tag: loading: 'lazy', alt: product.title }}
+              </button>
+            {% endfor %}
+          </div>
+        {% endif %}
+
+        {% assign has_special_media = false %}
+        {% for media in product.media %}
+          {% if media.media_type != 'image' %}{% assign has_special_media = true %}{% endif %}
+        {% endfor %}
+        {% if has_special_media %}
+          <div class="bs-product-video-stack">
+            {% for media in product.media %}
+              {% if media.media_type != 'image' %}
+                {{ media | media_tag: image_size: '1200x', controls: true, preload: 'metadata' }}
+              {% endif %}
+            {% endfor %}
+          </div>
+        {% endif %}
+      </div>
+
+      <div class="bs-product-info">
+        {% if product.vendor != blank %}<p class="bs-eyebrow">{{ product.vendor }}</p>{% endif %}
+        <h1>{{ product.title }}</h1>
+
+        {% if product.metafields.reviews.rating.value != blank %}
+          <div class="bs-product-rating">★★★★★ <span>{{ product.metafields.reviews.rating.value }}</span></div>
+        {% endif %}
+
+        <div class="bs-product-price" data-product-price>
+          <strong>{{ product.selected_or_first_available_variant.price | money }}</strong>
+          {% if product.selected_or_first_available_variant.compare_at_price > product.selected_or_first_available_variant.price %}
+            <s>{{ product.selected_or_first_available_variant.compare_at_price | money }}</s>
+          {% endif %}
+        </div>
+
+        {% assign selected_variant = product.selected_or_first_available_variant %}
+        <div class="bs-inventory{% if selected_variant.inventory_management and selected_variant.inventory_quantity > 0 and selected_variant.inventory_quantity <= section.settings.low_stock_threshold %} is-low{% endif %}"
+          data-bs-v3-stock data-bs-v3-stock-threshold="{{ section.settings.low_stock_threshold }}"
+          {% unless selected_variant.inventory_management %}hidden{% endunless %}>
+          <span class="bs-inventory__dot" aria-hidden="true"></span>
+          <span data-bs-v3-stock-message>
+            {% unless selected_variant.available %}Out of stock{% else %}
+              {% if selected_variant.inventory_quantity > 0 %}
+                {% if selected_variant.inventory_quantity <= section.settings.low_stock_threshold %}Low stock — {% endif %}{{ selected_variant.inventory_quantity }} left
+              {% else %}Available to order{% endif %}
+            {% endunless %}
+          </span>
+        </div>
+
+        {% if section.settings.countdown_end != blank %}
+          <div class="bs-countdown" data-countdown="{{ section.settings.countdown_end | escape }}">
+            <div class="bs-countdown__label">{{ section.settings.countdown_label }}</div>
+            <div class="bs-countdown__time" data-countdown-output>00:00:00</div>
+          </div>
+        {% endif %}
+
+        {% if product.description != blank %}
+          <div class="bs-product-summary">{{ product.description | strip_html | truncatewords: 35 }}</div>
+        {% endif %}
+        <div class="bs-v3-share-row">
+          <button type="button" class="bs-v3-share-btn" data-bs-v3-share aria-label="Share this product">↗ <span>Share this find</span></button>
+          <span class="bs-v3-share-status" data-bs-v3-share-status role="status" aria-live="polite"></span>
+        </div>
+
+        {% form 'product', product, class: 'bs-product-form bs-add-form' %}
+          {% unless product.has_only_default_variant %}
+            <label class="bs-field-label" for="Variant-{{ section.id }}">Choose option</label>
+            <div class="bs-variant-chips">
+              {% for variant in product.variants %}
+                <button type="button" class="bs-variant-chip{% if variant == selected_variant %} is-selected{% endif %}" data-variant-chip data-variant-id="{{ variant.id }}" aria-pressed="{% if variant == selected_variant %}true{% else %}false{% endif %}" {% unless variant.available %}disabled{% endunless %}>{{ variant.title }}</button>
+              {% endfor %}
+            </div>
+            <select id="Variant-{{ section.id }}" name="id" class="bs-select" data-variant-select>
+              {% for variant in product.variants %}
+                <option value="{{ variant.id }}" data-price="{{ variant.price | money | escape }}" data-compare="{% if variant.compare_at_price > variant.price %}{{ variant.compare_at_price | money | escape }}{% endif %}" data-bs-v3-available="{{ variant.available }}" data-bs-v3-stock-managed="{% if variant.inventory_management %}true{% else %}false{% endif %}" data-bs-v3-stock-count="{{ variant.inventory_quantity }}" data-bs-v3-media-id="{% if variant.featured_media %}{{ variant.featured_media.id }}{% endif %}" data-bs-v3-media-src="{% if variant.featured_media %}{{ variant.featured_media.preview_image | image_url: width: 1800 }}{% endif %}" {% unless variant.available %}disabled{% endunless %} {% if variant == selected_variant %}selected{% endif %}>{{ variant.title }}{% unless variant.available %} — Sold out{% endunless %}</option>
+              {% endfor %}
+            </select>
+          {% else %}
+            <input type="hidden" name="id" value="{{ selected_variant.id }}">
+          {% endunless %}
+
+          <div class="bs-quantity-row">
+            <span class="bs-field-label">Quantity</span>
+            <div class="bs-qty"><button type="button" data-qty-minus aria-label="Decrease quantity">−</button><input type="number" name="quantity" min="1" step="1" value="1" data-qty-input aria-label="Quantity" inputmode="numeric"><button type="button" data-qty-plus aria-label="Increase quantity">+</button></div>
+          </div>
+
+          {% assign bs_tags = product.tags | join: ',' | downcase %}
+          <button class="bs-btn bs-btn--primary bs-btn--wide bs-add-main" type="submit" data-bs-v3-add data-bs-v3-preorder="{% if bs_tags contains 'preorder' %}true{% else %}false{% endif %}" {% unless selected_variant.available %}disabled{% endunless %}>
+            {% render 'icon', name: 'bag' %}
+            <span data-bs-v3-add-label>{% if selected_variant.available %}{% if bs_tags contains 'preorder' %}Pre-order{% else %}Add to Cart{% endif %}{% else %}Sold Out{% endif %}</span>
+          </button>
+          {{ form | payment_button }}
+        {% endform %}
+
+        {% assign pickup_count = 0 %}
+        {% for availability in selected_variant.store_availabilities %}
+          {% if availability.pick_up_enabled %}{% assign pickup_count = pickup_count | plus: 1 %}{% endif %}
+        {% endfor %}
+        {% if pickup_count > 0 %}
+          <div class="bs-pickup">
+            <strong>Store pickup available</strong>
+            {% for availability in selected_variant.store_availabilities %}
+              {% if availability.pick_up_enabled %}<div>{{ availability.location.name }} — {{ availability.pick_up_time }}</div>{% endif %}
+            {% endfor %}
+          </div>
+        {% endif %}
+
+        {% unless selected_variant.available %}
+          <div class="bs-back-stock">
+            <h3>Back in stock request</h3>
+            <p>Leave your email and we’ll record your request for this product.</p>
+            {% form 'contact', id: 'BackInStockForm' %}
+              <input type="hidden" name="contact[body]" value="Back in stock request: {{ product.title | escape }} — {{ shop.url }}{{ product.url }}">
+              <input type="email" name="contact[email]" placeholder="Email address" required>
+              <button type="submit">Send</button>
+            {% endform %}
+          </div>
+        {% endunless %}
+
+        <div class="bs-product-trust">
+          <div>{% render 'icon', name: 'truck' %}<span><strong>Free Shipping</strong><small>on Orders {{ settings.free_shipping_threshold }}</small></span></div>
+          <div>{% render 'icon', name: 'box' %}<span><strong>30-Day Returns</strong><small>Hassle Free</small></span></div>
+          <div>{% render 'icon', name: 'shield' %}<span><strong>Secure Payment</strong><small>Safe & Encrypted</small></span></div>
+        </div>
+      </div>
+    </div>
+
+    <div class="bs-v3-mobile-buy" data-bs-v3-mobile-buy hidden aria-label="Quick purchase">
+      <div class="bs-v3-mobile-buy__details">
+        <span>{{ product.title | escape }}</span>
+        <strong data-bs-v3-mobile-price>{{ selected_variant.price | money }}</strong>
+      </div>
+      <button type="button" data-bs-v3-mobile-add {% unless selected_variant.available %}disabled{% endunless %}>{% if selected_variant.available %}Add to Cart{% else %}Sold Out{% endif %}</button>
+    </div>
+
+    <div class="bs-product-tabs">
+      <details open><summary>Description</summary><div class="rte">{{ product.description }}</div></details>
+      {% if section.settings.size_chart_page != blank %}<details><summary>Size chart</summary><div class="rte">{{ section.settings.size_chart_page.content }}</div></details>{% endif %}
+      {% if product.metafields.custom.ingredients_nutrition != blank %}<details><summary>Ingredients / nutrition</summary><div>{{ product.metafields.custom.ingredients_nutrition | metafield_tag }}</div></details>{% endif %}
+      {% if product.metafields.custom.how_to_use != blank %}<details><summary>How to use</summary><div>{{ product.metafields.custom.how_to_use | metafield_tag }}</div></details>{% endif %}
+      <details id="BsProductShipping-{{ section.id }}"><summary>Shipping</summary><div><p>{{ section.settings.shipping_text }}</p></div></details>
+      <details id="BsProductReturns-{{ section.id }}"><summary>Returns</summary><div><p>{{ section.settings.returns_text }}</p></div></details>
+    </div>
+
+    <div hidden data-product-record
+      data-handle="{{ product.handle }}"
+      data-title="{{ product.title | escape }}"
+      data-url="{{ product.url }}"
+      data-image="{% if product.featured_image %}{{ product.featured_image | image_url: width: 500 }}{% endif %}"
+      data-price="{{ product.price | money | escape }}"></div>
+  </div>
+</section>
+{% schema %}
+{
+  "name":"Premium product",
+  "settings":[
+    {"type":"select","id":"gallery_image_fit","label":"Main photo fit","default":"contain","options":[{"value":"contain","label":"Full photo — no crop"},{"value":"cover","label":"Fill frame — crop edges"}]},
+    {"type":"textarea","id":"shipping_text","label":"Shipping text","default":"Orders are processed quickly and shipping times are shown at checkout. Tracking is provided when available."},
+    {"type":"textarea","id":"returns_text","label":"Returns text","default":"Changed your mind? Contact us within 30 days of delivery and we’ll help with the return process."},
+    {"type":"page","id":"size_chart_page","label":"Size chart page"},
+    {"type":"range","id":"low_stock_threshold","label":"Low stock threshold","min":1,"max":20,"step":1,"default":8},
+    {"type":"text","id":"countdown_label","label":"Countdown label","default":"Limited-time offer ends in"},
+    {"type":"text","id":"countdown_end","label":"Countdown end (ISO date/time)","info":"Example: 2026-12-31T23:59:59"}
+  ],
+  "presets":[{"name":"Premium product"}]
+}
+{% endschema %}

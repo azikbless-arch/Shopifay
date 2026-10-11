@@ -1,0 +1,330 @@
+/* BLESSHOP v1.3 – glass header and category cards */
+.bs-body.template-index .bs-header {transition:padding .35s ease!important}
+.bs-body.template-index .bs-header .bs-nav {transition:height .35s ease,background .35s ease,box-shadow .35s ease!important}
+.bs-body.template-index .bs-header.bs-glass-compact {padding-top:8px!important}
+.bs-body.template-index .bs-header.bs-glass-compact .bs-nav {height:60px!important;background:rgba(243,249,255,.82)!important;border:1px solid rgba(210,232,249,.9)!important;box-shadow:0 10px 35px rgba(93,147,190,.18),0 0 20px rgba(155,201,240,.18)!important;backdrop-filter:blur(26px) saturate(150%)!important}
+.bs-body.template-index .bs-header .bs-logo {transition:transform .35s ease;transform-origin:left center}
+.bs-body.template-index .bs-header.bs-glass-compact .bs-logo {transform:scale(.93)}
+.bs-body .bs-desktop-menu a:after {background:linear-gradient(90deg,#9bbbd6,#f8fcff,#9bbbd6);box-shadow:0 0 9px rgba(125,184,234,.36)}
+.bs-body.template-index .bs-category-card {border:1px solid rgba(172,206,234,.65);background:rgba(255,255,255,.68);box-shadow:0 15px 44px rgba(105,145,178,.13);transition:opacity .7s ease,transform .65s cubic-bezier(.16,1,.3,1),box-shadow .4s ease,border-color .4s ease!important}
+.bs-body.template-index .bs-category-card.bs-soft-reveal:not(.is-visible){opacity:0;transform:translateY(28px) scale(.975)}
+.bs-body.template-index .bs-category-card.bs-soft-reveal.is-visible{opacity:1;transform:translateY(0) scale(1)}
+.bs-body.template-index .bs-category-card:nth-child(2){transition-delay:65ms!important}
+.bs-body.template-index .bs-category-card:nth-child(3){transition-delay:130ms!important}
+.bs-body.template-index .bs-category-card:nth-child(4){transition-delay:195ms!important}
+.bs-body.template-index .bs-category-card:nth-child(5){transition-delay:260ms!important}
+.bs-body.template-index .bs-category-card:nth-child(6){transition-delay:325ms!important}
+@media(hover:hover) and (pointer:fine){.bs-body.template-index .bs-category-card.bs-soft-reveal.is-visible:hover{transform:translateY(-9px) scale(1.014);transition-delay:0ms!important;border-color:rgba(111,170,222,.85);box-shadow:0 0 22px rgba(130,189,240,.36),0 23px 45px rgba(98,143,182,.2)}.bs-body.template-index .bs-category-card:hover img{transform:scale(1.08)}}
+@media(max-width:600px){.bs-body.template-index .bs-header.bs-glass-compact .bs-nav{height:56px!important}.bs-body.template-index .bs-category-card.bs-soft-reveal:not(.is-visible){opacity:0!important;transform:translateY(16px) scale(.99)!important}.bs-body.template-index .bs-category-card.bs-soft-reveal.is-visible{opacity:1!important;transform:none!important}}
+@media(prefers-reduced-motion:reduce){.bs-body.template-index .bs-category-card,.bs-body.template-index .bs-header,.bs-body.template-index .bs-header .bs-nav{transition:none!important}.bs-body.template-index .bs-category-card.bs-soft-reveal:not(.is-visible){opacity:1!important;transform:none!important}}
+/* BLESSHOP v1.3.1 – actually moving category grid */
+.bs-body.template-index .bs-category-card {
+  /* Separate translate from existing hover and reveal transforms */
+  translate:0 var(--bs-card-motion-y,0px);
+  will-change:translate;
+  transition:opacity .68s ease,transform .55s cubic-bezier(.16,1,.3,1),translate .16s ease-out,box-shadow .35s ease,border-color .35s ease!important;
+}
+.bs-body.template-index .bs-category-card__image {
+  animation:bsCategoryBreathe 5.8s ease-in-out infinite alternate;
+  animation-delay:calc(var(--bs-card-index,0) * -.72s);
+  will-change:transform;
+}
+.bs-body.template-index .bs-category-card__image img {
+  transform:translate3d(0,var(--bs-image-motion-y,0px),0) scale(1.11);
+  transition:transform .20s ease-out,filter .4s ease!important;
+  will-change:transform;
+}
+@media(hover:hover) and (pointer:fine){
+  .bs-body.template-index .bs-category-card.bs-soft-reveal.is-visible:hover{
+    transform:translateY(-11px) scale(1.025)!important;
+    box-shadow:0 0 0 1px rgba(173,217,248,.72),0 0 26px rgba(127,189,237,.5),0 25px 50px rgba(101,147,190,.22)!important;
+  }
+  .bs-body.template-index .bs-category-card:hover .bs-category-card__image img{
+    transform:translate3d(0,var(--bs-image-motion-y,0px),0) scale(1.19)!important;
+  }
+}
+@keyframes bsCategoryBreathe {
+  from{transform:translate3d(0,2px,0)}
+  to{transform:translate3d(0,-6px,0)}
+}
+@media(max-width:600px){
+  .bs-body.template-index .bs-category-card{
+    transition:opacity .65s ease,transform .65s ease,translate .18s ease,box-shadow .3s ease!important;
+  }
+}
+@media(prefers-reduced-motion:reduce){
+  .bs-body.template-index .bs-category-card {
+    translate:0 0!important;
+    transition:none!important;
+    will-change:auto;
+  }
+  .bs-body.template-index .bs-category-card__image {
+    animation:none!important;
+    will-change:auto;
+  }
+  .bs-body.template-index .bs-category-card__image img {
+    transform:none!important;
+    transition:none!important;
+    will-change:auto;
+  }
+}
+
+
+/* BLESSHOP v1.3.1 – no delay for live scroll transforms */
+.bs-body.template-index .bs-category-card:nth-child(1){--bs-reveal-stagger:0ms}
+.bs-body.template-index .bs-category-card:nth-child(2){--bs-reveal-stagger:65ms}
+.bs-body.template-index .bs-category-card:nth-child(3){--bs-reveal-stagger:130ms}
+.bs-body.template-index .bs-category-card:nth-child(4){--bs-reveal-stagger:195ms}
+.bs-body.template-index .bs-category-card:nth-child(5){--bs-reveal-stagger:260ms}
+.bs-body.template-index .bs-category-card:nth-child(6){--bs-reveal-stagger:325ms}
+.bs-body.template-index .bs-category-card:nth-child(n){
+  transition-delay:var(--bs-reveal-stagger,0ms),var(--bs-reveal-stagger,0ms),0ms,0ms,0ms!important;
+}
+@media(hover:hover) and (pointer:fine){
+  .bs-body.template-index .bs-category-card.bs-soft-reveal.is-visible:hover{
+    transition-delay:0ms!important;
+  }
+}
+
+
+/* BLESSHOP v1.3.2 — Soft Glass Premium Categories */
+/* Preserve existing scroll-driven translate, image parallax, and reveal. */
+.bs-body.template-index .bs-category-grid {gap:18px}
+.bs-body.template-index .bs-category-card {
+  position:relative;
+  isolation:isolate;
+  overflow:hidden;
+  border-radius:26px;
+  border:1px solid rgba(255,255,255,.73);
+  background:linear-gradient(155deg,rgba(255,255,255,.42),rgba(232,246,255,.20) 55%,rgba(239,228,251,.28));
+  backdrop-filter:blur(22px) saturate(155%);
+  -webkit-backdrop-filter:blur(22px) saturate(155%);
+  box-shadow:inset 0 1px 0 rgba(255,255,255,.9),
+    0 15px 42px rgba(104,145,182,.13),0 0 0 1px rgba(204,226,245,.20);
+}
+.bs-body.template-index .bs-category-card::before{
+  content:"";
+  position:absolute;inset:0;z-index:1;pointer-events:none;
+  background:linear-gradient(135deg,rgba(255,255,255,.47),rgba(255,255,255,.08) 42%,transparent 65%);
+  opacity:.65;
+  transition:opacity .4s ease;
+}
+.bs-body.template-index .bs-category-card::after{
+  content:"";position:absolute;inset:1px;z-index:1;pointer-events:none;
+  border-radius:24px;border:1px solid rgba(255,255,255,.32);
+}
+.bs-body.template-index .bs-category-card__image{
+  position:relative;height:150px;overflow:hidden;
+  background:linear-gradient(150deg,rgba(245,250,255,.25),rgba(215,232,248,.20));
+}
+.bs-body.template-index .bs-category-card__image img{
+  width:100%;height:100%;object-fit:cover;
+  filter:saturate(.94) contrast(1.02) brightness(1.025);
+  /* Image transform remains controlled by the scroll-parallax rules above. */
+}
+.bs-body.template-index .bs-category-card__image::after{
+  content:"";position:absolute;inset:0;z-index:1;pointer-events:none;
+  background:linear-gradient(to bottom,rgba(255,255,255,.17),transparent 45%,rgba(244,251,255,.18));
+}
+.bs-body.template-index .bs-category-card__foot{
+  position:relative;z-index:2;
+  display:flex;justify-content:space-between;align-items:center;
+  gap:10px;min-height:66px;padding:16px 15px;
+  background:linear-gradient(125deg,rgba(255,255,255,.34),rgba(230,244,255,.12));
+  border-top:1px solid rgba(255,255,255,.53);
+  backdrop-filter:blur(16px) saturate(140%);
+  -webkit-backdrop-filter:blur(16px) saturate(140%);
+}
+.bs-body.template-index .bs-category-card__foot strong{
+  font-size:13px;line-height:1.3;font-weight:650;
+  letter-spacing:.012em;color:#58738e;
+}
+.bs-body.template-index .bs-category-card__foot>span{
+  width:33px;height:33px;flex:0 0 33px;
+  display:grid;place-items:center;border-radius:50%;
+  color:#6484a4;
+  background:rgba(255,255,255,.43);
+  border:1px solid rgba(255,255,255,.78);
+  box-shadow:inset 0 1px rgba(255,255,255,.9),0 7px 18px rgba(105,152,191,.13);
+  transition:transform .28s ease,background .28s ease,box-shadow .28s ease;
+}
+@media(hover:hover) and (pointer:fine){
+  .bs-body.template-index .bs-category-card.bs-soft-reveal.is-visible:hover{
+    border-color:rgba(155,209,244,.86)!important;
+    background:linear-gradient(135deg,rgba(255,255,255,.58),rgba(225,243,255,.28));
+    box-shadow:inset 0 1px rgba(255,255,255,.97),0 0 0 1px rgba(197,225,248,.68),
+      0 0 27px rgba(123,186,235,.46),0 25px 52px rgba(104,149,185,.18)!important;
+  }
+  .bs-body.template-index .bs-category-card:hover::before{opacity:1}
+  .bs-body.template-index .bs-category-card:hover .bs-category-card__foot>span{
+    transform:translateX(4px);
+    background:rgba(241,250,255,.79);
+    box-shadow:inset 0 1px rgba(255,255,255,.95),0 0 18px rgba(134,202,244,.42);
+  }
+}
+@media(max-width:900px){
+  .bs-body.template-index .bs-category-card__image{height:128px}
+  .bs-body.template-index .bs-category-card__foot{padding:13px 12px;min-height:60px}
+  .bs-body.template-index .bs-category-card__foot strong{font-size:12px}
+}
+@media(max-width:600px){
+  .bs-body.template-index .bs-category-grid{gap:12px}
+  .bs-body.template-index .bs-category-card{border-radius:20px}
+  .bs-body.template-index .bs-category-card::after{border-radius:18px}
+  .bs-body.template-index .bs-category-card__image{height:108px}
+  .bs-body.template-index .bs-category-card__foot{padding:12px 11px;min-height:58px}
+  .bs-body.template-index .bs-category-card__foot strong{font-size:12px}
+  .bs-body.template-index .bs-category-card__foot>span{width:29px;height:29px;flex-basis:29px}
+}
+
+
+/* BLESSHOP v1.3.3 — richer category photography on hover */
+.bs-body.template-index .bs-category-card__image img {
+  filter: saturate(.94) contrast(1.02) brightness(1.025);
+  /* Preserve existing image zoom/parallax (transform) while easing color. */
+  transition: transform .20s ease-out, filter .38s ease, opacity .35s ease !important;
+}
+@media (hover:hover) and (pointer:fine) {
+  .bs-body.template-index .bs-category-card:hover .bs-category-card__image img {
+    filter: saturate(1.08) contrast(1.06) brightness(1.04) !important;
+  }
+}
+@media (prefers-reduced-motion:reduce) {
+  .bs-body.template-index .bs-category-card__image img {
+    transition:none!important;
+  }
+}
+
+
+/* BLESSHOP v1.3.4 — Minimal Editorial + Glass Silver Sweep */
+/* Typography only: leave category images, URLs and JavaScript parallax as-is. */
+.bs-body.template-index .bs-category-card__foot strong {
+  display:block;
+  min-width:0;
+  max-width:100%;
+  color:#607c98;
+  font-family:"Helvetica Neue",Helvetica,Arial,sans-serif;
+  font-size:11px;
+  font-weight:300;
+  letter-spacing:.125em;
+  line-height:1.5;
+  text-transform:uppercase;
+  overflow-wrap:normal;
+  transition:color .35s ease,transform .35s cubic-bezier(.2,.8,.2,1),
+    text-shadow .35s ease,letter-spacing .35s ease;
+}
+/* Reuse the existing glass overlay pseudo-element for one horizontal shimmer. */
+.bs-body.template-index .bs-category-card::before {
+  content:"";
+  inset:0;
+  width:100%;
+  height:100%;
+  z-index:4;
+  pointer-events:none;
+  opacity:0;
+  background:linear-gradient(104deg,
+    transparent 21%,
+    rgba(255,255,255,.05) 33%,
+    rgba(236,249,255,.64) 45%,
+    rgba(255,255,255,.85) 50%,
+    rgba(197,230,252,.26) 56%,
+    transparent 73%);
+  transform:translate3d(-115%,0,0);
+  transition:opacity .24s ease,
+    transform .86s cubic-bezier(.18,.78,.18,1);
+}
+.bs-body.template-index .bs-category-card__foot>span{
+  transition:transform .32s ease,background-color .32s ease,
+    box-shadow .32s ease,color .32s ease,border-color .32s ease;
+}
+@media(hover:hover) and (pointer:fine) {
+  .bs-body.template-index .bs-category-card:hover::before {
+    opacity:.82;
+    transform:translate3d(115%,0,0);
+  }
+  .bs-body.template-index .bs-category-card:hover .bs-category-card__foot strong {
+    color:#3e709e;
+    letter-spacing:.135em;
+    text-shadow:0 0 13px rgba(124,188,236,.46);
+    transform:translate3d(0,-2px,0);
+  }
+  .bs-body.template-index .bs-category-card:hover .bs-category-card__foot>span {
+    transform:translateX(4px) scale(1.06);
+    color:#3f77a6;
+    background:rgba(236,249,255,.93);
+    border-color:rgba(160,212,250,.9);
+    box-shadow:inset 0 1px rgba(255,255,255,.98),
+      0 0 0 1px rgba(206,235,252,.74),
+      0 0 20px rgba(119,191,244,.6),
+      0 10px 22px rgba(109,165,210,.18);
+  }
+}
+.bs-body.template-index .bs-category-card:focus-visible .bs-category-card__foot strong {
+  color:#3e709e;
+  text-shadow:0 0 13px rgba(124,188,236,.46);
+}
+.bs-body.template-index .bs-category-card:focus-visible .bs-category-card__foot>span {
+  background:rgba(236,249,255,.93);
+  box-shadow:0 0 20px rgba(119,191,244,.55);
+}
+@media(max-width:900px) {
+  .bs-body.template-index .bs-category-card__foot strong {
+    font-size:10.5px;
+    letter-spacing:.105em;
+  }
+}
+@media(max-width:600px) {
+  .bs-body.template-index .bs-category-card__foot strong {
+    font-size:10.5px;
+    letter-spacing:.085em;
+    line-height:1.42;
+  }
+}
+@media(prefers-reduced-motion:reduce) {
+  .bs-body.template-index .bs-category-card::before {
+    opacity:0!important;
+    transform:none!important;
+    transition:none!important;
+  }
+  .bs-body.template-index .bs-category-card__foot strong,
+  .bs-body.template-index .bs-category-card__foot>span {
+    transition:none!important;
+  }
+}
+
+/* BLESSHOP v1.3.5 – interactive photographic depth */
+/* Combine cursor-follow offset with the existing scroll parallax position. */
+.bs-body.template-index .bs-category-card__image img {
+  transform:translate3d(var(--bs-hover-motion-x,0px),
+    calc(var(--bs-image-motion-y,0px) + var(--bs-hover-motion-y,0px)),0) scale(1.11);
+  transition:transform .34s cubic-bezier(.2,.8,.2,1),filter .38s ease,opacity .35s ease!important;
+  transform-origin:center center;
+}
+.bs-body.template-index .bs-category-card__image::after {
+  background:
+    radial-gradient(ellipse 105px 72px at var(--bs-hover-light-x,50%) var(--bs-hover-light-y,50%),
+      rgba(255,255,255,.34) 0%,rgba(236,248,255,.14) 45%,transparent 78%),
+    linear-gradient(180deg,rgba(255,255,255,.12),transparent 45%,rgba(244,251,255,.16));
+  opacity:.5;
+  transition:opacity .35s ease;
+}
+@media (hover:hover) and (pointer:fine){
+  .bs-body.template-index .bs-category-card:hover .bs-category-card__image img {
+    transform:translate3d(var(--bs-hover-motion-x,0px),
+      calc(var(--bs-image-motion-y,0px) + var(--bs-hover-motion-y,0px)),0) scale(1.22)!important;
+  }
+  .bs-body.template-index .bs-category-card:hover .bs-category-card__image::after {
+    opacity:.95;
+  }
+}
+@media (prefers-reduced-motion:reduce){
+  .bs-body.template-index .bs-category-card__image img,
+  .bs-body.template-index .bs-category-card:hover .bs-category-card__image img {
+    transform:none!important;
+    transition:none!important;
+  }
+  .bs-body.template-index .bs-category-card__image::after{
+    transition:none!important;
+  }
+}
+

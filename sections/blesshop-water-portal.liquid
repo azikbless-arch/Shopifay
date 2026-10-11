@@ -1,0 +1,275 @@
+{% liquid
+  assign portal_fallback = 'https://cdn.shopify.com/s/files/1/0743/7434/8844/files/blesshop-water-portal-hero.jpg?v=1791490794'
+  assign primary_link = section.settings.button_url | default: routes.all_products_collection_url
+%}
+<section class="bs-water-portal" id="bs-water-portal-{{ section.id }}" aria-label="{{ section.settings.heading | escape }}" data-water-portal data-motion="{{ section.settings.motion }}">
+  <div class="bs-water-portal__scene" aria-hidden="true">
+    {% if section.settings.portal_image != blank %}
+      {{ section.settings.portal_image | image_url: width: 2000 | image_tag: class: 'bs-water-portal__photo', loading: 'eager', fetchpriority: 'high', sizes: '100vw', widths: '750, 1100, 1500, 2000' }}
+    {% else %}
+      <img class="bs-water-portal__photo" src="{{ portal_fallback }}" width="730" height="385" alt="" loading="eager" fetchpriority="high">
+    {% endif %}
+    <span class="bs-water-portal__reflection"></span>
+    <span class="bs-water-portal__caustics"></span>
+  </div>
+  <div class="bs-water-portal__overlay" aria-hidden="true"></div>
+  <div class="bs-water-portal__container bs-shell">
+    <div class="bs-water-portal__intro">
+      <p class="bs-water-portal__eyebrow">{{ section.settings.eyebrow | escape }}</p>
+      <h1>{{ section.settings.heading | escape }}</h1>
+      <p class="bs-water-portal__description">{{ section.settings.description | escape }}</p>
+      <a class="bs-water-portal__cta" href="{{ primary_link }}">{{ section.settings.button_text | escape }} <span aria-hidden="true">→</span></a>
+    </div>
+    <nav class="bs-water-portal__categories" aria-label="Explore product categories">
+      {% for block in section.blocks %}
+        {% liquid
+          assign label = block.settings.label | default: 'Category'
+          assign category_href = block.settings.collection.url
+          if category_href == blank
+            assign category_query = block.settings.fallback | default: label | url_encode
+            assign category_href = routes.search_url | append: '?q=' | append: category_query | append: '&type=product'
+          endif
+        %}
+        <a class="bs-water-portal__card bs-water-portal__card--{{ block.settings.visual }}" href="{{ category_href }}" {{ block.shopify_attributes }}>
+          <span class="bs-water-portal__card-copy"><strong>{{ label | escape }}</strong><small>{{ block.settings.subtitle | escape }}</small></span>
+          {% if block.settings.image != blank %}
+            {{ block.settings.image | image_url: width: 240 | image_tag: class: 'bs-water-portal__card-image', loading: 'lazy', widths: '120, 240' }}
+          {% else %}
+            {% case block.settings.visual %}
+              {% when 'home' %}<img class="bs-water-portal__card-image" src="{{ 'category-home.jpg' | asset_url }}" width="100" height="100" alt="" loading="lazy">
+              {% when 'tech' %}<img class="bs-water-portal__card-image" src="{{ 'category-gadgets.jpg' | asset_url }}" width="100" height="100" alt="" loading="lazy">
+              {% when 'accessories' %}<img class="bs-water-portal__card-image" src="{{ 'category-travel.jpg' | asset_url }}" width="100" height="100" alt="" loading="lazy">
+              {% else %}<img class="bs-water-portal__card-image" src="{{ 'category-beauty.jpg' | asset_url }}" width="100" height="100" alt="" loading="lazy">
+            {% endcase %}
+          {% endif %}
+        </a>
+      {% endfor %}
+    </nav>
+    <a class="bs-water-portal__scroll" href="#SpaceCollections" aria-label="Scroll to the collections">SCROLL TO EXPLORE <span aria-hidden="true">↓</span></a>
+  </div>
+</section>
+<div id="SpaceCollections" class="bs-space-anchor" tabindex="-1"></div>
+<style>
+body.template-index:has(.bs-water-portal) .bs-header { position:absolute;inset:0 0 auto;z-index:50;background:transparent; }
+body.template-index:has(.bs-water-portal) .bs-announcement { display:none; }
+body.template-index:has(.bs-water-portal) .bs-nav { background:rgba(12,32,51,.20)!important;box-shadow:none!important;border:1px solid rgba(255,255,255,.16)!important;backdrop-filter:blur(12px)!important;-webkit-backdrop-filter:blur(12px)!important; }
+body.template-index:has(.bs-water-portal) .bs-logo,
+body.template-index:has(.bs-water-portal) .bs-logo>span:last-child,
+body.template-index:has(.bs-water-portal) .bs-desktop-menu a,
+body.template-index:has(.bs-water-portal) .bs-icon-btn,
+body.template-index:has(.bs-water-portal) .bs-mobile-menu-btn { color:#f9fbff!important; }
+body.template-index:has(.bs-water-portal) .bs-logo__mark { display:none; }
+body.template-index:has(.bs-water-portal) .bs-search { background:rgba(245,249,255,.15)!important;border-color:rgba(255,255,255,.25)!important; }
+body.template-index:has(.bs-water-portal) .bs-search input { color:#fff!important; }
+body.template-index:has(.bs-water-portal) .bs-search input::placeholder { color:rgba(255,255,255,.70)!important; }
+.bs-water-portal { --bs-p-scroll:0; position:relative;isolation:isolate;overflow:hidden;min-height:clamp(700px,100svh,1080px);color:#f7f9fc;background:#13253a; }
+.bs-water-portal__scene { position:absolute;inset:0;overflow:hidden;z-index:-3; }
+.bs-water-portal__photo { display:block;position:absolute;inset:-3% -2% -3% 27%;width:77%;height:106%;object-fit:cover;object-position:center center;transform:translate3d(0,calc(var(--bs-p-scroll)*30px),0) scale(1.055);will-change:transform; }
+.bs-water-portal__overlay { position:absolute;inset:0;z-index:-1;pointer-events:none;background:linear-gradient(90deg,rgba(10,26,43,.97) 0%,rgba(12,30,48,.92) 18%,rgba(14,34,52,.53) 41%,rgba(12,25,42,.12) 70%),linear-gradient(0deg,rgba(5,14,27,.86) 0%,rgba(6,14,27,.25) 22%,transparent 55%,rgba(8,22,38,.48) 100%); }
+.bs-water-portal__reflection { position:absolute;inset:-30% 5% -5% 48%;border-radius:50%;opacity:.26;pointer-events:none;background:radial-gradient(ellipse at 50% 47%,rgba(255,255,255,.35),transparent 61%);mix-blend-mode:screen;animation:bs-portal-shine 10s ease-in-out infinite alternate; }
+.bs-water-portal__caustics { position:absolute;inset:0;opacity:.22;pointer-events:none;background:repeating-radial-gradient(ellipse at 72% 85%,transparent 0 28px,rgba(201,238,255,.20) 29px 31px,transparent 33px 57px);transform-origin:72% 85%;animation:bs-portal-water 16s ease-in-out infinite alternate; }
+.bs-water-portal__container { min-height:inherit;position:relative;display:flex;flex-direction:column;justify-content:center;padding-top:150px;padding-bottom:125px;gap:42px; }
+.bs-water-portal__intro { position:relative;z-index:3;max-width:min(48%,660px); }
+.bs-water-portal__eyebrow { color:#d3dde8;letter-spacing:.38em;font-size:clamp(9px,.85vw,12px);font-weight:500;margin:0 0 21px;text-transform:uppercase; }
+.bs-water-portal__intro h1 { font-family:Georgia,'Times New Roman',serif;font-weight:400;font-size:clamp(59px,7vw,116px);line-height:1;letter-spacing:.075em;margin:0 0 21px;background:linear-gradient(115deg,#fff,#f3f5fa 30%,#9dacbc 66%,#fff 93%);-webkit-background-clip:text;background-clip:text;color:transparent;filter:drop-shadow(0 2px 8px rgba(255,255,255,.08)); }
+.bs-water-portal__description { font-size:clamp(14px,1.15vw,18px);line-height:1.75;color:#e5ecf5;max-width:330px;margin:0 0 32px;text-wrap:pretty; }
+.bs-water-portal__cta { display:inline-flex;align-items:center;justify-content:space-between;gap:28px;min-height:55px;padding:0 23px;border:1px solid rgba(255,255,255,.48);border-radius:999px;background:rgba(223,236,247,.17);box-shadow:inset 0 1px rgba(255,255,255,.45),0 10px 32px rgba(4,16,29,.20);backdrop-filter:blur(18px);-webkit-backdrop-filter:blur(18px);color:#fff!important;text-decoration:none!important;letter-spacing:.11em;font-weight:500;font-size:11px;transition:transform .3s ease,background .3s ease,box-shadow .3s ease; }
+.bs-water-portal__cta:hover,.bs-water-portal__cta:focus-visible { transform:translateY(-3px);background:rgba(235,246,255,.32);box-shadow:0 16px 40px rgba(0,13,30,.33); }
+.bs-water-portal__cta span { font-size:20px;line-height:1; }
+.bs-water-portal__categories { position:absolute;z-index:5;bottom:66px;left:0;right:0;display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:12px; }
+.bs-water-portal__card { display:flex;position:relative;align-items:center;justify-content:space-between;min-width:0;min-height:96px;padding:15px 13px 15px 19px;border:1px solid rgba(255,255,255,.41);border-radius:18px;color:#182c40!important;text-decoration:none!important;background:rgba(243,250,255,.70);backdrop-filter:blur(19px) saturate(125%);-webkit-backdrop-filter:blur(19px) saturate(125%);box-shadow:inset 0 1px rgba(255,255,255,.72),0 14px 38px rgba(3,15,28,.20);transition:transform .3s ease,background .3s ease; }
+.bs-water-portal__card:hover,.bs-water-portal__card:focus-visible { transform:translateY(-6px);background:rgba(255,255,255,.88); }
+.bs-water-portal__card-copy { display:flex;flex-direction:column;min-width:0;gap:4px;z-index:1; }
+.bs-water-portal__card-copy strong { font-weight:600;font-size:clamp(13px,1.08vw,17px);line-height:1.2; }
+.bs-water-portal__card-copy small { font-size:11px;line-height:1.45;color:#475e70; }
+.bs-water-portal__card-image { display:block;flex:0 0 auto;width:clamp(48px,5.2vw,84px);height:70px;object-fit:cover;border-radius:14px;mask-image:linear-gradient(to right,transparent,black 32%);-webkit-mask-image:linear-gradient(to right,transparent,black 32%); }
+.bs-water-portal__scroll { position:absolute;right:4px;bottom:24px;font-size:9px;letter-spacing:.22em;color:#d5e0ec!important;text-decoration:none!important;display:flex;gap:11px;align-items:center; }
+.bs-water-portal__scroll span { font-size:17px; }
+.bs-water-portal[data-motion='false'] .bs-water-portal__reflection,.bs-water-portal[data-motion='false'] .bs-water-portal__caustics { animation:none!important; }
+@keyframes bs-portal-shine { 0% { transform:translate3d(-3%,0,0) scale(.96);opacity:.13 } 100% {transform:translate3d(3%,2%,0) scale(1.08);opacity:.32 } }
+@keyframes bs-portal-water {0%{transform:scale(1) rotate(-2deg)}100%{transform:scale(1.08) rotate(2deg)}}
+@media(max-width:950px) {
+.bs-water-portal__intro { max-width:55%; }
+.bs-water-portal__categories {gap:9px;}
+.bs-water-portal__card {padding:12px;min-height:85px;}
+.bs-water-portal__card-image {width:50px;height:58px;}
+.bs-water-portal__card-copy strong {font-size:12px;}
+.bs-water-portal__card-copy small {font-size:9px;}
+}
+@media(max-width:680px) {
+.bs-water-portal { min-height:100svh;min-height:max(700px,100svh); }
+.bs-water-portal__scene .bs-water-portal__photo { inset:0 -19% auto -19%;width:138%;height:56%;object-fit:cover;object-position:center;transform:none!important; }
+.bs-water-portal__overlay {background:linear-gradient(0deg,#0e2135 0%,rgba(11,28,46,.99) 11%,rgba(14,33,53,.94) 32%,rgba(13,29,45,.50) 49%,rgba(8,22,38,.14) 75%,rgba(6,17,30,.52) 100%);}
+.bs-water-portal__container { justify-content:flex-end;gap:0;padding:0 0 111px;min-height:inherit; }
+.bs-water-portal__intro { max-width:100%;width:100%;text-align:center;padding:0 10px; }
+.bs-water-portal__eyebrow { letter-spacing:.25em;font-size:9px;margin:0 0 13px; }
+.bs-water-portal__intro h1 {font-size:clamp(39px,11vw,64px);letter-spacing:.07em;margin:0 0 14px;}
+.bs-water-portal__description {font-size:12px;max-width:270px;line-height:1.6;margin:0 auto 19px;}
+.bs-water-portal__cta {min-height:43px;padding:0 17px;font-size:10px;}
+.bs-water-portal__categories {left:0;right:0;bottom:31px;gap:6px;align-items:start;}
+.bs-water-portal__card {flex-direction:column-reverse;justify-content:flex-end;text-align:center;gap:4px;min-height:68px;padding:0;border:0;background:transparent;box-shadow:none;backdrop-filter:none;-webkit-backdrop-filter:none;color:#f9fbff!important;}
+.bs-water-portal__card:hover,.bs-water-portal__card:focus-visible {transform:translateY(-3px);background:transparent;}
+.bs-water-portal__card-image {width:45px;height:45px;max-width:100%;border-radius:50%;border:1px solid rgba(255,255,255,.48);mask-image:none;-webkit-mask-image:none;box-shadow:0 7px 15px rgba(0,0,0,.28);}
+.bs-water-portal__card-copy strong {color:#f6f9fc;font-size:9px;line-height:1.25;font-weight:500;}
+.bs-water-portal__card-copy small {display:none;}
+.bs-water-portal__scroll {display:none;}
+body.template-index:has(.bs-water-portal) .bs-header .bs-nav {padding-left:8px;padding-right:8px;}
+body.template-index:has(.bs-water-portal) .bs-logo {font-size:clamp(16px,4vw,24px)!important;}
+}
+@media(max-width:370px){.bs-water-portal__card-image{width:38px;height:38px}.bs-water-portal__intro h1{font-size:40px}.bs-water-portal__cta{font-size:9px}}
+@media(prefers-reduced-motion:reduce) {
+.bs-water-portal__reflection,.bs-water-portal__caustics {animation:none!important}
+.bs-water-portal__photo {transform:none!important;will-change:auto}
+.bs-water-portal__cta,.bs-water-portal__card {transition:none}
+}
+</style>
+<script>
+(() => {
+  function init() {
+    document.querySelectorAll('[data-water-portal]').forEach(hero => {
+      if (hero.dataset.portalReady) return;
+      hero.dataset.portalReady = 'true';
+      if (hero.dataset.motion === 'false' || matchMedia('(prefers-reduced-motion: reduce)').matches || matchMedia('(max-width: 680px)').matches) return;
+      let scheduled = false;
+      const update = () => {
+        scheduled = false;
+        const box = hero.getBoundingClientRect();
+        const percent = Math.max(-1,Math.min(1, -box.top/Math.max(box.height,1)));
+        hero.style.setProperty('--bs-p-scroll',String(percent));
+      };
+      const onScroll = () => {if (!scheduled) {scheduled = true;requestAnimationFrame(update)}};
+      window.addEventListener('scroll',onScroll,{passive:true});
+      update();
+    });
+  }
+  if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded',init,{once:true}); else init();
+  document.addEventListener('shopify:section:load',init);
+})();
+</script>
+{% schema %}
+{
+  "name": "BLESSHOP Water Portal",
+  "settings": [
+    {
+      "type": "image_picker",
+      "id": "portal_image",
+      "label": "Portal background image"
+    },
+    {
+      "type": "text",
+      "id": "eyebrow",
+      "label": "Overline",
+      "default": "BEAUTY · HOME · TECH · YOU"
+    },
+    {
+      "type": "text",
+      "id": "heading",
+      "label": "Main heading",
+      "default": "BLESSHOP"
+    },
+    {
+      "type": "textarea",
+      "id": "description",
+      "label": "Description",
+      "default": "Beautiful finds for a more comfortable life."
+    },
+    {
+      "type": "text",
+      "id": "button_text",
+      "label": "Main button",
+      "default": "EXPLORE COLLECTIONS"
+    },
+    {
+      "type": "url",
+      "id": "button_url",
+      "label": "Main button destination"
+    },
+    {
+      "type": "checkbox",
+      "id": "motion",
+      "label": "Enable subtle animation",
+      "default": true
+    }
+  ],
+  "max_blocks": 4,
+  "blocks": [
+    {
+      "name": "Portal category",
+      "type": "portal_category",
+      "settings": [
+        {
+          "type": "text",
+          "id": "label",
+          "label": "Category title",
+          "default": "Category"
+        },
+        {
+          "type": "text",
+          "id": "subtitle",
+          "label": "Subtitle",
+          "default": "Explore now"
+        },
+        {
+          "type": "text",
+          "id": "fallback",
+          "label": "Search fallback",
+          "default": "category"
+        },
+        {
+          "type": "collection",
+          "id": "collection",
+          "label": "Link to collection"
+        },
+        {
+          "type": "image_picker",
+          "id": "image",
+          "label": "Card image"
+        },
+        {
+          "type": "select",
+          "id": "visual",
+          "label": "Default card image",
+          "default": "beauty",
+          "options": [
+            {
+              "value": "beauty",
+              "label": "Beauty"
+            },
+            {
+              "value": "home",
+              "label": "Home"
+            },
+            {
+              "value": "tech",
+              "label": "Tech"
+            },
+            {
+              "value": "accessories",
+              "label": "Accessories"
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "BLESSHOP Water Portal",
+      "blocks": [
+        {
+          "type": "portal_category"
+        },
+        {
+          "type": "portal_category"
+        },
+        {
+          "type": "portal_category"
+        },
+        {
+          "type": "portal_category"
+        }
+      ]
+    }
+  ]
+}
+{% endschema %}

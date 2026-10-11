@@ -1,0 +1,18 @@
+<section class="bs-section bs-benefits">
+  <div class="bs-shell">
+    <div class="bs-section-head"><h2>{{ section.settings.heading }}</h2></div>
+    <div class="bs-benefit-grid">
+      {% for block in section.blocks %}
+        <div class="bs-benefit" {{ block.shopify_attributes }}><span>{{ block.settings.icon }}</span><h3>{{ block.settings.heading }}</h3><p>{{ block.settings.text }}</p></div>
+      {% endfor %}
+    </div>
+  </div>
+</section>
+{% schema %}
+{
+  "name":"Product benefits",
+  "settings":[{"type":"text","id":"heading","label":"Heading","default":"Why You’ll Love It"}],
+  "blocks":[{"type":"benefit","name":"Benefit","settings":[{"type":"text","id":"icon","label":"Icon","default":"✦"},{"type":"text","id":"heading","label":"Heading","default":"Made for real life"},{"type":"textarea","id":"text","label":"Text","default":"Useful, simple and selected to make everyday tasks easier."}]}],
+  "presets":[{"name":"Product benefits","blocks":[{"type":"benefit","settings":{"icon":"✦","heading":"Useful by design","text":"Made to solve a real everyday need."}},{"type":"benefit","settings":{"icon":"♡","heading":"Easy to enjoy","text":"Simple, practical and easy to use."}},{"type":"benefit","settings":{"icon":"↺","heading":"Easy returns","text":"A straightforward 30-day return process."}},{"type":"benefit","settings":{"icon":"◇","heading":"Curated quality","text":"Selected to fit the BLESSHOP standard."}}]}]
+}
+{% endschema %}

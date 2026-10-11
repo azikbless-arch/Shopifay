@@ -1,0 +1,75 @@
+<!doctype html>
+{% assign rtl_locales = 'ar,he,fa,ur' | split: ',' %}
+<html class="no-js" lang="{{ request.locale.iso_code }}" dir="{% if rtl_locales contains request.locale.iso_code %}rtl{% else %}ltr{% endif %}">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width,initial-scale=1">
+    <meta name="theme-color" content="{{ settings.accent_color | default: '#ff6578' }}">
+    <link rel="canonical" href="{{ canonical_url }}">
+    <title>{{ page_title }}{% if current_tags %} – {{ current_tags | join: ', ' }}{% endif %}{% if current_page != 1 %} – Page {{ current_page }}{% endif %}{% unless page_title contains shop.name %} – {{ shop.name }}{% endunless %}</title>
+    {% if page_description %}<meta name="description" content="{{ page_description | escape }}">{% endif %}
+    {{ content_for_header }}
+    <style>:root{--bs-accent:{{ settings.accent_color | default: '#ff6578' }};--bs-pink:{{ settings.soft_pink | default: '#fde8ec' }};--bs-lavender:{{ settings.soft_lavender | default: '#eee8ff' }};}</style>
+    {{ 'blesshop.css' | asset_url | stylesheet_tag }}
+    {{ 'blesshop-features.css' | asset_url | stylesheet_tag }}
+    {{ 'blesshop-extensions.css' | asset_url | stylesheet_tag }}
+    <style>@font-face{font-family:Michroma;src:url({{ 'blesshop-michroma.ttf' | asset_url }}) format('truetype');font-weight:400;font-style:normal;font-display:swap}</style>
+    {{ 'blesshop-space.css' | asset_url | stylesheet_tag }}
+    {{ 'blesshop-premium-polish.css' | asset_url | stylesheet_tag }}
+    {% if template.name == 'index' %}{{ 'blesshop-v13-glass.css' | asset_url | stylesheet_tag }}{% endif %}
+    {% if template.name == 'index' %}{{ 'blesshop-v15-products.css' | asset_url | stylesheet_tag }}{% endif %}
+    {{ 'blesshop-v15-transition.css' | asset_url | stylesheet_tag }}
+    {% if template.name == 'product' %}{{ 'blesshop-v16-product.css' | asset_url | stylesheet_tag }}{% endif %}
+    {{ 'blesshop-v17-cart.css' | asset_url | stylesheet_tag }}
+    {{ 'blesshop-v18-cart-quantity.css' | asset_url | stylesheet_tag }}
+    {{ 'blesshop-v19-collections.css' | asset_url | stylesheet_tag }}
+    {{ 'blesshop-v20-photography.css' | asset_url | stylesheet_tag }}
+    {% if template.name == 'product' %}{{ 'blesshop-product-v3.css' | asset_url | stylesheet_tag }}{% endif %}
+    {{ 'blesshop-v21-mobile.css' | asset_url | stylesheet_tag }}
+    {{ 'blesshop-v22-footer.css' | asset_url | stylesheet_tag }}
+    {{ 'blesshop-v23-motion.css' | asset_url | stylesheet_tag }}
+    {% if template.name == 'index' %}{{ 'blesshop-v24-orb.css' | asset_url | stylesheet_tag }}{% endif %}
+    {{ 'blesshop-experience-v2.css' | asset_url | stylesheet_tag }}
+    {{ 'blesshop-experience-v4.css' | asset_url | stylesheet_tag }}
+    {{ 'blesshop-magic-cart.css' | asset_url | stylesheet_tag }}
+    {% if template.name == 'index' %}<script src="{{ 'blesshop-v13-glass.js' | asset_url }}" defer="defer"></script>{% endif %}
+    <script src="{{ 'blesshop-space.js' | asset_url }}" defer="defer"></script>
+    {% if template.name == 'index' %}<script src="{{ 'blesshop-orb-webgl.js' | asset_url }}" defer="defer"></script>{% endif %}
+    <script src="{{ 'blesshop.js' | asset_url }}" defer="defer"></script>
+    <script src="{{ 'blesshop-features.js' | asset_url }}" defer="defer"></script>
+    <script src="{{ 'blesshop-discovery.js' | asset_url }}" defer="defer"></script>
+    <script src="{{ 'blesshop-cart.js' | asset_url }}" defer="defer"></script>
+    <script src="{{ 'blesshop-product.js' | asset_url }}" defer="defer"></script>
+    <script src="{{ 'blesshop-v15-transition.js' | asset_url }}" defer="defer"></script>
+    {% if template.name == 'product' %}<script src="{{ 'blesshop-v16-product.js' | asset_url }}" defer="defer"></script>{% endif %}
+    <script src="{{ 'blesshop-v17-cart.js' | asset_url }}" defer="defer"></script>
+    <script src="{{ 'blesshop-v18-cart-quantity.js' | asset_url }}" defer="defer"></script>
+    <script src="{{ 'blesshop-v19-collections.js' | asset_url }}" defer="defer"></script>
+    {% if template.name == 'product' %}<script src="{{ 'blesshop-v20-photography.js' | asset_url }}" defer="defer"></script>{% endif %}
+    {% if template.name == 'product' %}<script src="{{ 'blesshop-product-v3.js' | asset_url }}" defer="defer"></script>{% endif %}
+    <script src="{{ 'blesshop-v21-mobile.js' | asset_url }}" defer="defer"></script>
+    <script src="{{ 'blesshop-v22-footer.js' | asset_url }}" defer="defer"></script>
+    {% if template.name == 'index' %}<script src="{{ 'blesshop-v23-motion.js' | asset_url }}" defer="defer"></script>{% endif %}
+    <script src="{{ 'blesshop-experience-v2.js' | asset_url }}" defer="defer"></script>
+    <script src="{{ 'blesshop-experience-v4.js' | asset_url }}" defer="defer"></script>
+    <script src="{{ 'blesshop-magic-cart.js' | asset_url }}" defer="defer"></script>
+    {% if template.name == 'collection' %}<script src="{{ 'bs-v25-collection-theater.js' | asset_url }}" defer="defer"></script>{% endif %}
+    {{ 'blesshop-custom-glass.css' | asset_url | stylesheet_tag }}
+    {% if template.name == 'collection' %}{{ 'bs-v25-collection-theater.css' | asset_url | stylesheet_tag }}{% endif %}
+    {% if template.name == 'index' %}{{ 'blesshop-liquid-universe.css' | asset_url | stylesheet_tag }}{% endif %}
+    {{ 'blesshop-v26-tap-targets.css' | asset_url | stylesheet_tag }}
+  </head>
+  <body class="bs-body template-{{ template.name | handle }}{% if settings.motion_effects %} bs-motion-enabled{% endif %}{% if settings.sticky_header %} bs-has-sticky-header{% endif %}">
+    {% if template.name == 'collection' and collection.handle contains 'home' %}{% render 'bls-home-page-skin' %}{% endif %}
+    <a class="bs-skip" href="#MainContent">Skip to content</a>
+    {% section 'blesshop-header' %}
+    <main id="MainContent" class="bs-main" role="main" tabindex="-1">{{ content_for_layout }}</main>
+    {% section 'blesshop-footer' %}
+    {% render 'floating-decor' %}
+    {% render 'cart-drawer' %}
+    {% render 'feature-overlays' %}
+    {% render 'blesshop-wishlist-drawer' %}
+    {% render 'bls-appbar' %}
+  </body>
+</html>

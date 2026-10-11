@@ -1,0 +1,247 @@
+{%- liquid
+assign bright = false
+assign amber = false
+assign fashion = false
+if collection.handle == 'fashion'
+assign fashion = true
+endif
+if section.settings.bright_handle != blank and collection.handle contains section.settings.bright_handle
+assign bright = true
+elsif section.settings.pet_handle != blank and collection.handle contains section.settings.pet_handle
+assign amber = true
+endif
+assign bg = section.settings.space_image
+if fashion and section.settings.fashion_image != blank
+assign bg = section.settings.fashion_image
+elsif bright and section.settings.bright_image != blank
+assign bg = section.settings.bright_image
+elsif amber and section.settings.pet_image != blank
+assign bg = section.settings.pet_image
+endif
+assign desc = collection.description | strip_html | strip | truncate: 220
+assign cat_count = 0
+for b in section.blocks
+assign of = b.settings.only_for
+if of == blank or collection.handle contains of
+assign cat_count = cat_count | plus: 1
+endif
+endfor
+assign all_label = section.settings.all_label | default: 'All'
+-%}
+{%- capture plus -%}<svg aria-hidden="true" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M12 5v14"></path><path d="M5 12h14"></path></svg>{%- endcapture -%}
+<div class="cl-bg{% if fashion %} cl-bg--fashion{% elsif bright %} cl-bg--bright{% elsif amber %} cl-bg--amber{% endif %}" aria-hidden="true">
+{%- if bg != blank -%}
+<img alt="" decoding="async" fetchpriority="high" sizes="100vw" src="{{ bg | image_url: width: 1600 }}" srcset="{{ bg | image_url: width: 800 }} 800w, {{ bg | image_url: width: 1200 }} 1200w, {{ bg | image_url: width: 1600 }} 1600w, {{ bg | image_url: width: 2400 }} 2400w">
+{%- elsif bright -%}
+<img alt="" decoding="async" src="{{ 'bls-home-bg.webp' | asset_url }}">
+{%- endif -%}
+</div>
+<section class="gl-block cl{% if bright %} cl--bright{% elsif amber %} cl--amber{% endif %}" id="collection-top" aria-labelledby="Cl-{{ section.id }}">
+{%- render 'bls-glass' -%}
+<script>document.documentElement.classList.add('cl-js');{% if bright %}document.body.setAttribute('data-skin','home');{% elsif amber %}document.body.setAttribute('data-skin','pet');{% endif %}</script>
+<div class="gl-wrap cl__wrap">
+<a class="cl__back gl-pill gl-glass" href="{{ routes.root_url }}"><svg aria-hidden="true" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M15 6l-6 6 6 6"></path></svg>{{ 'bls.col.back' | t }}</a>
+<header class="cl__hero gl-pane gl-glass">
+<p class="gl-eyebrow">{{ 'bls.col.label' | t }}</p>
+<h1 class="cl__title" id="Cl-{{ section.id }}">{{ collection.title | escape }}</h1>
+{%- if desc != blank -%}<p class="cl__text">{{ desc | escape }}</p>{%- endif -%}
+<span class="cl__count">{{ collection.all_products_count }} {{ 'bls.col.count' | t }}</span>
+</header>
+{%- paginate collection.products by section.settings.per_page -%}
+<div class="cl__con gl-pane gl-glass" data-cl-con>
+{%- if cat_count > 0 -%}
+<div class="cl__dock" data-cl-dock>
+<button type="button" class="cl__btn cl__nav" data-cl-prev aria-label="Previous"><svg aria-hidden="true" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M15 6l-6 6 6 6"></path></svg></button>
+<nav class="cl__track" aria-label="{{ 'bls.col.cats' | t }}" data-cl-track>
+<button type="button" class="cl__ci" data-term="" data-name="{{ all_label | escape }}" aria-pressed="true">
+<span class="cl__cth cl__cth--ico" aria-hidden="true"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><rect x="4" y="4" width="6.5" height="6.5" rx="1.6"></rect><rect x="13.5" y="4" width="6.5" height="6.5" rx="1.6"></rect><rect x="4" y="13.5" width="6.5" height="6.5" rx="1.6"></rect><rect x="13.5" y="13.5" width="6.5" height="6.5" rx="1.6"></rect></svg></span>
+<span class="cl__cn">{{ all_label | escape }}</span>
+<span class="cl__cc" data-cc></span>
+</button>
+{%- for b in section.blocks -%}
+{%- liquid
+assign of = b.settings.only_for
+assign show = true
+if of != blank
+unless collection.handle contains of
+assign show = false
+endunless
+endif
+-%}
+{%- if show -%}
+{%- liquid
+assign tt = b.settings.title | escape
+if b.settings.key != blank
+assign tk = 'bls.tile.' | append: b.settings.key
+assign tv = tk | t
+unless tv contains 'translation missing'
+assign tt = tv
+endunless
+endif
+assign term = b.settings.term | default: b.settings.title
+assign pos = b.settings.pos | default: '50% 50%'
+assign zoom = b.settings.zoom | default: 1
+-%}
+{%- if b.settings.collection != blank -%}
+<a class="cl__ci" href="{{ b.settings.collection.url }}" {{ b.shopify_attributes }}>
+{%- else -%}
+<button type="button" class="cl__ci" data-term="{{ term | downcase | escape }}" data-name="{{ tt }}" aria-pressed="false" {{ b.shopify_attributes }}>
+{%- endif -%}
+<span class="cl__cth{% if b.settings.image == blank %} cl__cth--ico{% endif %}" aria-hidden="true">
+{%- if b.settings.image != blank -%}
+<img alt="" loading="lazy" decoding="async" width="120" height="120" src="{{ b.settings.image | image_url: width: 160 }}" srcset="{{ b.settings.image | image_url: width: 120 }} 120w, {{ b.settings.image | image_url: width: 240 }} 240w" sizes="56px" style="object-position:{{ pos | escape }};transform-origin:{{ pos | escape }};transform:scale({{ zoom }})">
+{%- else -%}
+<svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round">
+{%- case b.settings.icon -%}
+{%- when 'lamp' -%}<path d="M9 3h6l3 9H6z"></path><path d="M12 12v6"></path><path d="M8.5 21h7"></path>
+{%- when 'decor' -%}<path d="M9 3h6"></path><path d="M10 3c0 3-3 4-3 8a5 5 0 0 0 10 0c0-4-3-5-3-8"></path><path d="M9 20h6"></path>
+{%- when 'kitchen' -%}<path d="M5 8h11v5a5 5 0 0 1-5 5H10a5 5 0 0 1-5-5z"></path><path d="M16 9h2a2 2 0 0 1 0 5h-2"></path><path d="M8 3v2"></path><path d="M12 3v2"></path>
+{%- when 'bed' -%}<path d="M3 18V7"></path><path d="M3 14h18v4"></path><path d="M21 14v-2a3 3 0 0 0-3-3h-7v5"></path><circle cx="7" cy="11" r="1.6"></circle>
+{%- when 'bath' -%}<path d="M12 3c3 4 6 7 6 11a6 6 0 0 1-12 0c0-4 3-7 6-11z"></path>
+{%- when 'box' -%}<path d="M4 8l8-4 8 4v9l-8 4-8-4z"></path><path d="M4 8l8 4 8-4"></path><path d="M12 12v9"></path>
+{%- when 'paw' -%}<circle cx="7" cy="10" r="1.7"></circle><circle cx="11" cy="6.5" r="1.7"></circle><circle cx="16" cy="7.5" r="1.7"></circle><circle cx="19" cy="12" r="1.7"></circle><path d="M8 18c0-3 2.5-5 5-5s4.5 2 4.5 4.2c0 1.6-1.6 2.3-3 2-1-.2-1.6-.6-2.5-.6s-1.5.4-2.5.6c-1.4.3-1.5-.6-1.5-.6z"></path>
+{%- when 'dress' -%}<path d="M9 3h6l-1 4 4 13H6l4-13z"></path><path d="M10 7h4"></path>
+{%- when 'shirt' -%}<path d="M8 4L4 7l2 3 2-1v11h8V9l2 1 2-3-4-3c-.6 1.5-2 2.4-4 2.4S8.6 5.5 8 4z"></path>
+{%- when 'coat' -%}<path d="M8 3l4 4 4-4 4 3-2 4v11H6V10L4 6z"></path><path d="M12 7v14"></path>
+{%- when 'pants' -%}<path d="M7 3h10l1 18h-4l-2-11-2 11H6z"></path><path d="M7 7h10"></path>
+{%- when 'shoe' -%}<path d="M3 18v-5l5-1 3-4 2 1-1 3 5 2 4 2v2z"></path><path d="M3 18h18"></path>
+{%- when 'bag' -%}<path d="M5 8h14l-1 12H6z"></path><path d="M9 8V6a3 3 0 0 1 6 0v2"></path>
+{%- when 'blocks' -%}<rect x="4" y="12" width="7" height="7" rx="1.2"></rect><rect x="13" y="12" width="7" height="7" rx="1.2"></rect><rect x="8.5" y="4" width="7" height="7" rx="1.2"></rect>
+{%- when 'bear' -%}<circle cx="12" cy="13.5" r="6"></circle><circle cx="7" cy="7" r="2.2"></circle><circle cx="17" cy="7" r="2.2"></circle><path d="M10.5 16c1 .8 2 .8 3 0"></path><circle cx="10" cy="12.5" r=".5"></circle><circle cx="14" cy="12.5" r=".5"></circle>
+{%- when 'baby' -%}<path d="M10 3h4v3h-4z"></path><path d="M9 6h6l1 3v10a2 2 0 0 1-2 2h-4a2 2 0 0 1-2-2V9z"></path><path d="M9 12h6"></path>
+{%- when 'book' -%}<path d="M4 5a2 2 0 0 1 2-2h13v16H6a2 2 0 0 0-2 2z"></path><path d="M4 19V5"></path><path d="M9 7h6"></path>
+{%- when 'ball' -%}<circle cx="12" cy="12" r="8"></circle><path d="M4 12h16"></path><path d="M12 4c3 3 3 13 0 16"></path><path d="M12 4c-3 3-3 13 0 16"></path>
+{%- else -%}<path d="M12 3l1.8 5.2L19 10l-5.2 1.8L12 17l-1.8-5.2L5 10l5.2-1.8z"></path>
+{%- endcase -%}
+</svg>
+{%- endif -%}
+</span>
+<span class="cl__cn">{{ tt }}</span>
+<span class="cl__cc" data-cc></span>
+{%- if b.settings.collection != blank -%}</a>{%- else -%}</button>{%- endif -%}
+{%- endif -%}
+{%- endfor -%}
+</nav>
+<button type="button" class="cl__btn cl__nav" data-cl-next aria-label="Next"><svg aria-hidden="true" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 6l6 6-6 6"></path></svg></button>
+<button type="button" class="cl__btn cl__exp" data-cl-exp aria-expanded="false" aria-label="{{ 'bls.col.cats' | t }}"><svg aria-hidden="true" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="4" y="4" width="6.5" height="6.5" rx="1.6"></rect><rect x="13.5" y="4" width="6.5" height="6.5" rx="1.6"></rect><rect x="4" y="13.5" width="6.5" height="6.5" rx="1.6"></rect><rect x="13.5" y="13.5" width="6.5" height="6.5" rx="1.6"></rect></svg></button>
+</div>
+<div class="cl__prog" data-cl-prog><i></i></div>
+{%- endif -%}
+<div class="cl__main" id="cl-products">
+<div class="cl__bar">
+<h2 class="gl-h2 cl__ttl" data-cl-ttl data-all="{{ all_label | escape }}">{{ all_label | escape }}</h2>
+{%- if collection.sort_options.size > 1 -%}
+<form class="cl__sort gl-pill gl-glass" method="get">
+<label class="bls-vh" for="ClSort-{{ section.id }}">{{ 'bls.col.sort' | t }}</label>
+<select id="ClSort-{{ section.id }}" name="sort_by" onchange="this.form.submit()">
+{%- for o in collection.sort_options -%}
+<option value="{{ o.value }}"{% if o.value == collection.sort_by %} selected{% endif %}>{{ o.name | escape }}</option>
+{%- endfor -%}
+</select>
+</form>
+{%- endif -%}
+</div>
+{%- if collection.products.size > 0 -%}
+<div class="cl__grid" data-cl-grid>
+{%- for p in collection.products -%}
+{%- liquid
+assign load = 'lazy'
+if forloop.index <= 4
+assign load = 'eager'
+endif
+-%}
+{%- capture hay -%}{{ p.title }} {{ p.type }} {{ p.vendor }} {{ p.tags | join: ' ' }}{%- endcapture -%}
+<article class="gl-prod gl-pane gl-glass cl-rv" data-hay="{{ hay | downcase | escape }}">
+<a class="gl-prod__media{% if section.settings.blend %} bls-shot{% endif %}" href="{{ p.url }}" aria-label="{{ p.title | escape }}">
+{%- if p.featured_image != blank -%}
+{{ p.featured_image | image_url: width: 900 | image_tag: loading: load, alt: p.title, widths: '400, 600, 900', sizes: '(max-width: 700px) 70vw, (max-width: 1040px) 40vw, 360px' }}
+{%- endif -%}
+{%- if p.compare_at_price > p.price -%}
+{%- assign off = p.compare_at_price | minus: p.price | times: 100 | divided_by: p.compare_at_price -%}
+<span class="gl-flag gl-glass cl__off">-{{ off }}%</span>
+{%- endif -%}
+</a>
+<div class="gl-prod__body">
+<a class="gl-prod__title" href="{{ p.url }}">{{ p.title | escape }}</a>
+<div class="gl-prod__row">
+<span class="gl-price">{%- if p.price_varies -%}{{ 'bls.col.from' | t }} {% endif -%}{{ p.price | money }}{%- if p.compare_at_price > p.price -%}<s>{{ p.compare_at_price | money }}</s>{%- endif -%}</span>
+{%- if p.available and p.variants.size == 1 -%}
+{%- form 'product', p, class: 'gl-add' -%}
+<input type="hidden" name="id" value="{{ p.selected_or_first_available_variant.id }}">
+<button class="gl-pill gl-pill--gold gl-glass" type="submit" aria-label="{{ 'bls.col.add' | t }}: {{ p.title | escape }}">{{ plus }}{{ 'bls.col.add' | t }}</button>
+{%- endform -%}
+{%- elsif p.available -%}
+<a class="gl-pill gl-pill--gold gl-glass" href="{{ p.url }}">{{ 'bls.col.options' | t }}</a>
+{%- else -%}
+<span class="gl-pill gl-glass" aria-disabled="true" style="opacity:.6">{{ 'bls.col.soldout' | t }}</span>
+{%- endif -%}
+</div>
+</div>
+</article>
+{%- endfor -%}
+</div>
+<div class="gl-empty gl-pane gl-glass cl__none" data-cl-none hidden>
+<span class="gl-end__text">{{ 'bls.col.empty_heading' | t }}</span>
+<button type="button" class="gl-pill gl-glass" data-cl-reset>{{ all_label | escape }}</button>
+</div>
+{%- if paginate.pages > 1 -%}
+<nav class="cl__pages" aria-label="{{ 'bls.col.pages' | t }}">
+{%- if paginate.previous -%}<a class="gl-pill gl-glass" href="{{ paginate.previous.url }}">&lsaquo; {{ 'bls.col.prev' | t }}</a>{%- else -%}<span class="gl-pill gl-glass" aria-disabled="true" style="opacity:.45">&lsaquo; {{ 'bls.col.prev' | t }}</span>{%- endif -%}
+<span class="cl__pnum">{{ paginate.current_page }} / {{ paginate.pages }}</span>
+{%- if paginate.next -%}<a class="gl-pill gl-glass" href="{{ paginate.next.url }}">{{ 'bls.col.next' | t }} &rsaquo;</a>{%- else -%}<span class="gl-pill gl-glass" aria-disabled="true" style="opacity:.45">{{ 'bls.col.next' | t }} &rsaquo;</span>{%- endif -%}
+</nav>
+{%- endif -%}
+{%- else -%}
+<div class="gl-empty gl-pane gl-glass">
+<span class="gl-end__text">{{ 'bls.col.empty_heading' | t }}</span>
+<a class="gl-pill gl-glass" href="{{ routes.all_products_collection_url }}">{{ 'bls.col.empty_label' | t }}</a>
+</div>
+{%- endif -%}
+</div>
+</div>
+{%- endpaginate -%}
+</div>
+</section>
+{%- render 'bls-cl-style' -%}
+{%- render 'bls-cl-js' -%}
+{% schema %}
+{
+"name": "Glass collection page",
+"settings": [
+{"type": "header", "content": "Background"},
+{"type": "image_picker", "id": "space_image", "label": "Dark space photo", "info": "Behind every collection page."},
+{"type": "image_picker", "id": "fashion_image", "label": "Fashion rose-gold background", "info": "Shown only on the Fashion collection."},
+{"type": "text", "id": "bright_handle", "label": "Bright look for collections whose address contains", "default": "home"},
+{"type": "image_picker", "id": "bright_image", "label": "Photo for the bright look", "info": "Wide photo, 1600 px or more. The page keeps it still while you scroll."},
+{"type": "text", "id": "pet_handle", "label": "Amber look for collections whose address contains", "default": "pet"},
+{"type": "image_picker", "id": "pet_image", "label": "Photo for the amber look", "info": "Wide photo, 1600 px or more."},
+{"type": "header", "content": "Products"},
+{"type": "text", "id": "all_label", "label": "First category (everything)", "default": "All"},
+{"type": "range", "id": "per_page", "label": "Products per page", "min": 8, "max": 48, "step": 4, "default": 24, "info": "Categories on the left filter the products of the current page, so a larger number is better."},
+{"type": "checkbox", "id": "blend", "label": "Blend white product photo backgrounds into the card", "default": true}
+],
+"blocks": [
+{
+"type": "category",
+"name": "Category tile",
+"settings": [
+{"type": "text", "id": "title", "label": "Name", "default": "Category"},
+{"type": "text", "id": "key", "label": "Translation key", "info": "For example lighting or toys. When it exists in the language files, the name is shown in the visitor's language."},
+{"type": "image_picker", "id": "image", "label": "Photo (optional)"},
+{"type": "text", "id": "pos", "label": "Photo focus", "info": "For example 50% 30%."},
+{"type": "range", "id": "zoom", "label": "Photo zoom", "min": 1, "max": 3, "step": 0.1, "default": 1},
+{"type": "select", "id": "icon", "label": "Icon", "default": "spark", "options": [
+{"value": "lamp", "label": "Lamp"}, {"value": "decor", "label": "Vase"}, {"value": "kitchen", "label": "Cup"}, {"value": "bed", "label": "Bed"},
+{"value": "bath", "label": "Drop"}, {"value": "box", "label": "Box"}, {"value": "paw", "label": "Paw"}, {"value": "spark", "label": "Sparkle"},
+{"value": "dress", "label": "Dress"}, {"value": "shirt", "label": "Shirt"}, {"value": "coat", "label": "Coat"}, {"value": "pants", "label": "Trousers"}, {"value": "shoe", "label": "Shoe"}, {"value": "bag", "label": "Bag"}, {"value": "blocks", "label": "Toy blocks"}, {"value": "bear", "label": "Teddy bear"}, {"value": "baby", "label": "Baby bottle"}, {"value": "book", "label": "Book"}, {"value": "ball", "label": "Ball"}
+]},
+{"type": "collection", "id": "collection", "label": "Collection to open", "info": "Leave empty to filter the products on this page by the words below."},
+{"type": "text", "id": "term", "label": "Filter words", "info": "Products whose name, type or tags contain these words are shown. Separate alternatives with a comma, for example: bed, sofa. Leave empty to use the name."},
+{"type": "text", "id": "only_for", "label": "Show only on collections whose address contains", "info": "For example home or pet. Leave empty to show everywhere."}
+]
+}
+],
+"max_blocks": 40,
+"presets": [{"name": "Glass collection page"}]
+}
+{% endschema %}

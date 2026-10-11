@@ -1,0 +1,205 @@
+<section class="bs-pastel-hero" aria-label="{{ section.settings.heading | escape }}">
+  <div class="bs-pastel-hero__bg" aria-hidden="true">
+    <span class="bs-pastel-blob bs-pastel-blob--blue"></span>
+    <span class="bs-pastel-blob bs-pastel-blob--pink"></span>
+    <span class="bs-pastel-blob bs-pastel-blob--lavender"></span>
+    <span class="bs-pastel-ring bs-pastel-ring--one"></span>
+    <span class="bs-pastel-ring bs-pastel-ring--two"></span>
+    <span class="bs-pastel-spark bs-pastel-spark--one">✦</span>
+    <span class="bs-pastel-spark bs-pastel-spark--two">✧</span>
+    <span class="bs-pastel-spark bs-pastel-spark--three">✦</span>
+  </div>
+
+  <div class="bs-shell bs-pastel-hero__inner">
+    <div class="bs-pastel-copy">
+      <p class="bs-pastel-eyebrow"><span></span>{{ section.settings.eyebrow | escape }}</p>
+      <h1>{{ section.settings.heading | escape }}</h1>
+      <p class="bs-pastel-description">{{ section.settings.text | escape }}</p>
+
+      <div class="bs-pastel-actions">
+        <a class="bs-pastel-btn bs-pastel-btn--primary" href="{{ section.settings.button_link | default: routes.all_products_collection_url }}">
+          {{ section.settings.button_label | escape }} <span aria-hidden="true">↗</span>
+        </a>
+        <a class="bs-pastel-btn bs-pastel-btn--ghost" href="#SpaceCollections">
+          {{ section.settings.secondary_label | escape }} <span aria-hidden="true">↓</span>
+        </a>
+      </div>
+    </div>
+
+    <div class="bs-pastel-art" aria-hidden="true">
+      <div class="bs-pastel-orb bs-v24-orb" data-bs-v24-orb>
+        <div class="bs-v24-orb-float">
+          <div class="bs-v24-orb-core">
+            <span class="bs-v24-orb-inner" aria-hidden="true"></span>
+            <span class="bs-v24-orb-refraction" aria-hidden="true"></span>
+            <span class="bs-v24-orb-rim" aria-hidden="true"></span>
+            <span class="bs-v24-orb-shine bs-v24-orb-shine--top" aria-hidden="true"></span>
+            <span class="bs-v24-orb-shine bs-v24-orb-shine--side" aria-hidden="true"></span>
+            <span class="bs-v24-orb-lighttrace" aria-hidden="true"></span>
+            <div class="bs-pastel-orb__label">
+              <small>BLESSHOP</small>
+              <strong>SOFT<br>PASTEL</strong>
+              <span>PREMIUM EDIT</span>
+            </div>
+          </div>
+        </div>
+        <span class="bs-v24-orb-glint bs-v24-orb-glint--one" aria-hidden="true"></span>
+        <span class="bs-v24-orb-glint bs-v24-orb-glint--two" aria-hidden="true"></span>
+      </div>
+      <div class="bs-pastel-chip bs-pastel-chip--one">01 · CURATED</div>
+      <div class="bs-pastel-chip bs-pastel-chip--two">SOFT / PLAYFUL / CLEAN</div>
+    </div>
+
+    <div class="bs-pastel-bottom">
+      <a class="bs-pastel-scroll" href="#SpaceCollections">
+        <span aria-hidden="true">↓</span>
+        <em>SCROLL TO DISCOVER</em>
+      </a>
+      <button class="bs-pastel-motion" type="button" data-pastel-motion aria-pressed="false">PAUSE MOTION</button>
+    </div>
+  </div>
+</section>
+
+<div id="SpaceCollections" class="bs-space-anchor" tabindex="-1"></div>
+
+<style>
+.template-index .bs-pastel-hero{
+  --pastel-milk:#faf7f2;
+  --pastel-blue:#dceeff;
+  --pastel-pink:#f7dde2;
+  --pastel-lav:#e9e2f8;
+  --pastel-silver:#afc6d9;
+  --pastel-ink:#5e6a73;
+  position:relative;
+  min-height:100svh;
+  overflow:hidden;
+  isolation:isolate;
+  color:var(--pastel-ink);
+  background:
+    radial-gradient(circle at 78% 16%,rgba(220,238,255,.92),transparent 34%),
+    radial-gradient(circle at 18% 78%,rgba(247,221,226,.76),transparent 36%),
+    radial-gradient(circle at 76% 78%,rgba(233,226,248,.68),transparent 32%),
+    linear-gradient(135deg,#faf7f2 0%,#fffdfb 48%,#f7f3fb 100%);
+}
+.template-index .bs-pastel-hero__bg{position:absolute;inset:0;overflow:hidden;pointer-events:none;z-index:-1}
+.template-index .bs-pastel-hero__bg:after{
+  content:"";position:absolute;inset:0;
+  background-image:linear-gradient(rgba(137,157,173,.055) 1px,transparent 1px),linear-gradient(90deg,rgba(137,157,173,.055) 1px,transparent 1px);
+  background-size:72px 72px;
+  mask-image:linear-gradient(to bottom,rgba(0,0,0,.28),transparent 76%);
+  -webkit-mask-image:linear-gradient(to bottom,rgba(0,0,0,.28),transparent 76%);
+}
+.template-index .bs-pastel-blob{position:absolute;border-radius:50%;filter:blur(18px);opacity:.78;will-change:transform;animation:bsPastelFloat 10s ease-in-out infinite alternate}
+.template-index .bs-pastel-blob--blue{width:38vw;height:38vw;min-width:420px;min-height:420px;right:-9vw;top:-12vw;background:radial-gradient(circle at 40% 40%,rgba(255,255,255,.94),rgba(194,225,252,.78) 42%,rgba(220,238,255,.18) 68%,transparent 73%)}
+.template-index .bs-pastel-blob--pink{width:30vw;height:30vw;min-width:360px;min-height:360px;left:-9vw;bottom:-13vw;background:radial-gradient(circle at 55% 45%,rgba(255,250,251,.90),rgba(247,221,226,.72) 48%,transparent 72%);animation-delay:-3s}
+.template-index .bs-pastel-blob--lavender{width:25vw;height:25vw;min-width:300px;min-height:300px;right:20vw;bottom:-10vw;background:radial-gradient(circle,rgba(233,226,248,.78),transparent 70%);animation-delay:-5s}
+.template-index .bs-pastel-ring{position:absolute;border:1px solid rgba(137,161,181,.16);border-radius:50%;animation:bsPastelSpin 22s linear infinite}
+.template-index .bs-pastel-ring--one{width:34vw;height:34vw;right:9vw;top:19%}
+.template-index .bs-pastel-ring--two{width:26vw;height:26vw;right:13vw;top:26%;border-style:dashed;opacity:.55;animation-direction:reverse;animation-duration:30s}
+.template-index .bs-pastel-spark{position:absolute;color:rgba(123,150,174,.36);font-size:clamp(16px,2vw,28px);animation:bsPastelTwinkle 3.5s ease-in-out infinite}
+.template-index .bs-pastel-spark--one{left:9%;top:24%}
+.template-index .bs-pastel-spark--two{right:8%;top:18%;animation-delay:-1.2s}
+.template-index .bs-pastel-spark--three{right:36%;bottom:17%;animation-delay:-2.1s}
+
+.template-index .bs-pastel-hero__inner{position:relative;min-height:100svh;padding-top:138px;padding-bottom:78px;display:grid;grid-template-columns:minmax(0,1.04fr) minmax(340px,.96fr);align-items:center;gap:54px}
+.template-index .bs-pastel-copy{max-width:760px;position:relative;z-index:3}
+.template-index .bs-pastel-eyebrow{margin:0 0 26px;display:flex;align-items:center;gap:12px;font-size:10px;letter-spacing:.22em;font-weight:700;color:#8ba0b1}
+.template-index .bs-pastel-eyebrow span{width:28px;height:1px;background:#afc6d9}
+.template-index .bs-pastel-copy h1{margin:0 0 28px;font-family:var(--bs-serif);font-size:clamp(52px,7.2vw,118px);line-height:.94;letter-spacing:.055em;font-weight:400;background:linear-gradient(118deg,#7f9bb1 5%,#b1c8d9 36%,#9eb8cc 58%,#c8b9dc 84%);-webkit-background-clip:text;background-clip:text;color:transparent;text-shadow:0 16px 50px rgba(143,169,190,.12)}
+.template-index .bs-pastel-description{max-width:520px;margin:0 0 34px;font-size:15px;line-height:1.85;color:#75838e}
+.template-index .bs-pastel-actions{display:flex;gap:14px;flex-wrap:wrap}
+.template-index .bs-pastel-btn{display:inline-flex;align-items:center;justify-content:space-between;gap:28px;min-height:54px;padding:0 22px;border-radius:16px;text-decoration:none!important;font-size:11px;font-weight:700;letter-spacing:.055em;transition:transform .35s ease,box-shadow .35s ease,border-color .35s ease,background .35s ease;backdrop-filter:blur(18px) saturate(135%);-webkit-backdrop-filter:blur(18px) saturate(135%)}
+.template-index .bs-pastel-btn--primary{color:#667887!important;background:rgba(255,255,255,.50)!important;border:1px solid rgba(255,255,255,.86)!important;box-shadow:inset 0 1px rgba(255,255,255,.96),0 18px 45px rgba(125,151,172,.12)!important}
+.template-index .bs-pastel-btn--ghost{color:#7d8790!important;background:rgba(250,247,242,.32)!important;border:1px solid rgba(175,198,217,.40)!important;box-shadow:inset 0 1px rgba(255,255,255,.75)!important}
+.template-index .bs-pastel-btn:hover{transform:translateY(-4px);border-color:rgba(149,179,202,.62)!important;box-shadow:0 20px 48px rgba(118,145,166,.17)!important}
+.template-index .bs-pastel-btn span{font-size:18px;font-weight:400}
+
+.template-index .bs-pastel-art{position:relative;height:min(64vw,650px);min-height:500px;display:grid;place-items:center;z-index:2}
+.template-index .bs-pastel-orb{position:relative;width:min(34vw,500px);aspect-ratio:1;border-radius:50%;background:radial-gradient(circle at 33% 26%,rgba(255,255,255,.98) 0 6%,rgba(255,255,255,.62) 18%,transparent 34%),radial-gradient(circle at 64% 70%,rgba(247,221,226,.62),transparent 36%),radial-gradient(circle at 34% 72%,rgba(233,226,248,.72),transparent 37%),linear-gradient(145deg,rgba(220,238,255,.94),rgba(255,255,255,.64) 46%,rgba(247,221,226,.74));border:1px solid rgba(255,255,255,.92);box-shadow:inset -28px -28px 70px rgba(156,181,201,.12),inset 20px 20px 60px rgba(255,255,255,.70),0 40px 90px rgba(121,147,168,.13);animation:bsPastelOrb 6s ease-in-out infinite}
+.template-index .bs-pastel-orb:before{content:"";position:absolute;inset:-11%;border:1px solid rgba(145,170,191,.20);border-radius:50%;transform:rotate(-18deg) scaleY(.34)}
+.template-index .bs-pastel-orb:after{content:"";position:absolute;inset:-19%;border:1px solid rgba(193,172,210,.18);border-radius:50%;transform:rotate(28deg) scaleY(.26)}
+.template-index .bs-pastel-orb__shine{position:absolute;width:28%;height:10%;left:18%;top:20%;border-radius:50%;background:rgba(255,255,255,.76);filter:blur(12px);transform:rotate(-26deg)}
+.template-index .bs-pastel-orb__label{position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;color:#728594}
+.template-index .bs-pastel-orb__label small{font-size:9px;letter-spacing:.30em;margin-bottom:14px}
+.template-index .bs-pastel-orb__label strong{font-family:var(--bs-serif);font-weight:400;font-size:clamp(26px,3vw,46px);line-height:1.15;letter-spacing:.08em;color:#819bad}
+.template-index .bs-pastel-orb__label span{margin-top:16px;font-size:8px;letter-spacing:.26em;color:#a28fb0}
+.template-index .bs-pastel-chip{position:absolute;padding:11px 15px;border:1px solid rgba(255,255,255,.82);border-radius:999px;background:rgba(255,255,255,.40);backdrop-filter:blur(16px);-webkit-backdrop-filter:blur(16px);box-shadow:0 14px 38px rgba(126,151,172,.10);font-size:8px;letter-spacing:.18em;color:#8093a2}
+.template-index .bs-pastel-chip--one{left:4%;top:27%;transform:rotate(-6deg)}
+.template-index .bs-pastel-chip--two{right:-2%;bottom:24%;transform:rotate(5deg)}
+
+.template-index .bs-pastel-bottom{position:absolute;left:0;right:0;bottom:28px;display:flex;align-items:center;justify-content:space-between;gap:18px}
+.template-index .bs-pastel-scroll{display:flex;align-items:center;gap:11px;color:#8697a4!important;text-decoration:none!important}
+.template-index .bs-pastel-scroll>span{width:34px;height:34px;border:1px solid rgba(151,177,197,.35);border-radius:50%;display:grid;place-items:center;background:rgba(255,255,255,.34);backdrop-filter:blur(12px)}
+.template-index .bs-pastel-scroll em{font-style:normal;font-size:8px;letter-spacing:.17em}
+.template-index .bs-pastel-motion{border:1px solid rgba(151,177,197,.30);border-radius:999px;background:rgba(255,255,255,.30);color:#8797a3;padding:9px 13px;font-size:8px;letter-spacing:.12em;cursor:pointer;backdrop-filter:blur(12px)}
+
+.template-index .bs-nav{border:1px solid rgba(255,255,255,.72)!important;background:rgba(255,255,255,.34)!important;backdrop-filter:blur(22px) saturate(135%)!important;-webkit-backdrop-filter:blur(22px) saturate(135%)!important;box-shadow:inset 0 1px rgba(255,255,255,.86),0 12px 44px rgba(128,153,173,.09)!important}
+.template-index .bs-logo,.template-index .bs-desktop-menu a,.template-index .bs-icon-btn,.template-index .bs-mobile-menu-btn{color:#6f8291!important}
+.template-index .bs-logo>span:last-child{color:#86a1b6!important;text-shadow:none!important}
+.template-index .bs-search{background:rgba(255,255,255,.34)!important;border-color:rgba(166,190,208,.26)!important}
+.template-index .bs-search input{color:#718391!important}
+.template-index .bs-search input::placeholder{color:#9aabb8!important}
+
+.template-index .bs-pastel-hero.is-paused .bs-pastel-blob,.template-index .bs-pastel-hero.is-paused .bs-pastel-ring,.template-index .bs-pastel-hero.is-paused .bs-pastel-spark,.template-index .bs-pastel-hero.is-paused .bs-pastel-orb{animation-play-state:paused!important}
+
+@keyframes bsPastelFloat{0%{transform:translate3d(-1%,0,0) scale(1)}100%{transform:translate3d(4%,3%,0) scale(1.07)}}
+@keyframes bsPastelSpin{to{transform:rotate(360deg)}}
+@keyframes bsPastelTwinkle{0%,100%{opacity:.20;transform:scale(.85)}50%{opacity:.72;transform:scale(1.15)}}
+@keyframes bsPastelOrb{0%,100%{transform:translateY(0) rotate(-1deg)}50%{transform:translateY(-13px) rotate(1deg)}}
+
+@media(max-width:900px){
+  .template-index .bs-pastel-hero__inner{grid-template-columns:1fr;gap:8px;padding-top:112px;padding-bottom:86px;align-content:center}
+  .template-index .bs-pastel-copy{z-index:4}
+  .template-index .bs-pastel-copy h1{font-size:clamp(42px,13vw,72px);margin-bottom:18px}
+  .template-index .bs-pastel-description{font-size:13px;max-width:430px;margin-bottom:24px}
+  .template-index .bs-pastel-eyebrow{font-size:8px;margin-bottom:18px}
+  .template-index .bs-pastel-art{position:absolute;right:-23vw;bottom:3vh;height:56vh;width:70vw;min-height:0;opacity:.76}
+  .template-index .bs-pastel-orb{width:min(58vw,420px)}
+  .template-index .bs-pastel-chip--one{display:none}
+  .template-index .bs-pastel-chip--two{right:2%;bottom:19%}
+  .template-index .bs-pastel-bottom{bottom:22px}
+  .template-index .bs-pastel-scroll em{display:none}
+}
+@media(max-width:600px){
+  .template-index .bs-pastel-hero{min-height:100svh}
+  .template-index .bs-pastel-hero__inner{padding-top:98px}
+  .template-index .bs-pastel-copy{align-self:start;margin-top:10vh}
+  .template-index .bs-pastel-copy h1{font-size:clamp(36px,12.2vw,58px);letter-spacing:.035em}
+  .template-index .bs-pastel-description{max-width:310px;font-size:12px;line-height:1.75}
+  .template-index .bs-pastel-actions{gap:10px}
+  .template-index .bs-pastel-btn{min-height:48px;padding:0 16px;gap:18px;font-size:9px;border-radius:14px}
+  .template-index .bs-pastel-art{right:-29vw;bottom:8vh;width:82vw;height:48vh}
+  .template-index .bs-pastel-orb{width:68vw;max-width:340px}
+  .template-index .bs-pastel-orb__label strong{font-size:25px}
+  .template-index .bs-pastel-chip--two{display:none}
+}
+@media(prefers-reduced-motion:reduce){.template-index .bs-pastel-blob,.template-index .bs-pastel-ring,.template-index .bs-pastel-spark,.template-index .bs-pastel-orb{animation:none!important}}
+</style>
+
+<script>
+(() => {
+  const hero = document.querySelector('.bs-pastel-hero');
+  const button = hero?.querySelector('[data-pastel-motion]');
+  if (!hero || !button) return;
+  button.addEventListener('click', () => {
+    const paused = hero.classList.toggle('is-paused');
+    button.setAttribute('aria-pressed', paused ? 'true' : 'false');
+    button.textContent = paused ? 'PLAY MOTION' : 'PAUSE MOTION';
+  });
+})();
+</script>
+
+{% schema %}
+{
+  "name": "Soft Pastel Hero",
+  "settings": [
+    {"type":"text","id":"eyebrow","label":"Eyebrow","default":"SOFT FINDS FOR HAPPY DAYS"},
+    {"type":"text","id":"heading","label":"Heading","default":"BLESSHOP"},
+    {"type":"textarea","id":"text","label":"Description","default":"Thoughtful finds, soft details and everyday favorites — curated to make ordinary moments feel a little more special."},
+    {"type":"text","id":"button_label","label":"Primary button","default":"SHOP NOW"},
+    {"type":"url","id":"button_link","label":"Primary button link"},
+    {"type":"text","id":"secondary_label","label":"Secondary button","default":"EXPLORE COLLECTIONS"}
+  ],
+  "presets":[{"name":"Soft Pastel Hero"}]
+}
+{% endschema %}

@@ -1,0 +1,31 @@
+<section class="bs-section bs-cart-page">
+  <div class="bs-shell bs-cart-page__shell">
+    <div class="bs-section-head"><h1>Your Cart</h1><a href="{{ routes.all_products_collection_url }}">Continue shopping →</a></div>
+    {% if cart.item_count == 0 %}
+      <div class="bs-empty-page"><span>♡</span><h2>Your cart is empty</h2><a class="bs-btn bs-btn--primary" href="{{ routes.all_products_collection_url }}">Shop now</a></div>
+    {% else %}
+      <form action="{{ routes.cart_url }}" method="post" class="bs-cart-form">
+        <div class="bs-cart-table">
+          {% for item in cart.items %}
+            <div class="bs-cart-row">
+              <a href="{{ item.url }}" class="bs-cart-row__image">{% if item.image %}{{ item.image | image_url: width: 300 | image_tag: loading: 'lazy', alt: item.product.title }}{% endif %}</a>
+              <div class="bs-cart-row__info"><a href="{{ item.url }}"><strong>{{ item.product.title }}</strong></a><small>{{ item.variant.title }}</small><span>{{ item.final_price | money }}</span></div>
+              <input class="bs-cart-row__qty" type="number" name="updates[]" value="{{ item.quantity }}" min="0" aria-label="Quantity for {{ item.product.title | escape }}">
+              <strong>{{ item.final_line_price | money }}</strong>
+            </div>
+          {% endfor %}
+          <div class="bs-cart-note">
+            <label for="CartNotePage">Order note</label>
+            <textarea id="CartNotePage" name="note" placeholder="Gift message, delivery note or other request">{{ cart.note }}</textarea>
+          </div>
+        </div>
+        <div class="bs-cart-summary">
+          <div><span>Subtotal</span><strong>{{ cart.total_price | money }}</strong></div>
+          <button class="bs-btn bs-btn--primary bs-btn--wide" type="submit" name="checkout">Checkout →</button>
+          <button class="bs-btn bs-btn--ghost bs-btn--wide" type="submit" name="update">Update cart</button>
+        </div>
+      </form>
+    {% endif %}
+  </div>
+</section>
+{% schema %}{"name":"Premium cart","settings":[],"presets":[{"name":"Premium cart"}]}{% endschema %}

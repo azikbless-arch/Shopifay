@@ -1,0 +1,11 @@
+/* BLESSHOP Magic Cart v4.1 — silver-blue success motion. */
+.bs-magic-cart__flight{position:fixed;z-index:3002;width:70px;height:70px;pointer-events:none;border-radius:17px;object-fit:contain;background:linear-gradient(150deg,rgba(255,255,255,.94),rgba(229,244,255,.95));border:1px solid rgba(211,233,250,.94);box-shadow:0 10px 25px rgba(78,130,184,.22),inset 0 1px rgba(255,255,255,.9);will-change:transform,opacity;contain:paint}
+.bs-magic-cart__check{position:fixed;z-index:3003;pointer-events:none;width:33px;height:33px;margin:-16px 0 0 -16px;border:1px solid rgba(169,214,243,.9);border-radius:50%;display:grid;place-items:center;color:#3979a7;background:linear-gradient(145deg,#fff,#e5f5ff);box-shadow:0 0 0 7px rgba(190,226,249,.35),0 8px 24px rgba(76,135,178,.23);font:bold 18px/1 "Helvetica Neue",Arial,sans-serif;animation:bsMagicCheck .57s ease both}
+@keyframes bsMagicCheck{0%{opacity:0;transform:scale(.55)}24%{opacity:1;transform:scale(1.15)}65%{opacity:1;transform:scale(1)}100%{opacity:0;transform:scale(.85) translateY(-13px)}}
+.bs-body [data-cart-open].bs-magic-cart--ping{position:relative;isolation:isolate;animation:bsMagicPing .54s ease-out}
+.bs-body [data-cart-open].bs-magic-cart--ping::after{content:"";position:absolute;inset:-7px;border:2px solid rgba(121,189,235,.66);border-radius:inherit;pointer-events:none;animation:bsMagicRing .64s ease-out both}
+@keyframes bsMagicPing{0%,100%{filter:none}40%{filter:drop-shadow(0 0 8px rgba(144,211,252,.8))}}
+@keyframes bsMagicRing{0%{opacity:0;transform:scale(.8)}30%{opacity:1}100%{opacity:0;transform:scale(1.38)}}
+.bs-body .bs-add-form .bs-magic-cart__feedback{margin:8px 0 0;color:#a35065;font-size:12px;line-height:1.5;font-weight:550}
+.bs-body .bs-quick-view__form .bs-magic-cart__feedback{max-width:270px}
+@media(prefers-reduced-motion:reduce){.bs-magic-cart__check,.bs-body [data-cart-open].bs-magic-cart--ping,.bs-body [data-cart-open].bs-magic-cart--ping::after{animation:none!important}.bs-magic-cart__flight{display:none!important}}

@@ -1,0 +1,112 @@
+/* BLESSHOP space scene: the fixed backdrop of the home page (stars, the moon, the lunar plain and a lone walker),
+   the small pictures used on cards that have no photo yet, and all motion.
+   bls-home.js paints the stars and draws the moon and the plain; until it has, simple gradients stand in for them. */
+
+/* the scene stays behind the whole page. Sizes are in --bls-u, one hundredth of the screen height */
+@supports (height:1lvh){.bls-hero{--bls-u:1lvh}}
+.bls-scene{position:fixed;top:0;left:0;width:100%;height:calc(100*var(--bls-u));z-index:-1;overflow:hidden;pointer-events:none;background:var(--bls-space);--bls-hor:34;--bls-rise:7;--bls-moon-d:calc(78*var(--bls-u));--bls-moon-x:66%;--bls-moon-y:calc(46*var(--bls-u));--bls-fig:9;--bls-fig-x:75%;--bls-fig-up:.45;--bls-sun-y:-.3}
+.bls-scene__layer{position:absolute;top:0;left:0;width:100%}
+.bls-scene__layer--far{height:108%}
+.bls-scene__layer--near{height:116%}
+.bls-scene__layer canvas{display:block;width:100%;height:100%}
+.bls-twinkle{position:absolute;width:2px;height:2px;border-radius:50%;background:#fff;box-shadow:0 0 6px 1px rgba(207,227,255,.8);opacity:.25}
+.bls-shoot{position:absolute;width:0;height:0;opacity:0}
+.bls-shoot::before{content:"";position:absolute;top:-1px;right:0;width:150px;height:2px;border-radius:2px;background:linear-gradient(90deg,rgba(255,255,255,0) 0%,rgba(207,227,255,.45) 62%,#fff 100%)}
+.bls-scene__moon{position:absolute;left:var(--bls-moon-x);top:var(--bls-moon-y);width:var(--bls-moon-d);height:var(--bls-moon-d);margin:calc(var(--bls-moon-d)/-2) 0 0 calc(var(--bls-moon-d)/-2)}
+.bls-scene__moon::before{content:"";position:absolute;top:1.5%;left:1.5%;right:1.5%;bottom:1.5%;border-radius:50%;background:radial-gradient(circle at 76% calc(50% - var(--bls-sun-y)*58%),#B9BCC6 0%,#9A9EAA 22%,#5A5E6C 40%,#1D1F29 54%,#0B0C13 70%,#090A10 100%);transition:opacity 1.4s ease}
+.bls-scene__moon canvas{position:relative;display:block;width:100%;height:100%;opacity:0;transition:opacity 1.4s ease}
+.bls-scene__land{position:absolute;left:0;right:0;bottom:0;height:calc((var(--bls-hor) + var(--bls-rise))*var(--bls-u))}
+.bls-scene__land::before{content:"";position:absolute;left:0;right:0;bottom:0;height:calc(var(--bls-hor)/(var(--bls-hor) + var(--bls-rise))*100%);background:linear-gradient(180deg,#4C4F5C 0%,#5A5D6A 8%,#494C58 40%,#33353F 100%);transition:opacity 1.4s ease}
+.bls-scene__ground{position:relative;display:block;width:100%;height:100%;opacity:0;transition:opacity 1.4s ease}
+.bls-figure{position:absolute;left:var(--bls-fig-x);bottom:calc((var(--bls-hor) - var(--bls-fig)*(1 - var(--bls-fig-up)))*var(--bls-u));width:auto;height:calc(var(--bls-fig)*var(--bls-u));margin-left:calc(var(--bls-fig)*var(--bls-u)*-.27)}
+.bls-scene.is-ready .bls-scene__moon canvas,.bls-scene.is-ready .bls-scene__ground{opacity:1}
+.bls-scene.is-ready .bls-scene__moon::before,.bls-scene.is-ready .bls-scene__land::before{opacity:0}
+.bls-scene__photo{position:absolute;top:0;left:0;width:100%;height:100%;object-fit:cover}
+
+/* the photo scene: a starry sky, a ringed planet, a rusty plain and the astronaut, each on its own depth.
+   Sizes and places are set here for wide screens and further down for phones; the script only adds small shifts.
+   --bls-pd planet size, --bls-px/--bls-py its middle; --bls-gs ground picture height, --bls-gx the part of it
+   in the middle of the screen; --bls-ah astronaut height, --bls-ax/--bls-ay where his feet stand.
+   Every layer covers only its own picture, so phones keep little in memory */
+.bls-scene--photo{--bls-pd:calc(42*var(--bls-u));--bls-px:86%;--bls-py:calc(29*var(--bls-u));--bls-gs:calc(66*var(--bls-u));--bls-gx:.5;--bls-ah:calc(22*var(--bls-u));--bls-ax:79%;--bls-ay:calc(87*var(--bls-u));--bls-gz:max(var(--bls-gs),58.6vw);--bls-pw:calc(var(--bls-pd)/.538)}
+.bls-pl{position:absolute;top:0;left:0;width:100%;height:100%}
+.bls-pl img{display:block;max-width:none}
+.bls-pl__sky{position:absolute;top:-4%;left:-4%;width:108%;height:108%;object-fit:cover;opacity:.6}
+/* the planet picture is a square with the planet a little above its middle; the dark side hides the stars
+   behind it, and the picture itself is added as light */
+.bls-pl--orb,.bls-pl--planet{left:calc(var(--bls-px) - var(--bls-pw)*.4924);top:calc(var(--bls-py) - var(--bls-pw)*.4689);width:var(--bls-pw);height:var(--bls-pw)}
+.bls-orb{position:absolute;left:49.24%;top:46.89%;width:53%;height:53%;margin:-26.5% 0 0 -26.5%;border-radius:50%;background:#030409}
+.bls-pl--planet{mix-blend-mode:screen;opacity:calc(var(--bls-pa,60)/100)}
+.bls-pl__planet{position:absolute;top:0;left:0;width:100%;height:100%}
+/* a warm, thin atmosphere over the far plain and the low sky; the horizon is 24 units down */
+.bls-pl--haze{top:calc((76 - var(--bls-hor))*var(--bls-u));height:calc(30*var(--bls-u));background:linear-gradient(0deg,rgba(170,90,50,0) 0%,rgba(170,90,50,.16) 23.3%,rgba(120,62,36,.07) 46.7%,rgba(120,62,36,0) 93.3%)}
+/* the horizon of the ground picture (a third of the way down) sits on the scene's horizon; its black sky fades out */
+.bls-pl--ground{left:50%;top:calc((100 - var(--bls-hor))*var(--bls-u) - var(--bls-gz)*.318);height:var(--bls-gz);width:calc(var(--bls-gz)*1.7768);margin-left:calc(var(--bls-gz)*1.7768*var(--bls-gx)*-1);-webkit-mask-image:linear-gradient(180deg,transparent 9%,rgba(0,0,0,.55) 21%,#000 28.5%);mask-image:linear-gradient(180deg,transparent 9%,rgba(0,0,0,.55) 21%,#000 28.5%)}
+.bls-pl__ground{position:absolute;top:0;left:0;width:100%;height:100%}
+/* the astronaut stands with his feet on the point --bls-ax, --bls-ay */
+.bls-pl--astro{left:var(--bls-ax);top:var(--bls-ay);width:0;height:0}
+.bls-pl--astro img{position:absolute;left:0;top:0;height:calc(var(--bls-ah)*1.012);width:auto}
+.bls-astro__body{transform:translate(-49.8%,-99.3%)}
+/* his long shadow, thrown to the left by the low sun */
+.bls-astro__shadow{transform-origin:49.8% 99.3%;transform:translate(-49.8%,-99.3%) matrix(1,0,1.7,.15,0,0);filter:brightness(0) blur(2px);opacity:.62;-webkit-mask-image:linear-gradient(0deg,#000 8%,rgba(0,0,0,.2) 100%);mask-image:linear-gradient(0deg,#000 8%,rgba(0,0,0,.2) 100%)}
+.bls-pl--astro::before{content:"";position:absolute;left:calc(var(--bls-ah)*-.21);top:calc(var(--bls-ah)*-.035);width:calc(var(--bls-ah)*.42);height:calc(var(--bls-ah)*.07);border-radius:50%;background:radial-gradient(closest-side,rgba(24,10,4,.8),rgba(24,10,4,0))}
+.bls-scene--photo .bls-scene__shade{background:radial-gradient(42% 30% at 50% 38%,rgba(4,5,10,.46) 0%,rgba(4,5,10,0) 100%),linear-gradient(180deg,rgba(4,5,10,.44) 0%,rgba(4,5,10,0) 17%,rgba(4,5,10,0) 66%,rgba(4,5,10,.42) 100%)}
+/* with the script the pictures fade in together once they are loaded */
+.bls-js .bls-scene--photo .bls-pl{opacity:0}
+.bls-js .bls-scene--photo.is-on .bls-pl{opacity:1;transition:opacity 1.6s ease}
+.bls-js .bls-scene--photo.is-on .bls-pl--planet{opacity:calc(var(--bls-pa,60)/100)}
+/* keeps the top and the bottom of the picture calm, and dims all of it once the page is scrolled */
+.bls-scene__shade{position:absolute;top:0;left:0;right:0;bottom:0;background:linear-gradient(180deg,rgba(4,5,10,.5) 0%,rgba(4,5,10,0) 18%,rgba(4,5,10,0) 60%,rgba(4,5,10,.55) 100%)}
+.bls-scene__shade::after{content:"";position:absolute;top:0;left:0;right:0;bottom:0;background:rgba(4,5,10,.52);opacity:var(--bls-h,0)}
+
+/* pictures for cards without a photo: a starry box, a simple gradient at once, the drawn picture when it is ready */
+.bls-artbox{position:absolute;top:0;left:0;width:100%;height:100%;display:block;overflow:hidden;background-color:#06070C;background-image:radial-gradient(1px 1px at 9% 16%,rgba(255,255,255,.9) 50%,transparent 52%),radial-gradient(1px 1px at 22% 62%,rgba(214,230,255,.8) 50%,transparent 52%),radial-gradient(1.5px 1.5px at 34% 28%,rgba(255,255,255,.9) 50%,transparent 52%),radial-gradient(1px 1px at 47% 78%,rgba(255,238,210,.8) 50%,transparent 52%),radial-gradient(1px 1px at 58% 12%,rgba(255,255,255,.7) 50%,transparent 52%),radial-gradient(1.5px 1.5px at 71% 44%,rgba(214,230,255,.9) 50%,transparent 52%),radial-gradient(1px 1px at 83% 70%,rgba(255,255,255,.8) 50%,transparent 52%),radial-gradient(1px 1px at 92% 22%,rgba(255,255,255,.7) 50%,transparent 52%),radial-gradient(1px 1px at 15% 88%,rgba(255,255,255,.6) 50%,transparent 52%),radial-gradient(1px 1px at 64% 90%,rgba(243,214,232,.7) 50%,transparent 52%)}
+.bls-artbox::before{content:"";position:absolute;top:0;left:0;width:100%;height:100%;transition:opacity 1s ease}
+.bls-artbox--crescent::before{background:radial-gradient(circle at 58% 48%,#06070C 0,#06070C 29.5%,rgba(6,7,12,0) 30%),radial-gradient(circle at 64% 50%,#B9BCC6 0,#B9BCC6 29.5%,rgba(185,188,198,0) 30%)}
+.bls-artbox--moon::before{background:radial-gradient(circle at 40% 58%,#AEB1BC 0,#8D909C 30%,#3A3C46 34%,rgba(6,7,12,0) 34.5%)}
+.bls-artbox--surface::before{background:linear-gradient(115deg,#0A0B12 30%,#5D606C 70%,#A8ABB6 100%)}
+.bls-artbox--horizon::before{background:linear-gradient(180deg,rgba(6,7,12,0) 0,rgba(6,7,12,0) 44%,#676A76 44%,#3B3D47 100%)}
+.bls-art{position:absolute;top:0;left:0;width:100%;height:100%;display:block;opacity:0;transition:opacity 1s ease}
+.bls-artbox.is-ready .bls-art{opacity:1}
+.bls-artbox.is-ready::before{opacity:0}
+
+/* the picture for children's goods: an arched window with a golden planet, a small moon and a glass bubble */
+.bls-win{position:absolute;top:0;left:0;width:100%;height:100%;display:block;overflow:hidden;background:radial-gradient(80% 95% at 70% 48%,#182052 0%,#0C1132 46%,#070917 100%)}
+.bls-win__set{position:absolute;right:19%;bottom:29%;height:63%;aspect-ratio:2 / 3}
+.bls-win__arch{position:absolute;top:0;left:0;width:100%;height:100%;overflow:hidden;border-radius:50% 50% 7% 7% / 33.4% 33.4% 4.6% 4.6%;background:radial-gradient(circle at 50% 30%,#333EA6 0%,#1B2266 44%,#0C1038 100%);box-shadow:0 0 0 1px rgba(255,255,255,.5),0 0 0 6px rgba(20,25,60,.96),0 0 0 7px rgba(255,255,255,.3),0 0 60px rgba(80,100,220,.34)}
+.bls-win__arch::before{content:"";position:absolute;top:0;left:0;width:100%;height:100%;background-image:radial-gradient(1px 1px at 22% 18%,#fff 50%,transparent 52%),radial-gradient(1px 1px at 68% 12%,rgba(255,255,255,.8) 50%,transparent 52%),radial-gradient(1px 1px at 12% 36%,rgba(255,255,255,.7) 50%,transparent 52%),radial-gradient(1px 1px at 82% 58%,rgba(255,255,255,.8) 50%,transparent 52%),radial-gradient(1px 1px at 30% 66%,rgba(255,255,255,.7) 50%,transparent 52%),radial-gradient(1.5px 1.5px at 56% 78%,rgba(255,255,255,.8) 50%,transparent 52%),radial-gradient(1px 1px at 88% 86%,rgba(255,255,255,.6) 50%,transparent 52%),radial-gradient(1px 1px at 40% 90%,rgba(255,255,255,.6) 50%,transparent 52%)}
+.bls-win__planet{position:absolute;left:43%;top:26%;width:40%;aspect-ratio:1 / 1;border-radius:50%;background:radial-gradient(circle at 34% 30%,#FBEBBB 0%,#ECCB7B 30%,#D4A852 62%,#A77A3C 100%);box-shadow:0 0 34px 4px rgba(227,180,88,.3)}
+.bls-win__moon{position:absolute;left:27%;top:21%;width:5%;aspect-ratio:1 / 1;border-radius:50%;background:radial-gradient(circle at 36% 32%,#fff,#B9BDD0)}
+.bls-win__bubble{position:absolute;left:-44%;bottom:-2%;width:70%;aspect-ratio:1 / 1;border-radius:50%;border:1px solid rgba(255,255,255,.5);background:radial-gradient(22% 16% at 30% 22%,rgba(255,255,255,.78) 0%,rgba(255,255,255,0) 100%),radial-gradient(circle at 70% 72%,rgba(236,203,123,.75) 0,rgba(236,203,123,.75) 3.4%,rgba(236,203,123,0) 5%),radial-gradient(circle at 62% 66%,rgba(243,212,230,.26) 0%,rgba(243,212,230,0) 36%),radial-gradient(circle at 50% 50%,rgba(255,255,255,.03) 52%,rgba(255,255,255,.2) 100%);box-shadow:inset -10px -12px 26px rgba(243,212,230,.16),inset 10px 10px 22px rgba(207,227,255,.16)}
+.bls-win__ledge{position:absolute;left:-56%;right:-16%;bottom:-4%;height:1px;background:linear-gradient(90deg,rgba(255,255,255,0),rgba(255,255,255,.4) 20%,rgba(255,255,255,.4) 80%,rgba(255,255,255,0))}
+
+/* motion. --bls-h runs 0..1 while the first screen scrolls away (set on the hero only).
+   The script moves every layer marked data-depth a little by its depth (property translate): down as the page
+   scrolls and, with a mouse, against the pointer. Nothing behind the glass panels moves on its own: every change
+   behind frosted glass makes the browser blur it again, which is what makes pages stutter */
+@media (prefers-reduced-motion:no-preference){
+html{scroll-behavior:smooth}
+.bls-hero--motion [data-depth]{will-change:transform}
+.bls-hero--motion .bls-hero__copy{transform:translate3d(0,calc(var(--bls-h,0)*36px),0);opacity:calc(1.6 - var(--bls-h,0)*2.2)}
+/* on arrival the pictures settle into place, the nearer ones a little later */
+.bls-js .bls-hero--motion .bls-scene--photo .bls-pl{scale:1.045}
+.bls-js .bls-hero--motion .bls-scene--photo.is-on .bls-pl{scale:1;transition:opacity 1.6s ease,scale 3.4s cubic-bezier(.16,.72,.2,1)}
+.bls-js .bls-hero--motion .bls-scene--photo.is-on .bls-pl--orb,.bls-js .bls-hero--motion .bls-scene--photo.is-on .bls-pl--planet{transition-delay:.15s}
+.bls-js .bls-hero--motion .bls-scene--photo.is-on .bls-pl--haze,.bls-js .bls-hero--motion .bls-scene--photo.is-on .bls-pl--ground{transition-delay:.3s}
+.bls-js .bls-hero--motion .bls-scene--photo.is-on .bls-pl--astro{transition-delay:.55s}
+.bls-twinkle{animation:bls-twinkle 5s ease-in-out infinite}
+.bls-deep .bls-twinkle{animation-play-state:paused}
+.bls-shoot.is-on{animation:bls-shoot 1.1s ease-out 1}
+.bls-js .bls-reveal{opacity:0;transform:translate3d(0,34px,0);transition:opacity .8s ease,transform .8s cubic-bezier(.2,.7,.2,1)}
+.bls-js .bls-reveal.is-in{opacity:1;transform:none}
+}
+@keyframes bls-twinkle{0%,100%{opacity:.15;transform:scale(.6)}50%{opacity:1;transform:scale(1.25)}}
+@keyframes bls-shoot{0%{opacity:0;transform:rotate(var(--bls-shoot-a,24deg)) translateX(0)}14%{opacity:.9}100%{opacity:0;transform:rotate(var(--bls-shoot-a,24deg)) translateX(380px)}}
+
+/* phones, and tablets held upright: the moon hangs above the name, the walker stands to the right */
+@media (max-width:700px),(max-width:1100px) and (orientation:portrait){
+html:root{--bls-blur:blur(16px) saturate(125%)}
+.bls-scene{--bls-hor:26;--bls-rise:6;--bls-moon-d:min(86vw,calc(40*var(--bls-u)));--bls-moon-x:57%;--bls-moon-y:calc(29*var(--bls-u));--bls-fig:7.8;--bls-fig-x:78%;--bls-fig-up:.42;--bls-sun-y:.55}
+.bls-scene--photo{--bls-pd:min(60vw,calc(30*var(--bls-u)));--bls-px:58%;--bls-py:calc(24*var(--bls-u));--bls-gs:calc(54*var(--bls-u));--bls-gx:.6;--bls-ah:calc(13*var(--bls-u));--bls-ax:80%;--bls-ay:calc(91*var(--bls-u))}
+.bls-scene--photo .bls-scene__shade{background:radial-gradient(70% 20% at 50% 58%,rgba(4,5,10,.4) 0%,rgba(4,5,10,0) 100%),linear-gradient(180deg,rgba(4,5,10,.44) 0%,rgba(4,5,10,0) 14%,rgba(4,5,10,0) 72%,rgba(4,5,10,.42) 100%)}
+}

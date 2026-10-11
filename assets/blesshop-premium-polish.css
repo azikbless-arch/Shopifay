@@ -1,0 +1,382 @@
+/* BLESSHOP Soft Pastel Luxury · visual polish · draft-only */
+/* Standalone layer: remove this asset reference from theme.liquid to revert. */
+.bs-body.template-index .bs-pastel-hero {
+  --bs-lux-blue: #6489b2;
+  --bs-lux-ink: #526b82;
+  background:
+    radial-gradient(ellipse at 84% 30%, rgba(184,215,243,.46) 0%, transparent 40%),
+    radial-gradient(ellipse at 12% 75%, rgba(248,212,226,.48) 0%, transparent 42%),
+    radial-gradient(ellipse at 64% 90%, rgba(224,209,246,.48) 0%, transparent 45%),
+    linear-gradient(125deg,#fcfaf8 3%,#f6faff 46%,#f4f1fb 100%);
+}
+.bs-body.template-index .bs-pastel-hero__inner {
+  min-height: clamp(590px, calc(100svh - 120px), 760px);
+  padding-top: 60px;
+  padding-bottom: 74px;
+  grid-template-columns: minmax(0,1.08fr) minmax(320px,.92fr);
+  column-gap: clamp(16px,3vw,48px);
+}
+.bs-body.template-index .bs-pastel-copy {min-width:0;max-width:100%;transform:translateY(-7px)}
+.bs-body.template-index .bs-pastel-copy h1 {
+  max-width: 100%;
+  font-size: clamp(38px,4.55vw,70px);
+  letter-spacing: .018em;
+  line-height: 1.18;
+  white-space: nowrap;
+  margin-bottom: 22px;
+  background: linear-gradient(105deg,#446b91 0%,#789bb8 42%,#6688ab 64%,#8f86af 96%);
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+  text-shadow: 0 12px 32px rgba(87,126,165,.10);
+}
+.bs-body.template-index .bs-pastel-eyebrow {
+  color:#637f98;
+  font-size: 10px;
+  letter-spacing: .17em;
+  margin-bottom: 17px;
+}
+.bs-body.template-index .bs-pastel-description {
+  color: #53697e;
+  font-size: 15px;
+  line-height: 1.72;
+  margin-bottom: 28px;
+  max-width: 530px;
+}
+.bs-body.template-index .bs-pastel-art {height:clamp(390px,42vw,560px);min-height:0}
+.bs-body.template-index .bs-pastel-orb {
+  width:min(31vw,420px);
+  background:
+    radial-gradient(circle at 27% 20%,rgba(255,255,255,.98) 0%,rgba(255,255,255,.44) 20%,transparent 46%),
+    radial-gradient(circle at 70% 76%,rgba(237,204,222,.66),transparent 38%),
+    radial-gradient(circle at 22% 72%,rgba(201,213,247,.64),transparent 40%),
+    linear-gradient(145deg,rgba(185,214,240,.95),rgba(248,250,255,.92) 48%,rgba(229,214,240,.82));
+  box-shadow: inset -27px -24px 65px rgba(107,151,190,.14),
+              inset 20px 18px 62px rgba(255,255,255,.8),
+              0 38px 90px rgba(112,145,178,.18);
+}
+.bs-body.template-index .bs-pastel-orb__label strong { color: #5f80a1; }
+.bs-body.template-index .bs-pastel-chip { color: #617e9b; }
+.bs-body.template-index .bs-logo > span:last-child {color:#547a9e!important}
+.bs-body.template-index .bs-desktop-menu a {color:#58738d!important}
+.bs-body.template-index .bs-search input::placeholder {color:#778ca0!important}
+.bs-body.template-index .bs-nav {
+  border-color:rgba(255,255,255,.86)!important;
+  background:rgba(249,252,255,.63)!important;
+  box-shadow:inset 0 1px rgba(255,255,255,1), 0 12px 38px rgba(91,126,163,.12)!important;
+}
+/* Clickable UI remains translucent at rest. */
+.bs-body.template-index .bs-pastel-btn {
+  position:relative;
+  isolation:isolate;
+  overflow:hidden;
+  color:#486d90!important;
+  background:rgba(255,255,255,.38)!important;
+  border:1px solid rgba(131,164,192,.51)!important;
+  border-radius:16px;
+  box-shadow:inset 0 1px 0 rgba(255,255,255,.94),0 12px 30px rgba(106,140,173,.11)!important;
+  transition:transform .32s cubic-bezier(.2,.8,.2,1),box-shadow .32s ease,background .32s ease,border-color .32s ease;
+}
+.bs-body.template-index .bs-pastel-btn::before {
+  content:"";
+  position:absolute;
+  inset:0;
+  z-index:-1;
+  opacity:0;
+  background:linear-gradient(105deg,transparent 5%,rgba(225,242,255,.8) 50%,transparent 95%);
+  transform:translateX(-65%);
+  transition:opacity .36s ease,transform .55s ease;
+}
+.bs-body.template-index .bs-pastel-btn--primary {background:rgba(246,251,255,.51)!important}
+@media (hover:hover) and (pointer:fine) {
+  .bs-body.template-index .bs-pastel-btn:hover {
+    transform:translateY(-4px);
+    color:#335c85!important;
+    background:rgba(236,246,255,.68)!important;
+    border-color:rgba(114,169,214,.86)!important;
+    box-shadow:inset 0 1px 0 rgba(255,255,255,.96),
+      0 0 0 1px rgba(184,217,247,.65),
+      0 0 21px rgba(120,184,235,.46),
+      0 16px 38px rgba(108,157,201,.22)!important;
+  }
+  .bs-body.template-index .bs-pastel-btn:hover::before {opacity:1;transform:translateX(65%)}
+  .bs-body :is(.bs-btn,.bs-mini-btn,.bs-card-cart,.bs-quick-view-trigger,.bs-icon-btn,.bs-wishlist,.bs-mobile-menu-btn,.bs-filter-actions button,.bs-filter-actions a):hover {
+    box-shadow:0 0 0 1px rgba(174,211,242,.66),0 0 19px rgba(128,186,235,.4),0 10px 28px rgba(94,138,185,.15)!important;
+    border-color:rgba(114,169,214,.75)!important;
+    background-color:rgba(239,248,255,.88)!important;
+  }
+  .bs-body .bs-desktop-menu a:hover {
+    color:#416d97!important;
+    text-shadow:0 0 12px rgba(140,199,246,.6);
+  }
+  .bs-body :is(.bs-category-card,.bs-product-card):hover {
+    border-color:rgba(148,192,228,.75);
+    box-shadow:0 0 0 1px rgba(207,231,250,.42),0 0 24px rgba(130,186,230,.23),0 22px 48px rgba(100,139,175,.13);
+  }
+}
+.bs-body :is(.bs-btn,.bs-mini-btn,.bs-card-cart,.bs-quick-view-trigger,.bs-icon-btn,.bs-wishlist,.bs-mobile-menu-btn,.bs-filter-actions button,.bs-filter-actions a) {
+  transition:transform .3s ease,box-shadow .3s ease,background-color .3s ease,border-color .3s ease;
+}
+.bs-body :is(a,button,input,select):focus-visible {
+  outline:2px solid #659acb;
+  outline-offset:3px;
+}
+.bs-body.template-index .bs-pastel-btn:focus-visible {
+  box-shadow:0 0 0 4px rgba(131,190,235,.33),0 0 22px rgba(131,190,235,.45)!important;
+}
+@media (max-width:900px) {
+  .bs-body.template-index .bs-pastel-hero__inner {
+    min-height: 90svh;
+    grid-template-columns:1fr;
+    padding-top:65px;
+    padding-bottom:72px;
+    gap:8px;
+  }
+  .bs-body.template-index .bs-pastel-copy {transform:none}
+  .bs-body.template-index .bs-pastel-copy h1 {font-size:clamp(36px,7vw,61px);letter-spacing:.012em}
+  .bs-body.template-index .bs-pastel-art {position:absolute;right:-20vw;bottom:3vh;width:70vw;height:52vh;opacity:.73}
+  .bs-body.template-index .bs-pastel-orb {width:min(57vw,400px)}
+}
+@media (max-width:600px) {
+  .bs-body.template-index .bs-pastel-hero__inner {min-height:calc(100svh - 64px);padding-top:56px;padding-bottom:66px}
+  .bs-body.template-index .bs-pastel-copy {align-self:start;margin-top:6vh}
+  .bs-body.template-index .bs-pastel-copy h1 {
+    font-size:clamp(30px,9vw,46px);
+    letter-spacing:0;
+    white-space:nowrap;
+    margin-bottom:15px;
+  }
+  .bs-body.template-index .bs-pastel-description {font-size:13px;line-height:1.65;max-width:300px}
+  .bs-body.template-index .bs-pastel-actions {position:relative;z-index:5}
+  .bs-body.template-index .bs-pastel-art {right:-31vw;bottom:5vh;width:83vw;height:45vh;opacity:.63}
+  .bs-body.template-index .bs-pastel-orb {width:min(68vw,330px)}
+}
+@media (prefers-reduced-motion:reduce) {
+  .bs-body :is(.bs-btn,.bs-mini-btn,.bs-card-cart,.bs-quick-view-trigger,.bs-icon-btn,.bs-wishlist,.bs-mobile-menu-btn,.bs-pastel-btn),
+  .bs-body.template-index .bs-pastel-btn::before {transition:none!important}
+  .bs-body.template-index .bs-pastel-btn:hover {transform:none}
+}
+
+
+/* BLESSHOP Silver Sweep — entrance animation v1 */
+/* One-shot animation on page open; no loader and no blocked clicks. */
+.bs-body.template-index .bs-pastel-copy h1 {
+  background-image:linear-gradient(102deg,#466c92 0%,#7298b8 22%,#f8fcff 39%,#7c9db9 46%,#50789c 61%,#9287af 83%,#476e96 100%);
+  background-size:240% 100%;
+  background-position:100% 50%;
+  animation:bsLuxTitleReveal 1.65s cubic-bezier(.19,1,.22,1) both;
+}
+.bs-body.template-index .bs-pastel-eyebrow {
+  animation:bsLuxRise .75s ease-out .12s both;
+}
+.bs-body.template-index .bs-pastel-description {
+  animation:bsLuxRise .85s cubic-bezier(.2,.8,.2,1) .65s both;
+}
+.bs-body.template-index .bs-pastel-actions {
+  animation:bsLuxRise .8s cubic-bezier(.2,.8,.2,1) .93s both;
+}
+.bs-body.template-index .bs-pastel-art {
+  animation:bsLuxArtAppear 1.15s cubic-bezier(.2,.8,.2,1) .35s both;
+}
+.bs-body.template-index .bs-pastel-bottom {
+  animation:bsLuxRise .8s ease-out 1.2s both;
+}
+@keyframes bsLuxTitleReveal{
+  0%{opacity:0;filter:blur(11px);transform:translate3d(-15px,12px,0);background-position:100% 50%}
+  28%{opacity:1;filter:blur(2px);transform:translate3d(0,0,0)}
+  65%{filter:blur(0);background-position:34% 50%}
+  100%{opacity:1;filter:blur(0);transform:none;background-position:0% 50%}
+}
+@keyframes bsLuxRise{
+  from{opacity:0;filter:blur(6px);transform:translate3d(0,17px,0)}
+  to{opacity:1;filter:blur(0);transform:none}
+}
+@keyframes bsLuxArtAppear{
+  from{opacity:0;filter:blur(12px);transform:translate3d(0,18px,0) scale(.97)}
+  to{opacity:1;filter:blur(0);transform:none}
+}
+@media(prefers-reduced-motion:reduce){
+  .bs-body.template-index .bs-pastel-copy h1,
+  .bs-body.template-index .bs-pastel-eyebrow,
+  .bs-body.template-index .bs-pastel-description,
+  .bs-body.template-index .bs-pastel-actions,
+  .bs-body.template-index .bs-pastel-art,
+  .bs-body.template-index .bs-pastel-bottom{
+    animation:none!important;filter:none!important;opacity:1!important;transform:none!important;
+  }
+}
+
+
+/* BLESSHOP v1.4 | realistic pearl orb + frosted search */
+/* Orb is animated through shadow and lighting only: the existing scroll JS owns transform. */
+.bs-body.template-index .bs-pastel-art{perspective:1200px}
+.bs-body.template-index .bs-pastel-orb{
+  position:relative;
+  border-radius:50%;
+  border:1px solid rgba(255,255,255,.86);
+  background:
+    radial-gradient(ellipse 46% 31% at 29% 19%,rgba(255,255,255,.96) 0%,rgba(255,255,255,.45) 36%,transparent 100%),
+    radial-gradient(circle at 24% 25%,rgba(255,255,255,.93) 0%,rgba(255,255,255,.27) 19%,transparent 39%),
+    radial-gradient(ellipse 60% 61% at 80% 82%,rgba(120,160,194,.26) 0%,rgba(151,177,205,.1) 48%,transparent 98%),
+    radial-gradient(ellipse 55% 43% at 28% 78%,rgba(202,221,246,.68),transparent 90%),
+    radial-gradient(ellipse 46% 52% at 77% 24%,rgba(253,220,230,.40),transparent 90%),
+    linear-gradient(140deg,#edf7ff 0%,#e3f0fc 28%,#f8faff 48%,#e9edf9 70%,#d9e7f4 100%);
+  box-shadow:
+    inset 18px 22px 55px rgba(255,255,255,.9),
+    inset -32px -34px 74px rgba(108,150,186,.25),
+    inset 4px -5px 24px rgba(159,183,219,.09),
+    0 42px 92px rgba(106,145,185,.19),
+    0 0 48px rgba(192,224,250,.24);
+  translate:var(--bs-lux-orb-x,0px) var(--bs-lux-orb-y,0px);
+  transition:translate .68s cubic-bezier(.18,.75,.28,1),box-shadow 1.1s ease;
+  animation:bsLuxPearlBreathing 9s ease-in-out infinite;
+  isolation:isolate;
+}
+.bs-body.template-index .bs-pastel-orb::before,
+.bs-body.template-index .bs-pastel-orb::after{
+  content:"";
+  position:absolute;
+  z-index:0;
+  pointer-events:none;
+  border-radius:50%;
+  box-shadow:0 0 17px rgba(178,208,231,.14),inset 0 0 12px rgba(255,255,255,.20);
+}
+.bs-body.template-index .bs-pastel-orb::before{
+  inset:-11%;
+  border:1px solid rgba(141,181,215,.34);
+  animation:bsLuxOrbitA 29s linear infinite;
+}
+.bs-body.template-index .bs-pastel-orb::after{
+  inset:-19%;
+  border:1px solid rgba(178,174,213,.24);
+  animation:bsLuxOrbitB 37s linear infinite;
+}
+.bs-body.template-index .bs-pastel-orb__shine{
+  position:absolute;z-index:1;
+  left:15%;top:12%;
+  width:43%;height:23%;
+  border-radius:50%;
+  pointer-events:none;
+  background:radial-gradient(ellipse at 50% 34%,rgba(255,255,255,.88) 0%,rgba(255,255,255,.55) 30%,rgba(255,255,255,.04) 80%);
+  filter:blur(6px);
+  opacity:.8;
+  animation:bsLuxSpecular 9s ease-in-out infinite;
+}
+.bs-body.template-index .bs-pastel-orb__label{
+  z-index:2;
+  text-shadow:0 1px 0 rgba(255,255,255,.62),0 5px 23px rgba(70,112,154,.10);
+}
+.bs-body.template-index .bs-pastel-orb__label strong{
+  color:#6583a3;
+  text-shadow:0 1px 1px rgba(255,255,255,.54),0 7px 23px rgba(97,135,178,.17);
+}
+@keyframes bsLuxPearlBreathing{
+  0%,100%{
+    box-shadow:inset 18px 22px 55px rgba(255,255,255,.90),inset -32px -34px 74px rgba(108,150,186,.25),inset 4px -5px 24px rgba(159,183,219,.09),0 42px 92px rgba(106,145,185,.19),0 0 48px rgba(192,224,250,.24);
+  }
+  50%{
+    box-shadow:inset 20px 24px 61px rgba(255,255,255,.98),inset -35px -37px 79px rgba(100,144,186,.28),inset 4px -5px 26px rgba(159,183,219,.10),0 45px 102px rgba(106,145,185,.20),0 0 58px rgba(181,220,248,.33);
+  }
+}
+@keyframes bsLuxOrbitA{
+  from{transform:rotate(-18deg) scaleY(.34)}
+  to{transform:rotate(342deg) scaleY(.34)}
+}
+@keyframes bsLuxOrbitB{
+  from{transform:rotate(28deg) scaleY(.26)}
+  to{transform:rotate(-332deg) scaleY(.26)}
+}
+@keyframes bsLuxSpecular{
+  0%,100%{opacity:.7;transform:translate3d(0,0,0) rotate(-24deg)}
+  50%{opacity:.97;transform:translate3d(6px,-4px,0) rotate(-20deg)}
+}
+/* Keep search form & predictive result overlay functional. */
+.bs-body.template-index .bs-header .bs-search{
+  position:relative;isolation:isolate;overflow:visible;
+  border:1px solid rgba(220,239,252,.85)!important;
+  border-radius:999px;
+  background:linear-gradient(122deg,rgba(255,255,255,.65),rgba(247,251,255,.43) 52%,rgba(221,238,252,.32))!important;
+  backdrop-filter:blur(22px) saturate(155%);
+  -webkit-backdrop-filter:blur(22px) saturate(155%);
+  box-shadow:inset 0 1px 0 rgba(255,255,255,.95),0 11px 26px rgba(109,154,193,.10),0 0 0 1px rgba(211,233,249,.18);
+  transition:background .3s ease,border-color .3s ease,box-shadow .35s ease,transform .3s ease;
+}
+.bs-body.template-index .bs-header .bs-search::before{
+  content:"";position:absolute;inset:1px;border-radius:inherit;z-index:-1;
+  background:linear-gradient(180deg,rgba(255,255,255,.28),transparent 76%);
+  pointer-events:none;
+}
+.bs-body.template-index .bs-header .bs-search input{
+  background:transparent!important;
+  color:#587999!important;
+  border:0!important;outline:0;
+  min-width:0;
+  font-weight:400;
+  letter-spacing:.018em;
+}
+.bs-body.template-index .bs-header .bs-search input::placeholder{
+  color:#8298af!important;
+  opacity:1;
+  font-weight:300;
+}
+.bs-body.template-index .bs-header .bs-search svg{
+  color:#6a8ba9;
+  flex-shrink:0;
+  transition:color .3s ease,transform .3s ease;
+}
+@media(hover:hover) and (pointer:fine){
+  .bs-body.template-index .bs-header .bs-search:hover{
+    border-color:rgba(169,211,243,.94)!important;
+    background:linear-gradient(122deg,rgba(255,255,255,.78),rgba(248,252,255,.53) 52%,rgba(228,243,254,.44))!important;
+    box-shadow:inset 0 1px 0 rgba(255,255,255,.99),0 14px 31px rgba(109,154,193,.14),0 0 20px rgba(173,215,248,.26);
+  }
+  .bs-body.template-index .bs-header .bs-search:hover svg{transform:scale(1.05);color:#527aa0}
+}
+.bs-body.template-index .bs-header .bs-search:focus-within{
+  border-color:rgba(135,197,239,.98)!important;
+  background:linear-gradient(120deg,rgba(255,255,255,.82),rgba(245,251,255,.64))!important;
+  box-shadow:inset 0 1px 0 rgba(255,255,255,1),0 0 0 2px rgba(198,230,250,.53),0 0 24px rgba(126,194,241,.41),0 16px 36px rgba(111,157,195,.16);
+}
+.bs-body.template-index .bs-header .bs-search:focus-within svg{color:#427aab}
+.bs-body.template-index .bs-header .bs-search .bs-predictive{z-index:80}
+@media(prefers-reduced-motion:reduce){
+  .bs-body.template-index .bs-pastel-orb,
+  .bs-body.template-index .bs-pastel-orb::before,
+  .bs-body.template-index .bs-pastel-orb::after,
+  .bs-body.template-index .bs-pastel-orb__shine{
+    animation:none!important;transition:none!important;
+  }
+  .bs-body.template-index .bs-header .bs-search,
+  .bs-body.template-index .bs-header .bs-search svg{transition:none!important}
+}
+.bs-body.template-index .bs-pastel-hero.is-paused .bs-pastel-orb,
+.bs-body.template-index .bs-pastel-hero.is-paused .bs-pastel-orb::before,
+.bs-body.template-index .bs-pastel-hero.is-paused .bs-pastel-orb::after,
+.bs-body.template-index .bs-pastel-hero.is-paused .bs-pastel-orb__shine{animation-play-state:paused!important}
+
+body.bs-body.template-index[data-bs-opal-ready] {
+  --bs-opal-a: 201, 226, 250;
+  --bs-opal-b: 248, 219, 232;
+  --bs-opal-c: 226, 216, 249;
+  background:
+    radial-gradient(ellipse at 82% 18%, rgba(var(--bs-opal-a), .72), transparent 57%),
+    radial-gradient(ellipse at 9% 64%, rgba(var(--bs-opal-b), .58), transparent 52%),
+    radial-gradient(ellipse at 74% 94%, rgba(var(--bs-opal-c), .62), transparent 56%),
+    linear-gradient(118deg, transparent 15%, rgba(255,255,255,.62) 32%, rgba(var(--bs-opal-a),.14) 39%, transparent 48%, rgba(var(--bs-opal-b),.17) 62%, rgba(255,255,255,.54) 69%, transparent 82%),
+    linear-gradient(145deg, #fdfbf9, #f5f8fd 55%, #f8f4fb);
+  background-attachment: fixed;
+}
+body.bs-body.template-index[data-bs-opal-ready] #MainContent,
+body.bs-body.template-index[data-bs-opal-ready] #MainContent > .shopify-section,
+body.bs-body.template-index[data-bs-opal-ready] .bs-pastel-hero,
+body.bs-body.template-index[data-bs-opal-ready] .bs-categories,
+body.bs-body.template-index[data-bs-opal-ready] .bs-trending,
+body.bs-body.template-index[data-bs-opal-ready] .bs-trust-strip {
+  background: transparent !important;
+}
+body.bs-body.template-index[data-bs-opal-ready] .bs-footer.bs-footer--v22 {
+  background: linear-gradient(150deg, rgba(255,255,255,.36), rgba(var(--bs-opal-a),.16) 56%, rgba(var(--bs-opal-c),.2));
+}
+@media print {
+  body.bs-body.template-index[data-bs-opal-ready] { background: #fff; }
+}

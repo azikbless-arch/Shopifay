@@ -1,0 +1,17 @@
+{% doc %}
+Renders a small line icon.
+@param {string} name - Icon name.
+{% enddoc %}
+{% case name %}
+  {% when 'search' %}<svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="11" cy="11" r="7"></circle><path d="m20 20-3.5-3.5"></path></svg>
+  {% when 'user' %}<svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="8" r="4"></circle><path d="M4 21c1.3-4.5 4.1-7 8-7s6.7 2.5 8 7"></path></svg>
+  {% when 'heart' %}<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M20.8 4.6a5.5 5.5 0 0 0-7.8 0L12 5.7l-1.1-1.1a5.5 5.5 0 0 0-7.8 7.8L12 21l8.9-8.6a5.5 5.5 0 0 0-.1-7.8Z"></path></svg>
+  {% when 'bag' %}<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 8h14l-1 13H6L5 8Z"></path><path d="M9 9V6a3 3 0 0 1 6 0v3"></path></svg>
+  {% when 'truck' %}<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M3 6h11v11H3z"></path><path d="M14 10h4l3 4v3h-7z"></path><circle cx="7" cy="19" r="2"></circle><circle cx="18" cy="19" r="2"></circle></svg>
+  {% when 'shield' %}<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 3 5 6v5c0 5 3 8.5 7 10 4-1.5 7-5 7-10V6l-7-3Z"></path><path d="m9 12 2 2 4-4"></path></svg>
+  {% when 'box' %}<svg viewBox="0 0 24 24" aria-hidden="true"><path d="m4 7 8-4 8 4-8 4-8-4Z"></path><path d="M4 7v10l8 4 8-4V7M12 11v10"></path></svg>
+  {% when 'star' %}<svg viewBox="0 0 24 24" aria-hidden="true"><path d="m12 3 2.7 5.5 6.1.9-4.4 4.3 1 6.1-5.4-2.9-5.4 2.9 1-6.1-4.4-4.3 6.1-.9L12 3Z"></path></svg>
+  {% when 'diamond' %}<svg viewBox="0 0 24 24" aria-hidden="true"><path d="m3 9 4-5h10l4 5-9 11L3 9Z"></path><path d="M3 9h18M8 4l4 16 4-16"></path></svg>
+  {% when 'home' %}<svg viewBox="0 0 24 24" aria-hidden="true"><path d="m3 11 9-8 9 8"></path><path d="M5 10v11h14V10M9 21v-7h6v7"></path></svg>
+  {% when 'grid' %}<svg viewBox="0 0 24 24" aria-hidden="true"><rect x="4" y="4" width="6" height="6" rx="1"></rect><rect x="14" y="4" width="6" height="6" rx="1"></rect><rect x="4" y="14" width="6" height="6" rx="1"></rect><rect x="14" y="14" width="6" height="6" rx="1"></rect></svg>
+{% endcase %}

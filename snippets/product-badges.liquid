@@ -1,0 +1,7 @@
+{% assign bs_tags = product.tags | join: ',' | downcase %}
+<div class="bs-product-badges" aria-label="Product badges">
+  {% unless product.available %}<span class="bs-badge bs-badge--dark">Sold out</span>{% endunless %}
+  {% if product.compare_at_price_max > product.price %}<span class="bs-badge bs-badge--sale">Sale</span>{% endif %}
+  {% if bs_tags contains 'new' %}<span class="bs-badge bs-badge--new">New</span>{% endif %}
+  {% if bs_tags contains 'preorder' %}<span class="bs-badge bs-badge--preorder">Pre-order</span>{% endif %}
+</div>

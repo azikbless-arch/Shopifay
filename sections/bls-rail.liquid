@@ -1,0 +1,136 @@
+{%- liquid
+  assign arts = 'crescent,horizon,surface,moon' | split: ','
+  assign known_types = collections.all.all_types
+-%}
+{%- capture arrow -%}<svg aria-hidden="true" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M7 17L17 7"></path><path d="M8 7h9v9"></path></svg>{%- endcapture -%}
+{%- if section.blocks.size > 0 -%}
+<section class="gl-block" id="collections" aria-labelledby="GlCats-{{ section.id }}">
+  {%- render 'bls-glass' -%}
+  <style>
+  #collections .gl-cat .gl-go{display:none}
+  #collections .gl-cat__plate{padding:10px 16px;justify-content:center;max-width:calc(100% - 20px)}
+  #collections .gl-cat__text{align-items:flex-start;min-width:0;max-width:100%}
+  #collections .gl-cat__name{overflow:visible;white-space:normal;text-overflow:clip;line-height:1.12}
+  #collections .gl-cat__sub{overflow:visible;white-space:normal;text-overflow:clip;max-width:100%;line-height:1.25;letter-spacing:.05em;font-size:11px}
+  .gl-cat__media.is-own>img{object-position:62% 50%}
+  #collections .gl-cat--fashion .gl-cat__media.is-own>img{object-position:50% 39%}
+  </style>
+  <div class="gl-wrap">
+    <div class="gl-head">
+      <div class="gl-title">
+        {%- if section.settings.label != blank -%}<p class="gl-eyebrow">{{ section.settings.label | escape }}</p>{%- endif -%}
+        <h2 class="gl-h2" id="GlCats-{{ section.id }}">{{ section.settings.heading | escape }}</h2>
+      </div>
+      {%- if section.settings.link_label != blank -%}
+        <a class="gl-pill gl-glass" href="{{ routes.all_products_collection_url }}">{{ section.settings.link_label | escape }}{{ arrow }}</a>
+      {%- endif -%}
+    </div>
+    <div class="gl-railwrap" data-gl-rails>
+      <div class="gl-rail gl-cats" data-gl-rail tabindex="0" role="region" aria-label="{{ section.settings.heading | escape }}">
+        {%- for block in section.blocks -%}
+          {%- liquid
+            assign c = block.settings.collection
+            assign title = block.settings.title | default: c.title
+            assign img = block.settings.image
+            assign art = block.settings.art
+            assign shot = false
+            assign href = ''
+            assign own = false
+            if img != blank
+              assign own = true
+            endif
+            if c != blank
+              assign href = c.url
+            elsif title != blank and known_types contains title
+              assign href = title | url_for_type
+            endif
+            if img == blank and art == 'auto' and c != blank
+              assign img = c.image
+              if img == blank
+                assign img = c.products.first.featured_image
+                assign shot = true
+              endif
+            endif
+            if art == 'auto'
+              assign spot = forloop.index0 | modulo: 4
+              assign art = arts[spot]
+            endif
+            assign load = 'eager'
+            if forloop.index > 4
+              assign load = 'lazy'
+            endif
+          -%}
+          {%- if href != blank -%}
+            <a class="gl-cat{% if title == 'Fashion' %} gl-cat--fashion{% endif %}" href="{{ href }}" aria-label="{{ title | escape }}" {{ block.shopify_attributes }}>
+          {%- else -%}
+            <div class="gl-cat gl-cat--soon{% if title == 'Fashion' %} gl-cat--fashion{% endif %}" {{ block.shopify_attributes }}>
+          {%- endif -%}
+            <span class="gl-cat__media{% if img != blank and shot and section.settings.blend %} bls-shot{% endif %}{% if own %} is-own{% endif %}" aria-hidden="true">
+              {%- if img != blank -%}
+                {{ img | image_url: width: 600 | image_tag: loading: load, alt: '', widths: '300, 450, 600', sizes: '(max-width: 700px) 45vw, 300px' }}
+              {%- elsif art == 'window' -%}
+                {%- render 'bls-window' -%}
+              {%- elsif art == 'room' -%}
+                {%- render 'bls-home' -%}
+              {%- else -%}
+                <span class="bls-artbox bls-artbox--{{ art }}"><canvas class="bls-art" data-bls-art="{{ art }}"></canvas></span>
+              {%- endif -%}
+            </span>
+            {%- if href == blank -%}<span class="gl-badge gl-glass">{{ section.settings.soon_label | escape }}</span>{%- endif -%}
+            <span class="gl-cat__plate gl-glass">
+              <span class="gl-cat__text">
+                <span class="gl-cat__name">{{ title | escape }}</span>
+                {%- if block.settings.subtitle != blank -%}<span class="gl-cat__sub">{{ block.settings.subtitle | escape }}</span>{%- endif -%}
+              </span>
+            </span>
+          {%- if href != blank -%}</a>{%- else -%}</div>{%- endif -%}
+        {%- endfor -%}
+      </div>
+      <button type="button" class="gl-nav gl-nav--prev gl-glass" data-gl-prev aria-label="Previous"><svg aria-hidden="true" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M15 6l-6 6 6 6"></path></svg></button>
+      <button type="button" class="gl-nav gl-nav--next gl-glass" data-gl-next aria-label="Next"><svg aria-hidden="true" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 6l6 6-6 6"></path></svg></button>
+    </div>
+  </div>
+</section>
+{%- endif -%}
+{% schema %}
+{
+  "name": "Glass category row",
+  "max_blocks": 8,
+  "settings": [
+    {"type": "text", "id": "label", "label": "Small label", "default": "Collections"},
+    {"type": "text", "id": "heading", "label": "Heading", "default": "Shop by category"},
+    {"type": "text", "id": "link_label", "label": "Button to all products", "default": "Shop all"},
+    {"type": "text", "id": "soon_label", "label": "Label for a category without a link", "default": "Coming soon"},
+    {"type": "checkbox", "id": "blend", "label": "Blend white product photo backgrounds into the card", "default": true}
+  ],
+  "blocks": [
+    {
+      "type": "category",
+      "name": "Category",
+      "settings": [
+        {"type": "collection", "id": "collection", "label": "Collection", "info": "The card always opens this collection page."},
+        {"type": "text", "id": "title", "label": "Name", "info": "Leave empty to use the collection name."},
+        {"type": "text", "id": "subtitle", "label": "Short line under the name"},
+        {"type": "image_picker", "id": "image", "label": "Your own picture", "info": "The picture fills the card."},
+        {
+          "type": "select",
+          "id": "art",
+          "label": "Picture",
+          "info": "Automatic shows the collection picture or its first product photo, and a drawing until there is one. Pick a drawing to always show it.",
+          "default": "auto",
+          "options": [
+            {"value": "auto", "label": "Automatic"},
+            {"value": "window", "label": "Window with a golden planet"},
+            {"value": "room", "label": "Cosy room with an armchair"},
+            {"value": "crescent", "label": "Crescent moon"},
+            {"value": "moon", "label": "Moon"},
+            {"value": "surface", "label": "Craters close up"},
+            {"value": "horizon", "label": "Lunar horizon"}
+          ]
+        }
+      ]
+    }
+  ],
+  "presets": [{"name": "Glass category row", "blocks": [{"type": "category"}, {"type": "category"}, {"type": "category"}, {"type": "category"}]}]
+}
+{% endschema %}

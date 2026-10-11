@@ -1,0 +1,55 @@
+{% comment %}BLESSHOP v2.5 collection theater: real collection products only. Keeps native collection grid below.{% endcomment %}
+{% assign bs_v25_first = collection.products.first %}
+{% if bs_v25_first != blank %}
+<div class="bs-v25-theater bs-v25-tone--{{ tone | default: 'default' }}" data-bs-v25-theater>
+  <div class="bs-v25-head">
+    <div><p class="bs-v25-kicker">BLESSHOP / CURATED COLLECTION</p><h2>{{ collection.title | escape }}</h2></div>
+    <div class="bs-v25-head__aside"><span data-bs-v25-count>01 / {{ collection.products.size | at_most: 24 | prepend: '0' | slice: -2, 2 }}</span><span class="bs-v25-head__hint">Select a product to preview</span></div>
+  </div>
+  <div class="bs-v25-workspace">
+    <div class="bs-v25-rail" role="group" aria-label="Products in {{ collection.title | escape }}">
+      {% for product in collection.products limit: 24 %}
+        <button class="bs-v25-choice{% if forloop.first %} is-active{% endif %}" type="button"
+          data-bs-v25-choice
+          data-bs-v25-name="{{ product.title | escape }}"
+          data-bs-v25-price="{{ product.price | money | escape }}"
+          data-bs-v25-url="{{ product.url | escape }}"
+          data-bs-v25-image="{% if product.featured_image != blank %}{{ product.featured_image | image_url: width: 1440 | escape }}{% endif %}"
+          aria-pressed="{% if forloop.first %}true{% else %}false{% endif %}"
+          aria-label="Preview {{ product.title | escape }}">
+          <span class="bs-v25-choice__number">{{ forloop.index | prepend: '0' | slice: -2, 2 }}</span>
+          <span class="bs-v25-choice__thumb">
+            {% if product.featured_image != blank %}
+              {{ product.featured_image | image_url: width: 160 | image_tag: loading: 'lazy', widths: '80,120,160', sizes: '80px', alt: product.title }}
+            {% else %}<span class="bs-v25-choice__empty" aria-hidden="true">◌</span>{% endif %}
+          </span>
+          <span class="bs-v25-choice__copy"><strong>{{ product.title | escape }}</strong><small>{{ product.price | money }}</small></span>
+          <span class="bs-v25-choice__arrow" aria-hidden="true">↗</span>
+        </button>
+      {% endfor %}
+    </div>
+    <div class="bs-v25-stage">
+      <div class="bs-v25-stage__world" aria-hidden="true"></div>
+      <div class="bs-v25-stage__orb" aria-hidden="true"></div>
+      <div class="bs-v25-stage__imagebox" data-bs-v25-imagebox>
+        {% if bs_v25_first.featured_image != blank %}
+          {{ bs_v25_first.featured_image | image_url: width: 1440 | image_tag: class: 'bs-v25-stage__image', loading: 'lazy', widths: '640,960,1200,1440', sizes: '(max-width: 760px) 65vw, 60vw', alt: bs_v25_first.title }}
+        {% else %}<span class="bs-v25-stage__no-image">Image coming soon</span>{% endif %}
+      </div>
+      <span class="bs-v25-stage__stamp">BLESSHOP · SELECTED FINDS</span>
+      <div class="bs-v25-stage__bottom">
+        <div class="bs-v25-stage__details">
+          <span class="bs-v25-stage__eyebrow">FEATURED PRODUCT</span>
+          <h3 data-bs-v25-title>{{ bs_v25_first.title | escape }}</h3>
+          <strong data-bs-v25-price>{{ bs_v25_first.price | money }}</strong>
+        </div>
+        <div class="bs-v25-stage__actions">
+          <a class="bs-v25-stage__cta" data-bs-v25-link href="{{ bs_v25_first.url }}">View product <span aria-hidden="true">↗</span></a>
+          {% if settings.quick_view %}<button class="bs-v25-stage__quick" type="button" data-quick-view data-product-url="{{ bs_v25_first.url | escape }}">Quick view</button>{% endif %}
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="bs-v25-foot"><span>Browse products on the left · Discover details on the right</span><a href="#bs-v25-all-products">Filters and all products ↓</a></div>
+</div>
+{% endif %}

@@ -1,0 +1,28 @@
+{%- comment -%}Living space: a glowing atmosphere and a shaded night side on the planet, feathered ground edges, a drifting horizon fog and a twinkling, deep sky. Only opacity and translate are animated, so it stays smooth on phones.{%- endcomment -%}
+<style>
+/* 1. planet atmosphere: a thin bright rim on the lit side, fading softly into space */
+.bls-scene--hd .bls-pl--hdorb::before{content:"";position:absolute;left:-12%;top:-12%;width:124%;height:124%;pointer-events:none;background:radial-gradient(circle closest-side at 50.8% 49.6%,rgba(255,170,96,0) 0%,rgba(255,170,96,0) 73%,rgba(255,200,130,.34) 77%,rgba(255,152,86,.2) 80.5%,rgba(255,126,66,.1) 86%,rgba(255,118,60,.03) 92%,rgba(255,118,60,0) 97%);-webkit-mask-image:linear-gradient(90deg,rgba(0,0,0,.18) 0%,#000 70%);mask-image:linear-gradient(90deg,rgba(0,0,0,.18) 0%,#000 70%)}
+/* the night side: the left of the planet falls into shade (inside the planet layer, so the ground still covers it), so it reads as a ball, not a flat disc */
+.bls-scene--hd .bls-pl--hdplanet::after{content:"";position:absolute;left:0;top:0;width:100%;height:100%;pointer-events:none;background:linear-gradient(98deg,rgba(3,4,9,.34) 0%,rgba(3,4,9,.18) 28%,rgba(3,4,9,.05) 50%,rgba(3,4,9,0) 62%)}
+
+/* 2. the ground has no visible edges: it also fades out to the left and right */
+.bls-scene--photo .bls-pl--ground{-webkit-mask-image:linear-gradient(180deg,transparent 9%,rgba(0,0,0,.55) 21%,#000 28.5%),linear-gradient(90deg,transparent 0%,rgba(0,0,0,.4) 1.5%,#000 4%,#000 96%,rgba(0,0,0,.4) 98.5%,transparent 100%);-webkit-mask-composite:source-in;mask-image:linear-gradient(180deg,transparent 9%,rgba(0,0,0,.55) 21%,#000 28.5%),linear-gradient(90deg,transparent 0%,rgba(0,0,0,.4) 1.5%,#000 4%,#000 96%,rgba(0,0,0,.4) 98.5%,transparent 100%);mask-composite:intersect}
+/* a warm glow on the horizon and a slow bank of fog in front of the ground */
+.bls-scene--photo .bls-pl--haze::before{content:"";position:absolute;left:-10%;right:-10%;top:56%;height:48%;pointer-events:none;background:radial-gradient(ellipse 55% 50% at 64% 50%,rgba(255,170,100,.26) 0%,rgba(255,130,70,.1) 42%,rgba(255,120,60,0) 72%)}
+.bls-scene--photo .bls-pl--haze::after{content:"";position:absolute;left:-30%;width:160%;top:62%;height:30%;pointer-events:none;background:radial-gradient(ellipse 30% 50% at 20% 50%,rgba(255,196,150,.11),rgba(255,196,150,0) 70%),radial-gradient(ellipse 26% 46% at 58% 55%,rgba(255,170,120,.1),rgba(255,170,120,0) 70%),radial-gradient(ellipse 34% 50% at 88% 45%,rgba(255,210,170,.09),rgba(255,210,170,0) 70%)}
+
+/* 4. a deeper sky: two layers of tiny stars that twinkle at different paces, and a faint cloud of dust */
+.bls-scene--photo .bls-pl--sky::before,.bls-scene--photo .bls-pl--sky::after{content:"";position:absolute;left:0;top:0;width:100%;height:100%;pointer-events:none}
+.bls-scene--photo .bls-pl--sky::before{background-image:radial-gradient(1.2px 1.2px at 12px 20px,#fff,rgba(255,255,255,0)),radial-gradient(1px 1px at 74px 118px,#fff,rgba(255,255,255,0)),radial-gradient(1.4px 1.4px at 150px 52px,#ffe9c9,rgba(255,233,201,0)),radial-gradient(1px 1px at 196px 170px,#fff,rgba(255,255,255,0)),radial-gradient(1.2px 1.2px at 118px 214px,#cfe0ff,rgba(207,224,255,0));background-size:240px 240px;opacity:.55}
+.bls-scene--photo .bls-pl--sky::after{background-image:radial-gradient(1px 1px at 40px 60px,#fff,rgba(255,255,255,0)),radial-gradient(1.3px 1.3px at 190px 30px,#ffd9b0,rgba(255,217,176,0)),radial-gradient(1px 1px at 260px 150px,#fff,rgba(255,255,255,0)),radial-gradient(1.2px 1.2px at 96px 250px,#d6e4ff,rgba(214,228,255,0)),radial-gradient(1px 1px at 300px 280px,#fff,rgba(255,255,255,0));background-size:317px 317px;opacity:.5}
+.bls-scene--photo .bls-scene__layer--far::after{content:"";position:absolute;left:0;top:0;width:100%;height:100%;pointer-events:none;background:radial-gradient(ellipse 42% 30% at 18% 26%,rgba(124,92,210,.09),rgba(124,92,210,0) 70%),radial-gradient(ellipse 38% 26% at 84% 16%,rgba(255,150,90,.07),rgba(255,150,90,0) 70%)}
+@media (prefers-reduced-motion:no-preference){
+  .bls-js .bls-scene--photo.is-on .bls-pl--sky::before{animation:bls-tw1 7s ease-in-out infinite alternate}
+  .bls-js .bls-scene--photo.is-on .bls-pl--sky::after{animation:bls-tw2 11s ease-in-out 1.7s infinite alternate}
+  .bls-js .bls-scene--photo.is-on .bls-pl--haze::after{animation:bls-fog 70s ease-in-out infinite alternate}
+  .bls-deep .bls-scene--photo .bls-pl--sky::before,.bls-deep .bls-scene--photo .bls-pl--sky::after,.bls-deep .bls-scene--photo .bls-pl--haze::after{animation-play-state:paused}
+}
+@keyframes bls-tw1{from{opacity:.25}to{opacity:.8}}
+@keyframes bls-tw2{from{opacity:.75}to{opacity:.22}}
+@keyframes bls-fog{from{transform:translate3d(-6%,0,0)}to{transform:translate3d(6%,0,0)}}
+</style>
