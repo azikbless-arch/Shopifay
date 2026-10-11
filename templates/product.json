@@ -15,7 +15,7 @@
       "settings": {
         "blend": true,
         "show_vendor": false,
-        "show_dynamic_checkout": true
+        "show_dynamic_checkout": false
       }
     }
   },
