@@ -1,0 +1,32 @@
+{%- comment -%}Design polish, all in CSS (nothing extra to load).
+  1) Home category cards: one cinematic look for every card, whatever the photo. A deep scrim at the bottom carries the name straight on the picture (no heavy glass plate), a gold subtitle and a small glass arrow; the card gives way a little under the finger.
+  2) Collection pages: the backdrop photo becomes a soft, blurred glow of its own colours (like album art behind a song), so the glass panels and text read clearly; it is drawn once and never repainted.
+  3) Sub-category tiles: icon tiles get a warm glow behind a larger icon, photo tiles a thin glass rim, so both kinds look like one set.
+  4) The home background dims a little more once the first screen is scrolled away, so headings stay easy to read.{%- endcomment -%}
+<style>
+/* 1. home category cards */
+#collections .gl-cat{transition:transform .25s cubic-bezier(.3,1.3,.5,1)}
+#collections .gl-cat:active{transform:scale(.97)}
+#collections .gl-cat::before{background:linear-gradient(180deg,rgba(6,8,20,.22) 0%,rgba(6,8,20,0) 26%,rgba(6,8,20,0) 46%,rgba(6,8,22,.55) 70%,rgba(5,6,16,.9) 100%)}
+#collections .gl-cat__plate{left:14px;right:12px;bottom:13px;max-width:none;padding:0!important;gap:10px;justify-content:space-between;align-items:flex-end;background:none!important;border:0!important;box-shadow:none!important;-webkit-backdrop-filter:none!important;backdrop-filter:none!important}
+#collections .gl-cat__plate::after{display:none!important}
+#collections .gl-cat__plate::before{content:"";flex:0 0 auto;order:2;width:32px;height:32px;border-radius:50%;background:rgba(255,255,255,.14) url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='14' height='14' viewBox='0 0 24 24' fill='none' stroke='%23F6D696' stroke-width='2.4' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M7 17L17 7'/%3E%3Cpath d='M8 7h9v9'/%3E%3C/svg%3E") center/14px no-repeat;box-shadow:inset 0 0 0 1px rgba(255,255,255,.28),inset 0 1px 0 rgba(255,255,255,.35)}
+#collections .gl-cat--soon .gl-cat__plate::before{display:none}
+#collections .gl-cat__text{gap:4px}
+#collections .gl-cat__name{font-size:18px;font-weight:400;letter-spacing:.01em;text-transform:none;line-height:1.1;text-shadow:0 2px 14px rgba(0,0,0,.55)}
+#collections .gl-cat__sub{font-size:9.5px;font-weight:700;letter-spacing:.16em;text-transform:uppercase;color:rgba(246,214,150,.92);text-shadow:0 1px 8px rgba(0,0,0,.6)}
+@media (min-width:701px){#collections .gl-cat__name{font-size:21px}#collections .gl-cat__sub{font-size:10.5px}}
+
+/* 2. collection pages: soft glow of the backdrop picture */
+.cl-bg{top:-48px;left:-48px;width:calc(100% + 96px);height:calc(100vh + 96px);height:calc(100lvh + 96px);-webkit-filter:blur(10px) saturate(1.15) brightness(.8);filter:blur(10px) saturate(1.15) brightness(.8)}
+.cl-bg::after{background:radial-gradient(120% 80% at 50% 0%,rgba(4,5,12,.12) 0%,rgba(4,5,12,.42) 60%,rgba(4,5,12,.78) 100%)!important}
+html.bls-lite .cl-bg{-webkit-filter:brightness(.7);filter:brightness(.7)}
+
+/* 3. sub-category tiles as one set */
+.cl .cl__cth--ico,.cl__con .cl__cth--ico{background:radial-gradient(circle at 50% 42%,rgba(246,214,150,.26) 0%,rgba(246,214,150,.06) 46%,rgba(246,214,150,0) 70%),linear-gradient(160deg,rgba(255,255,255,.13),rgba(255,255,255,.03));border-color:rgba(255,255,255,.22);color:#F3D9A4}
+.cl__cth--ico svg{width:28px;height:28px}
+.cl__cth:not(.cl__cth--ico)::after{content:"";position:absolute;top:0;left:0;right:0;bottom:0;border-radius:inherit;pointer-events:none;box-shadow:inset 0 0 0 1px rgba(255,255,255,.2),inset 0 1px 0 rgba(255,255,255,.3),inset 0 -18px 26px rgba(0,0,0,.22)}
+
+/* 4. home background dims a little more under the content */
+.bls-stage__dim{opacity:calc(var(--bls-dim,0) * 1.5)}
+</style>
